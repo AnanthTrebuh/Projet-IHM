@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CinemaTech</string>
+    <string name="to_come">To Come</string>
+    <string name="to_see">To See</string>
+    <string name="movies">Movies</string>
+    <string name="dvd">DVD</string>
+    <string name="my_account">My Account</string>
+    <string name="to_buy">To Buy</string>
 </resources>

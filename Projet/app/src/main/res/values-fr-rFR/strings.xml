@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CinemaTech</string>
+    <string name="to_come">à Voir</string>
+    <string name="to_see">à Venir</string>
+    <string name="dvd">DVD</string>
+    <string name="movies">Film</string>
+    <string name="my_account">Mon Compte</string>
+    <string name="to_buy">à Acheter</string>
+</resources>
