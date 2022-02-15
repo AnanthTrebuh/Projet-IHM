@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity {
 
     TabLayout movieTab;
+    TabLayout optionTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         movieTab = findViewById(R.id.TabLayoutMovies);
+        optionTab = findViewById(R.id.tabLayoutOption);
+
 
     }
 }
