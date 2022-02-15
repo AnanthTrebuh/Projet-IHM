@@ -26,43 +26,37 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayoutOption"
-            android:layout_width="0dp"
-            android:layout_height="85dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/movies" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dvd" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_account" />
-        </com.google.android.material.tabs.TabLayout>
-
-    <ScrollView
-        android:id="@+id/scrollDvd"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutOption"
         android:layout_width="0dp"
+        android:layout_height="85dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movies" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dvd" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_account" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <ListView
+        android:layout_width="409dp"
         android:layout_height="579dp"
         app:layout_constraintBottom_toTopOf="@+id/tabLayoutOption"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TabLayoutMovies">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/TabLayoutDvd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
