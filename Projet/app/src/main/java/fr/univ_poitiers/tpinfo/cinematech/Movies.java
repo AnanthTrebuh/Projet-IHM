@@ -21,4 +21,9 @@ public class Movies {
     public String[] getActeurs(){ return acteurs;}
     public int getDuree(){return duree;}
 
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
 }
