@@ -7,4 +7,8 @@
     <string name="movies">Film</string>
     <string name="my_account">Mon Compte</string>
     <string name="to_buy">à Acheter</string>
+    <string name="profile_name">nom profile</string>
+    <string name="movies_added">films ajoutés</string>
+    <string name="time_spent_watching">temps passé</string>
+    <string name="profile_picture">photo de profil</string>
 </resources>

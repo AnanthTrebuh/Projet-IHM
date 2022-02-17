@@ -6,4 +6,9 @@
     <string name="dvd">DVD</string>
     <string name="my_account">My Account</string>
     <string name="to_buy">To Buy</string>
+    <string name="profile_name">profile name</string>
+    <string name="movies_added">movies added</string>
+    <string name="time_spent_watching">time spent watching</string>
+    <string name="default_number" translatable="false">0</string>
+    <string name="profile_picture">profile picture</string>
 </resources>
