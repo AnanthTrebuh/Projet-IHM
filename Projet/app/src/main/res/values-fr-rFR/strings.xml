@@ -12,4 +12,5 @@
     <string name="time_spent_watching">temps passé</string>
     <string name="profile_picture">photo de profil</string>
     <string name="search">Recherche</string>
+    <string name="seen">Vu</string>
 </resources>
