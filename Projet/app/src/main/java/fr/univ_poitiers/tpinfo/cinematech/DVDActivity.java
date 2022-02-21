@@ -1,6 +1,8 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,17 +18,19 @@ import java.util.ArrayList;
 
 public class DVDActivity extends AppCompatActivity {
     public static String TAG = "CineTech";
-    TabLayout movieTab;
+    TabLayout dvdTab;
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
-    ListView listview;
+    ViewPager viewpager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dvd);
-
-        movieTab = findViewById(R.id.TabLayoutMovies);
+        Log.d(TAG, "onCreate: begin dvd activity");
+        dvdTab = findViewById(R.id.TabLayoutDvd);
         buttonMovie = findViewById(R.id.buttonMovie);
         buttonDvd = findViewById(R.id.buttonDvd);
         buttonMovie.setOnClickListener(new View.OnClickListener() {
@@ -42,22 +46,18 @@ public class DVDActivity extends AppCompatActivity {
                 action_account_button();
             }
         });
-        listview = findViewById(R.id.listviewDvd);
 
-        ArrayList<Dvd> dvds = new ArrayList<>();
-        String[] acteurs = {"jean bon", "jean michel"};
-        boolean bluray = false;
-        for(int i = 0; i < 50; i++){
-            Dvd m1 = new Dvd("testDvd"+i, "Michel","17/02/2022", acteurs, 90, bluray);
-            dvds.add(m1);
-            bluray = !bluray;
-        }
+        Log.d(TAG, "onCreate: before viewpager");
 
-        ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(this, android.R.layout.simple_list_item_1 , dvds);
+        viewpager = findViewById(R.id.viewPagerDvd);
+        dvdTab.setupWithViewPager(viewpager);
+        VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        vpAdapter.addFragment(new FragmentDvdToBuy(), this.getString(R.string.to_buy));
+        vpAdapter.addFragment(new FragmentDvdToCome(), this.getString(R.string.to_come));
+        viewpager.setAdapter(vpAdapter);
 
-        listview.setAdapter(arrayAdapter);
         buttonDvd.setEnabled(false);
-
+        Log.d(TAG, "onCreate: DVD activity end onCreate");
     }
 
     private void action_movies_button(){

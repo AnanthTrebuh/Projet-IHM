@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CinemaTech</string>
-    <string name="to_come">à Voir</string>
-    <string name="to_see">à Venir</string>
+    <string name="to_come">A Venir</string>
     <string name="dvd">DVD</string>
     <string name="movies">Film</string>
     <string name="my_account">Mon Compte</string>
@@ -12,4 +11,7 @@
     <string name="time_spent_watching">temps passé</string>
     <string name="profile_picture">photo de profil</string>
     <string name="search">Recherche</string>
+    <string name="image_of_movie">image du film</string>
+    <string name="to_see">A voir</string>
+    <string name="titre">titre</string>
 </resources>

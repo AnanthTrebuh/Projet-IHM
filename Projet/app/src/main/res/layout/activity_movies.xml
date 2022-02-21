@@ -79,13 +79,13 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerMovie"
-        android:layout_width="409dp"
-        android:layout_height="594dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutMovie"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TabLayoutMovies"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

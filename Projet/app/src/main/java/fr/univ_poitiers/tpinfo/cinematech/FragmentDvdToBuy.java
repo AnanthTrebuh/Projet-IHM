@@ -2,7 +2,6 @@ package fr.univ_poitiers.tpinfo.cinematech;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,24 +12,24 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class FragmentMovieToCome extends Fragment {
-    ListView listview;
-    public void onCreate(){
-    }
 
+public class FragmentDvdToBuy extends Fragment {
+    ListView listview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_to_come, container, false);
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
-        ArrayList<Movies> movies = new ArrayList<>();
+        ArrayList<Dvd> dvd = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
+        boolean b = false;
         for (int i = 0; i < 50; i++) {
-            Movies m1 = new Movies("testToCome" + i, "Michel", "17/02/2022", acteurs, 90);
-            movies.add(m1);
+            Dvd m1 = new Dvd("DvdToGet" + i, "M", "17/02/2022", acteurs, 90, b);
+            dvd.add(m1);
+            b = !b;
         }
-        ArrayAdapter<Movies> arrayAdapter = new ArrayAdapter<Movies>(listview.getContext(), android.R.layout.simple_list_item_1, movies);
+        ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(listview.getContext(), android.R.layout.simple_list_item_1, dvd);
         listview.setAdapter(arrayAdapter);
 
         return view;

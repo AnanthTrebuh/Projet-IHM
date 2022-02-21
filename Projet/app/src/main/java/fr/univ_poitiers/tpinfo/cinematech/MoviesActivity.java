@@ -24,8 +24,6 @@ public class MoviesActivity extends AppCompatActivity {
     Button buttonDvd;
     Button buttonAccount;
     ViewPager viewpager;
-    ListView listview;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +50,9 @@ public class MoviesActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.viewPagerMovie);
         movieTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        vpAdapter.addFragment(new FragmentMovieToCome(), "To Come");
-        vpAdapter.addFragment(new FragmentMovie(), "To See");
+        vpAdapter.addFragment(new FragmentMovieToSee(), this.getString(R.string.to_see));
+        vpAdapter.addFragment(new FragmentMovieToCome(), this.getString(R.string.to_come));
         viewpager.setAdapter(vpAdapter);
-
-        /*listview = findViewById(R.id.listviewMovie);
-        ArrayList<Movies> movies = new ArrayList<>();
-        String[] acteurs = {"jean bon", "jean michel"};
-        for(int i = 0; i < 50; i++){
-            Movies m1 = new Movies("test"+i, "Michel","17/02/2022", acteurs, 90);
-            movies.add(m1);
-        }
-        ArrayAdapter<Movies> arrayAdapter = new ArrayAdapter<Movies>(this, android.R.layout.simple_list_item_1 , movies);
-        listview.setAdapter(arrayAdapter);*/
-
-
         buttonMovie.setEnabled(false);
 
     }
@@ -75,7 +61,7 @@ public class MoviesActivity extends AppCompatActivity {
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
         startActivity(intent);
-        this.onStop();
+        //this.onStop();
     }
 
     private  void action_account_button(){
