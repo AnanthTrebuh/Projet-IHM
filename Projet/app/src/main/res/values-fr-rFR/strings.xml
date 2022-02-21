@@ -16,4 +16,6 @@
     <string name="to_see">A voir</string>
     <string name="titre">titre</string>
     <string name="seen">Vu</string>
+    <string name="DVD_Number">Nombre de DVD</string>
+    <string name="Missing_DVD_number">Nombre de DVD manquants</string>
 </resources>

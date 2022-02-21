@@ -158,7 +158,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView"
+                            android:text="@string/DVD_Number"
                             android:textAlignment="center" />
 
                         <TextView
@@ -166,7 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView"
+                            android:text="@string/default_number"
                             android:textAlignment="center" />
                     </LinearLayout>
 
@@ -180,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView"
+                            android:text="@string/Missing_DVD_number"
                             android:textAlignment="center" />
 
                         <TextView
@@ -188,7 +188,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="TextView"
+                            android:text="@string/default_number"
                             android:textAlignment="center" />
                     </LinearLayout>
                 </TableRow>

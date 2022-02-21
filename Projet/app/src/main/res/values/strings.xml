@@ -12,7 +12,6 @@
     <string name="default_number" translatable="false">0</string>
     <string name="profile_picture">profile picture</string>
     <string name="search">Search</string>
-
     <string name="image_of_movie">image_of_movie</string>
     <string name="realisation_de">realisation_de</string>
     <string name="duree" translatable="false">duree</string>
@@ -23,6 +22,8 @@
     <string name="datesortie">datesortie</string>
     <string name="acteurs_principaux">acteurs_principaux</string>
     <string name="sc_nario_de">sc_nario_de</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="seen">Seen</string>
+    <string name="DVD_Number">Number of DVD</string>
+    <string name="Missing_DVD_number">Number of missing DVD</string>
 </resources>
