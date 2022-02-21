@@ -1,6 +1,8 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +54,10 @@ public class ProfileActivity  extends AppCompatActivity {
                 }
         );
         buttonAccount.setEnabled(false);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
+        profileName.setText(sharedPreferences.getString("Active_Profile", "error"));
+
+        
         precActivity = getIntent().getStringExtra("precActivity");
 
     }
