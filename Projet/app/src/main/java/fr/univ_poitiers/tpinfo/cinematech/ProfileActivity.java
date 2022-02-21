@@ -34,7 +34,7 @@ public class ProfileActivity  extends AppCompatActivity {
         this.profileName = findViewById(R.id.profileName);
         this.profilePicture = findViewById(R.id.profilePicture);
 
-        buttonDvd.setOnClickListener(
+        buttonMovie.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -42,7 +42,7 @@ public class ProfileActivity  extends AppCompatActivity {
                     }
                 }
         );
-        buttonMovie.setOnClickListener(
+        buttonDvd.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
