@@ -11,4 +11,5 @@
     <string name="movies_added">films ajoutés</string>
     <string name="time_spent_watching">temps passé</string>
     <string name="profile_picture">photo de profil</string>
+    <string name="search">Recherche</string>
 </resources>

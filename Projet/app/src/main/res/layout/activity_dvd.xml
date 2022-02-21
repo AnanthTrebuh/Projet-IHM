@@ -40,6 +40,7 @@
 
         <Button
             android:id="@+id/buttonMovie"
+            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -48,6 +49,7 @@
 
         <Button
             android:id="@+id/buttonDvd"
+            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -55,7 +57,17 @@
             android:text="@string/dvd" />
 
         <Button
+            android:id="@+id/buttonSearch"
+            android:textSize="11sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/search"
+            style="?android:attr/buttonBarButtonStyle" />
+
+        <Button
             android:id="@+id/buttonAccount"
+            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
