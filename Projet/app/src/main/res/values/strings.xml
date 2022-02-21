@@ -19,10 +19,9 @@
     <string name="acteur_1_acteur_2_acteur_3">acteur_1_acteur_2_acteur_3</string>
     <string name="titre">title</string>
     <string name="ajouter_la_liste_voir">ajouter_la_liste_voir</string>
-    <string name="datesortie">datesortie</string>
+    <string name="datesortie">"came out "</string>
     <string name="acteurs_principaux">acteurs_principaux</string>
     <string name="sc_nario_de">sc_nario_de</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="seen">Seen</string>
     <string name="DVD_Number">Number of DVD</string>
     <string name="Missing_DVD_number">Number of missing DVD</string>

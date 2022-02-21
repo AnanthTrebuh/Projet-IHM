@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity  extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class ProfileActivity  extends AppCompatActivity {
     TextView timeSpend;
     TextView profileName;
     ImageView profilePicture;
-
+    String precActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,34 @@ public class ProfileActivity  extends AppCompatActivity {
                 }
         );
         buttonAccount.setEnabled(false);
+        precActivity = getIntent().getStringExtra("precActivity");
+
     }
+
+    @Override
+    @MainThread
+    public void onBackPressed(){
+        if(precActivity != null){
+            switch (precActivity){
+                case "dvd" :  back_dvd();break;
+                case "movie" :back_movie();break;
+                default: finish();break;
+            }
+        }else{
+            finish();
+        }
+    }
+    private void back_dvd(){
+        Intent intent = new Intent(this, DVDActivity.class);
+        finish();
+        startActivity(intent);
+    }
+    private void back_movie(){
+        Intent intent = new Intent(this, MoviesActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
 
     private void action_movies_button(){
         Log.d(TAG, "action_movie_button: ");

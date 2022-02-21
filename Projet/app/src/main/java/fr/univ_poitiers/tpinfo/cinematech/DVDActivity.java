@@ -1,5 +1,6 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -24,7 +25,6 @@ public class DVDActivity extends AppCompatActivity {
     Button buttonAccount;
     ViewPager viewpager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +39,8 @@ public class DVDActivity extends AppCompatActivity {
                 action_movies_button();
             }
         });
+
+
         buttonAccount = findViewById(R.id.buttonAccount);
         buttonAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +49,6 @@ public class DVDActivity extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG, "onCreate: before viewpager");
 
         viewpager = findViewById(R.id.viewPagerDvd);
         dvdTab.setupWithViewPager(viewpager);
@@ -69,6 +70,8 @@ public class DVDActivity extends AppCompatActivity {
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("precActivity", "dvd");
+        finish();
         startActivity(intent);
     }
 

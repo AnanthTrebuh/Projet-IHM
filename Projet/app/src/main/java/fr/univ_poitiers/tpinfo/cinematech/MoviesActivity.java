@@ -1,21 +1,18 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 
 public class MoviesActivity extends AppCompatActivity {
     public static String TAG = "CineTech";
@@ -24,6 +21,7 @@ public class MoviesActivity extends AppCompatActivity {
     Button buttonDvd;
     Button buttonAccount;
     ViewPager viewpager;
+    String precActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,19 +31,13 @@ public class MoviesActivity extends AppCompatActivity {
         movieTab = findViewById(R.id.TabLayoutMovies);
         buttonMovie = findViewById(R.id.buttonMovie);
         buttonDvd = findViewById(R.id.buttonDvd);
-        buttonDvd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                action_dvd_button();
-            }
-        });
+        buttonDvd.setOnClickListener(view -> action_dvd_button());
         buttonAccount = findViewById(R.id.buttonAccount);
-        buttonAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                action_account_button();
-            }
-        });
+        buttonAccount.setOnClickListener(view -> action_account_button());
+
+        precActivity = getIntent().getStringExtra("precActivity");
+            Log.d(TAG, "onCreate: " + precActivity);
+
 
         viewpager = findViewById(R.id.viewPagerMovie);
         movieTab.setupWithViewPager(viewpager);
@@ -56,17 +48,43 @@ public class MoviesActivity extends AppCompatActivity {
         buttonMovie.setEnabled(false);
 
     }
-
+    @Override
+    @MainThread
+    public void onBackPressed(){
+        if(precActivity != null){
+            switch (precActivity){
+                case "dvd" :  back_dvd();break;
+                case "account" :back_account();break;
+                default: finish();break;
+            }
+        }else{
+            finish();
+        }
+    }
+    private void back_dvd(){
+        Intent intent = new Intent(this, DVDActivity.class);
+        finish();
+        startActivity(intent);
+    }
+    private void back_account(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        finish();
+        startActivity(intent);
+    }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
+        intent.putExtra("precActivity", "movie");
         startActivity(intent);
-        //this.onStop();
+        finish();
+
     }
 
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("precActivity", "movie");
+        finish();
         startActivity(intent);
     }
 }

@@ -11,11 +11,12 @@
     <string name="time_spent_watching">temps passé</string>
     <string name="profile_picture">photo de profil</string>
     <string name="search">Recherche</string>
-
     <string name="image_of_movie">image du film</string>
     <string name="to_see">A voir</string>
     <string name="titre">titre</string>
     <string name="seen">Vu</string>
     <string name="DVD_Number">Nombre de DVD</string>
     <string name="Missing_DVD_number">Nombre de DVD manquants</string>
+    <string name="realisation_de">"réalisation de "</string>
+    <string name="datesortie">date de sortie</string>
 </resources>
