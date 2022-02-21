@@ -11,10 +11,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ProfileActivity  extends AppCompatActivity {
+    public static String TAG = "CineTech";
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
-    Button buttonExit;
     TextView nbMovie;
     TextView timeSpend;
     TextView profileName;
@@ -29,20 +29,11 @@ public class ProfileActivity  extends AppCompatActivity {
         this.buttonMovie = findViewById(R.id.buttonMovie);
         this.buttonDvd = findViewById(R.id.buttonDvd);
         this.buttonAccount = findViewById(R.id.buttonAccount);
-        this.buttonExit = findViewById(R.id.buttonExit);
         this.nbMovie = findViewById(R.id.nbMovieAdded);
         this.timeSpend = findViewById(R.id.nbTimeSPend);
         this.profileName = findViewById(R.id.profileName);
         this.profilePicture = findViewById(R.id.profilePicture);
 
-        buttonExit.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                    }
-                }
-        );
         buttonDvd.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -71,7 +62,7 @@ public class ProfileActivity  extends AppCompatActivity {
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
-        Intent intent = new Intent((this, ActivityDVD.class));
+        Intent intent = new Intent(this, ActivityDVD.class);
         startActivity(intent);
     }
 
