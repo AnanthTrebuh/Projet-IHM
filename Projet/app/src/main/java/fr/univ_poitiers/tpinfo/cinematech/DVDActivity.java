@@ -14,7 +14,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class ActivityDVD extends AppCompatActivity {
+public class DVDActivity extends AppCompatActivity {
     public static String TAG = "CineTech";
     TabLayout movieTab;
     Button buttonMovie;
@@ -36,23 +36,33 @@ public class ActivityDVD extends AppCompatActivity {
             }
         });
         buttonAccount = findViewById(R.id.buttonAccount);
+        buttonAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                action_account_button();
+            }
+        });
         listview = findViewById(R.id.listviewDvd);
 
         ArrayList<Dvd> dvds = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
+        boolean bluray = false;
         for(int i = 0; i < 50; i++){
-            Dvd m1 = new Dvd("testDvd"+i, "Michel","17/02/2022", acteurs, 90, false);
+            Dvd m1 = new Dvd("testDvd"+i, "Michel","17/02/2022", acteurs, 90, bluray);
             dvds.add(m1);
+            bluray = !bluray;
         }
 
         ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(this, android.R.layout.simple_list_item_1 , dvds);
 
         listview.setAdapter(arrayAdapter);
+        buttonDvd.setEnabled(false);
+
     }
 
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MoviesActivity.class);
         startActivity(intent);
     }
 

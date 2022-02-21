@@ -12,6 +12,7 @@
     <string name="default_number" translatable="false">0</string>
     <string name="profile_picture">profile picture</string>
     <string name="search">Search</string>
+
     <string name="image_of_movie">image_of_movie</string>
     <string name="realisation_de">realisation_de</string>
     <string name="duree">duree</string>

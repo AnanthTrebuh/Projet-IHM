@@ -51,18 +51,16 @@ public class ProfileActivity  extends AppCompatActivity {
                 }
         );
         buttonAccount.setEnabled(false);
-
-
     }
 
     private void action_movies_button(){
         Log.d(TAG, "action_movie_button: ");
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MoviesActivity.class);
         startActivity(intent);
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
-        Intent intent = new Intent(this, ActivityDVD.class);
+        Intent intent = new Intent(this, DVDActivity.class);
         startActivity(intent);
     }
 

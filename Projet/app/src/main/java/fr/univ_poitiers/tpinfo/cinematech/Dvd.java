@@ -7,5 +7,18 @@ public class Dvd extends Movies{
         this.bluray = bluray;
     }
 
+    @Override
+    public String toString(){
+        String bluray;
+        if(this.bluray){
+            bluray = "en bluray";
+        }else{
+            bluray = "en DVD";
+        }
+        return this.getTitle() + " " + bluray;
+    }
+    public boolean isBluray() {
+        return bluray;
+    }
 
 }

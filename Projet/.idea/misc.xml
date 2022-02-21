@@ -5,12 +5,14 @@
       <map>
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/activity_dvd.xml" value="0.36666666666666664" />
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/activity_movies.xml" value="0.36666666666666664" />
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/activity_research.xml" value="0.36666666666666664" />
+        <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/fragment_movie.xml" value="0.19074074074074074" />
+        <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/fragment_movie_to_come.xml" value="0.36666666666666664" />
+        <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/fragment_movie_to_see.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/nathan/Mes Cours/Master 1/Projet IHM/Projet/app/src/main/res/layout/activity_dvd.xml" value="0.278125" />
         <entry key="..\:/Users/nathan/Mes Cours/Master 1/Projet IHM/Projet/app/src/main/res/layout/activity_main.xml" value="0.278125" />
-        <entry key="app/src/main/res/layout/activity_dvd.xml" value="0.26132246376811596" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.26132246376811596" />
-        <entry key="app/src/main/res/layout/item_activity.xml" value="0.25" />
       </map>
     </option>
   </component>

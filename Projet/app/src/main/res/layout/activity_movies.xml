@@ -5,7 +5,7 @@
     android:id="@+id/buttonCompte"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MoviesActivity">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/TabLayoutMovies"
@@ -41,50 +41,51 @@
 
         <Button
             android:id="@+id/buttonMovie"
-            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/movies" />
+            android:text="@string/movies"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonDvd"
-            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dvd" />
+            android:text="@string/dvd"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonSearch"
-            android:textSize="11sp"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/search"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/buttonAccount"
-            android:textSize="11sp"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/my_account" />
+            android:text="@string/my_account"
+            android:textSize="11sp" />
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listviewMovie"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerMovie"
+        android:layout_width="409dp"
+        android:layout_height="594dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutMovie"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TabLayoutMovies" />
+        app:layout_constraintTop_toBottomOf="@+id/TabLayoutMovies"
+        tools:ignore="MissingClass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
