@@ -24,6 +24,7 @@ public class MoviesActivity extends AppCompatActivity {
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
+    Button buttonSearch;
     ViewPager viewpager;
     String precActivity;
 
@@ -38,6 +39,8 @@ public class MoviesActivity extends AppCompatActivity {
         buttonDvd.setOnClickListener(view -> action_dvd_button());
         buttonAccount = findViewById(R.id.buttonAccount);
         buttonAccount.setOnClickListener(view -> action_account_button());
+        buttonSearch = findViewById(R.id.buttonSearch);
+        buttonSearch.setOnClickListener(view -> back_search());
 
         precActivity = getIntent().getStringExtra("precActivity");
             Log.d(TAG, "onCreate: " + precActivity);
@@ -69,6 +72,7 @@ public class MoviesActivity extends AppCompatActivity {
             switch (precActivity){
                 case "dvd" :  back_dvd();break;
                 case "account" :back_account();break;
+                case "search" : back_search();break;
                 default: finish();break;
             }
         }else{
@@ -98,6 +102,19 @@ public class MoviesActivity extends AppCompatActivity {
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("precActivity", "movie");
+        finish();
+        startActivity(intent);
+    }
+
+    private void back_search() {
+        Intent intent = new Intent(this, ResearchActivity.class);
+        finish();
+        startActivity(intent);
+    }
+    private void action_search_button() {
+        Log.d(TAG, "action_search_button: ");
+        Intent intent = new Intent(this, ResearchActivity.class);
+        intent.putExtra("precActivity", "movies");
         finish();
         startActivity(intent);
     }

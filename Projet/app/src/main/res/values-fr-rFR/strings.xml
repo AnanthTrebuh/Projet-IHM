@@ -19,4 +19,7 @@
     <string name="Missing_DVD_number">Nombre de DVD manquants</string>
     <string name="realisation_de">"réalisation de "</string>
     <string name="datesortie">date de sortie</string>
+    <string name="ajouter_la_liste_voir">Ajouter dans liste à voir</string>
+    <string name="acteurs_principaux">Acteurs principaux</string>
+    <string name="scenario_de">Réaliser  par</string>
 </resources>

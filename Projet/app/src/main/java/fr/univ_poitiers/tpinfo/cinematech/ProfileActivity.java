@@ -18,6 +18,7 @@ public class ProfileActivity  extends AppCompatActivity {
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
+    Button buttonSearch;
     TextView nbMovie;
     TextView timeSpend;
     TextView profileName;
@@ -32,6 +33,7 @@ public class ProfileActivity  extends AppCompatActivity {
         this.buttonMovie = findViewById(R.id.buttonMovie);
         this.buttonDvd = findViewById(R.id.buttonDvd);
         this.buttonAccount = findViewById(R.id.buttonAccount);
+        this.buttonSearch = findViewById(R.id.buttonSearch);
         this.nbMovie = findViewById(R.id.nbMovieAdded);
         this.timeSpend = findViewById(R.id.nbTimeSPend);
         this.profileName = findViewById(R.id.profileName);
@@ -53,6 +55,12 @@ public class ProfileActivity  extends AppCompatActivity {
                     }
                 }
         );
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    action_search_button();
+            }
+        });
         buttonAccount.setEnabled(false);
         SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
         profileName.setText(sharedPreferences.getString("Active_Profile", "error"));
@@ -69,6 +77,7 @@ public class ProfileActivity  extends AppCompatActivity {
             switch (precActivity){
                 case "dvd" :  back_dvd();break;
                 case "movie" :back_movie();break;
+                case "search" : back_search();break;
                 default: finish();break;
             }
         }else{
@@ -85,16 +94,31 @@ public class ProfileActivity  extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
-
+    private void back_search() {
+        Intent intent = new Intent(this, ResearchActivity.class);
+        finish();
+        startActivity(intent);
+    }
+    private void action_search_button() {
+        Log.d(TAG, "action_search_button: ");
+        Intent intent = new Intent(this, ResearchActivity.class);
+        intent.putExtra("precActivity", "account");
+        finish();
+        startActivity(intent);
+    }
 
     private void action_movies_button(){
         Log.d(TAG, "action_movie_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
+        intent.putExtra("precActivity", "account");
+        finish();
         startActivity(intent);
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
+        intent.putExtra("precActivity", "account");
+        finish();
         startActivity(intent);
     }
 

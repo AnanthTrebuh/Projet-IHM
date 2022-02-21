@@ -23,7 +23,7 @@ public class Movies {
 
     @Override
     public String toString() {
-        return this.title + " " + getRealisateur();
+        return this.title + " de " + getRealisateur();
     }
 
 }

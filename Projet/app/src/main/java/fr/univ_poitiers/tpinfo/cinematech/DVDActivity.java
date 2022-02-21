@@ -23,6 +23,7 @@ public class DVDActivity extends AppCompatActivity {
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
+    Button buttonSearch;
     ViewPager viewpager;
     String precActivity;
 
@@ -32,23 +33,15 @@ public class DVDActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dvd);
         Log.d(TAG, "onCreate: begin dvd activity");
         dvdTab = findViewById(R.id.TabLayoutDvd);
-        buttonMovie = findViewById(R.id.buttonMovie);
         buttonDvd = findViewById(R.id.buttonDvd);
-        buttonMovie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                action_movies_button();
-            }
-        });
 
+        buttonMovie = findViewById(R.id.buttonMovie);
+        buttonMovie.setOnClickListener(view -> action_movies_button());
 
+        buttonSearch = findViewById(R.id.buttonSearch);
+        buttonSearch.setOnClickListener(view -> action_search_button());
         buttonAccount = findViewById(R.id.buttonAccount);
-        buttonAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                action_account_button();
-            }
-        });
+        buttonAccount.setOnClickListener(view -> action_account_button());
 
         precActivity = getIntent().getStringExtra("precActivity");
         Log.d(TAG, "onCreate: " + precActivity);
@@ -71,11 +64,18 @@ public class DVDActivity extends AppCompatActivity {
             switch (precActivity){
                 case "movie" :  back_movie();break;
                 case "account" : back_account();break;
+                case "search" : back_search(); break;
                 default: finish();break;
             }
         }else{
             finish();
         }
+    }
+
+    private void back_search() {
+        Intent intent = new Intent(this, ResearchActivity.class);
+        finish();
+        startActivity(intent);
     }
 
     private void back_movie(){
@@ -91,6 +91,14 @@ public class DVDActivity extends AppCompatActivity {
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
+        intent.putExtra("precActivity", "dvd");
+        finish();
+        startActivity(intent);
+    }
+
+    private void action_search_button() {
+        Log.d(TAG, "action_search_button: ");
+        Intent intent = new Intent(this, ResearchActivity.class);
         intent.putExtra("precActivity", "dvd");
         finish();
         startActivity(intent);

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CinemaTech</string>
     <string name="to_come">To Come</string>
-    <string name="to_see">To See</string>
+    <string name="to_see">To watch</string>
     <string name="movies">Movies</string>
     <string name="dvd">DVD</string>
     <string name="my_account">My Account</string>
@@ -16,12 +16,12 @@
     <string name="realisation_de">realisation_de</string>
     <string name="duree" translatable="false">duree</string>
     <string name="synopsis" translatable="false">synopsis</string>
-    <string name="acteur_1_acteur_2_acteur_3">acteur_1_acteur_2_acteur_3</string>
+    <string name="acteur_1_acteur_2_acteur_3" translatable="false">acteur_1_acteur_2_acteur_3</string>
     <string name="titre">title</string>
-    <string name="ajouter_la_liste_voir">ajouter_la_liste_voir</string>
+    <string name="ajouter_la_liste_voir">Add in list to watch</string>
     <string name="datesortie">"came out "</string>
-    <string name="acteurs_principaux">acteurs_principaux</string>
-    <string name="sc_nario_de">sc_nario_de</string>
+    <string name="acteurs_principaux">principals actors</string>
+    <string name="scenario_de">scenario of</string>
     <string name="seen">Seen</string>
     <string name="DVD_Number">Number of DVD</string>
     <string name="Missing_DVD_number">Number of missing DVD</string>
