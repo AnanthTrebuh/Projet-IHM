@@ -24,6 +24,7 @@ public class DVDActivity extends AppCompatActivity {
     Button buttonDvd;
     Button buttonAccount;
     ViewPager viewpager;
+    String precActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class DVDActivity extends AppCompatActivity {
             }
         });
 
+        precActivity = getIntent().getStringExtra("precActivity");
+        Log.d(TAG, "onCreate: " + precActivity);
 
         viewpager = findViewById(R.id.viewPagerDvd);
         dvdTab.setupWithViewPager(viewpager);
@@ -61,9 +64,35 @@ public class DVDActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: DVD activity end onCreate");
     }
 
+    @Override
+    @MainThread
+    public void onBackPressed(){
+        if(precActivity != null){
+            switch (precActivity){
+                case "movie" :  back_movie();break;
+                case "account" : back_account();break;
+                default: finish();break;
+            }
+        }else{
+            finish();
+        }
+    }
+
+    private void back_movie(){
+        Intent intent = new Intent(this, MoviesActivity.class);
+        finish();
+        startActivity(intent);
+    }
+    private void back_account(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        finish();
+        startActivity(intent);
+    }
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
+        intent.putExtra("precActivity", "dvd");
+        finish();
         startActivity(intent);
     }
 
