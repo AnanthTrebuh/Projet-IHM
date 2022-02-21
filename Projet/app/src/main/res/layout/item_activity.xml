@@ -9,17 +9,19 @@
         android:id="@+id/synopsisMovie"
         android:layout_width="385dp"
         android:layout_height="171dp"
+        android:layout_marginTop="60dp"
         android:text="@string/synopsis"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="418dp" />
+        app:layout_constraintTop_toBottomOf="@+id/actorsPrincipalMovie" />
 
     <TextView
         android:id="@+id/realizationMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="36dp"
         android:text="@string/realisation_de"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageMovie" />
@@ -28,17 +30,18 @@
         android:id="@+id/timeMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
+        android:layout_marginEnd="48dp"
         android:text="@string/duree"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/dateExitMovie" />
 
     <TextView
         android:id="@+id/actorsMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="25dp"
         android:text="@string/acteur_1_acteur_2_acteur_3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toEndOf="@+id/actorsPrincipalMovie"
         app:layout_constraintTop_toTopOf="@+id/actorsPrincipalMovie" />
 
@@ -46,10 +49,9 @@
         android:id="@+id/dateExitMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:text="@string/datesortie"
         app:layout_constraintEnd_toStartOf="@+id/timeMovie"
-        app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toEndOf="@+id/imageMovie"
         app:layout_constraintTop_toBottomOf="@+id/titleMovie" />
 
@@ -78,17 +80,17 @@
 
     <ImageView
         android:id="@+id/imageMovie"
-        tools:srcCompat="@tools:sample/avatars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/an_image_of_the_movie"
+        android:contentDescription="@string/image_of_movie"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/actorsPrincipalMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="171dp"
+        android:layout_height="26dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="88dp"
         android:text="@string/acteurs_principaux"
