@@ -72,14 +72,14 @@ public class MoviesActivity extends AppCompatActivity {
             editor.putInt("default_img",R.drawable.default_user);
             editor.apply();
         }
-        try {
+        /*try {
             JsonReader js = new JsonReader(JSON_URL);
             js.test();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     @Override
     @MainThread
