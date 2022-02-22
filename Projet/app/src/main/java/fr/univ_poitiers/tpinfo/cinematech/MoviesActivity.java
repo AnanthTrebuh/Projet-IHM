@@ -39,6 +39,7 @@ public class MoviesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
+        Log.d(TAG, "onCreate: movieActivity");
 
         movieTab = findViewById(R.id.TabLayoutMovies);
         buttonMovie = findViewById(R.id.buttonMovie);
@@ -52,7 +53,6 @@ public class MoviesActivity extends AppCompatActivity {
         precActivity = getIntent().getStringExtra("precActivity");
             Log.d(TAG, "onCreate: " + precActivity);
 
-
         viewpager = findViewById(R.id.viewPagerMovie);
         movieTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -63,7 +63,6 @@ public class MoviesActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         if(sharedPreferences != null){
-
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Active_Profile","default");
             Set<String> set = new HashSet<String>();
@@ -133,5 +132,35 @@ public class MoviesActivity extends AppCompatActivity {
         intent.putExtra("precActivity", "movies");
         finish();
         startActivity(intent);
+    }
+    @Override
+    public void onStart(){
+        Log.d(TAG, "onStart: movieActivity");
+        super.onStart();
+    }
+    @Override
+    public void onResume(){
+        Log.d(TAG, "onResume: movieActivity");
+        super.onResume();
+    }
+    @Override
+    public void onPause(){
+        Log.d(TAG, "onPause: movieactivity");
+        super.onPause();
+    }
+    @Override
+    public  void onStop(){
+        Log.d(TAG, "onStop: movieActyivity");
+        super.onStop();
+    }
+    @Override
+    public void onRestart(){
+        Log.d(TAG, "onRestart: movieActivity");
+        super.onRestart();
+    }
+    @Override
+    public void onDestroy(){
+        Log.d(TAG, "onDestroy: movieActivity");
+        super.onDestroy();
     }
 }
