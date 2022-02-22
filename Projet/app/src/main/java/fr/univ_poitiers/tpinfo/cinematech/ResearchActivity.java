@@ -105,4 +105,35 @@ public class ResearchActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
+
+    @Override
+    public void onStart(){
+        Log.d(TAG, "onStart: searchActivity");
+        super.onStart();
+    }
+    @Override
+    public void onResume(){
+        Log.d(TAG, "onResume: searchActivity");
+        super.onResume();
+    }
+    @Override
+    public void onPause(){
+        Log.d(TAG, "onPause: searchActivity");
+        super.onPause();
+    }
+    @Override
+    public  void onStop(){
+        Log.d(TAG, "onStop: searchActivity");
+        super.onStop();
+    }
+    @Override
+    public void onRestart(){
+        Log.d(TAG, "onRestart: searchActivity");
+        super.onRestart();
+    }
+    @Override
+    public void onDestroy(){
+        Log.d(TAG, "onDestroy: searchActivity");
+        super.onDestroy();
+    }
 }
