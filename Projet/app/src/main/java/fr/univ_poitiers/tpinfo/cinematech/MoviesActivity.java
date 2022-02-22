@@ -62,7 +62,7 @@ public class MoviesActivity extends AppCompatActivity {
         buttonMovie.setEnabled(false);
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
-        if(sharedPreferences != null){
+        if(!sharedPreferences.contains("Active_Profile")){
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Active_Profile","default");
             Set<String> set = new HashSet<String>();
