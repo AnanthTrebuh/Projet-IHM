@@ -24,4 +24,6 @@
     <string name="scenario_de">Réaliser  par</string>
     <string name="enter_profile_name">Entrez le nom du nouveau profil :</string>
     <string name="Cancel">Annuler</string>
+    <string name="new_profile">Nouvel Utilisateur</string>
+    <string name="Change_Profile">Changer d\'Utilisateur</string>
 </resources>

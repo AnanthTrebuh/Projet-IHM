@@ -32,4 +32,6 @@
     <string name="enter_profile_name">Enter new profile name :</string>
     <string name="OK" translatable="false">OK</string>
     <string name="Cancel">Cancel</string>
+    <string name="new_profile">New User</string>
+    <string name="Change_Profile">Change User</string>
 </resources>

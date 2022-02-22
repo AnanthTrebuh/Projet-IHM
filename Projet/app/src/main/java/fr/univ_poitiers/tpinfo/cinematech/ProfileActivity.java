@@ -24,9 +24,15 @@ public class ProfileActivity  extends AppCompatActivity {
     Button buttonAccount;
     Button buttonSearch;
     Button newProfileButton;
+    Button changeProfileButton;
+
     TextView nbMovie;
     TextView timeSpend;
     TextView profileName;
+    TextView toSee;
+    TextView seen;
+    TextView dvd;
+    TextView dvdAquired;
     ImageView profilePicture;
     String precActivity;
     @Override
@@ -40,10 +46,18 @@ public class ProfileActivity  extends AppCompatActivity {
         this.buttonAccount = findViewById(R.id.buttonAccount);
         this.buttonSearch = findViewById(R.id.buttonSearch);
         this.newProfileButton = findViewById(R.id.newProfile);
+        this.changeProfileButton = findViewById(R.id.changeProfile);
+
         this.nbMovie = findViewById(R.id.nbMovieAdded);
         this.timeSpend = findViewById(R.id.nbTimeSPend);
         this.profileName = findViewById(R.id.profileName);
+        this.toSee = findViewById(R.id.textViewToSee);
+        this.seen = findViewById(R.id.textViewSeen);
+        this.dvd = findViewById(R.id.textViewDvd);
+        this.dvdAquired = findViewById(R.id.textViewDvdAquired);
+
         this.profilePicture = findViewById(R.id.profilePicture);
+
 
         buttonMovie.setOnClickListener(
                 new View.OnClickListener() {
@@ -75,10 +89,18 @@ public class ProfileActivity  extends AppCompatActivity {
                     }
                 }
         );
+
+        changeProfileButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        action_dialog_change();
+                    }
+                }
+        );
+
         buttonAccount.setEnabled(false);
-        SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
-        String pName = sharedPreferences.getString("Active_Profile", "error");
-        profileName.setText(pName);
+        actualise_profile();
         profilePicture.setImageResource(R.drawable.default_user);
 
         
@@ -148,13 +170,55 @@ public class ProfileActivity  extends AppCompatActivity {
                 set.add(fullName);
                 e.putStringSet("List_Profils", set);
                 e.putString("Active_Profile", fullName);
+                e.putStringSet(fullName+"_movie", new HashSet<String>());
+                e.putStringSet(fullName+"_movie_seen",  new HashSet<String>());
+                e.putStringSet(fullName+"_dvd",  new HashSet<String>());
+                e.putStringSet(fullName+"_dvd_buy",  new HashSet<String>());
+
                 e.apply();
-                profileName.setText(sharedPreferences.getString("Active_Profile","error"));
+                actualise_profile();
             }
         };
         final DialoProfileActivity dialog = new DialoProfileActivity(this, listener);
 
         dialog.show();
+    }
+
+    private void action_dialog_change(){
+        DialoProfileChangeActivity.ChangeNameListener listener = new DialoProfileChangeActivity.ChangeNameListener() {
+            @Override
+            public void fullNameSelected(String fullName){
+                SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+                SharedPreferences.Editor e = sharedPreferences.edit();
+                e.putString("Active_Profile", fullName);
+                e.commit();
+                actualise_profile();
+            }
+        };
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+
+        final DialoProfileChangeActivity dialog = new DialoProfileChangeActivity(
+                this,
+                listener,
+                (HashSet<String>) sharedPreferences.getStringSet("List_Profils", new HashSet<String>())
+        );
+        dialog.show();
+    }
+
+    private void actualise_profile(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        String pName = sharedPreferences.getString("Active_Profile","error");
+        profileName.setText(pName);
+        int movie = sharedPreferences.getStringSet(pName+"_movie", new HashSet<String>()).size();
+        int movie_seen = sharedPreferences.getStringSet(pName+"_movie_seen", new HashSet<String>()).size();
+        int nbDVD =sharedPreferences.getStringSet(pName+"_dvd",new HashSet<String>()).size();
+        int nbDVDAquired = sharedPreferences.getStringSet(pName+"_dvd_buy",new HashSet<String>()).size();
+        nbMovie.setText( Integer.toString(movie));
+        toSee.setText( Integer.toString(movie - movie_seen));
+        seen.setText( Integer.toString(movie_seen));
+
+        dvd.setText(Integer.toString(nbDVD));
+        dvdAquired.setText(Integer.toString(nbDVDAquired));
 
     }
 
