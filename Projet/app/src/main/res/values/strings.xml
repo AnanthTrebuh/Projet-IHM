@@ -25,4 +25,6 @@
     <string name="seen">Seen</string>
     <string name="DVD_Number">Number of DVD</string>
     <string name="Missing_DVD_number">Number of missing DVD</string>
+    <string name="director">Director</string>
+    <string name="title">Title</string>
 </resources>

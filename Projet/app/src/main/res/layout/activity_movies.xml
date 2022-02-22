@@ -56,7 +56,6 @@
             android:layout_weight="1"
             android:text="@string/dvd"
             android:textSize="11sp" />
-
         <Button
             android:id="@+id/buttonSearch"
             style="?android:attr/buttonBarButtonStyle"
