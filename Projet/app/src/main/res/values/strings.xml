@@ -25,4 +25,7 @@
     <string name="seen">Seen</string>
     <string name="DVD_Number">Number of DVD</string>
     <string name="Missing_DVD_number">Number of missing DVD</string>
+    <string name="enter_profile_name">Enter new profile name :</string>
+    <string name="OK" translatable="false">OK</string>
+    <string name="Cancel">Cancel</string>
 </resources>

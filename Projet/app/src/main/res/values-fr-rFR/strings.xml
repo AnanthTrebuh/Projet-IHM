@@ -22,4 +22,6 @@
     <string name="ajouter_la_liste_voir">Ajouter dans liste à voir</string>
     <string name="acteurs_principaux">Acteurs principaux</string>
     <string name="scenario_de">Réaliser  par</string>
+    <string name="enter_profile_name">Entrez le nom du nouveau profil :</string>
+    <string name="Cancel">Annuler</string>
 </resources>

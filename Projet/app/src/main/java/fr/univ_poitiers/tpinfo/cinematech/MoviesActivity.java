@@ -62,6 +62,7 @@ public class MoviesActivity extends AppCompatActivity {
             Set<String> set = new HashSet<String>();
             set.add("default");
             editor.putStringSet("List_Profils",set);
+            editor.putInt("default_img",R.drawable.default_user);
             editor.apply();
         }
     }

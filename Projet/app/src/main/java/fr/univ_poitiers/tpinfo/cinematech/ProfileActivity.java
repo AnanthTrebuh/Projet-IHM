@@ -9,9 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProfileActivity  extends AppCompatActivity {
     public static String TAG = "CineTech";
@@ -19,6 +23,7 @@ public class ProfileActivity  extends AppCompatActivity {
     Button buttonDvd;
     Button buttonAccount;
     Button buttonSearch;
+    Button newProfileButton;
     TextView nbMovie;
     TextView timeSpend;
     TextView profileName;
@@ -34,6 +39,7 @@ public class ProfileActivity  extends AppCompatActivity {
         this.buttonDvd = findViewById(R.id.buttonDvd);
         this.buttonAccount = findViewById(R.id.buttonAccount);
         this.buttonSearch = findViewById(R.id.buttonSearch);
+        this.newProfileButton = findViewById(R.id.newProfile);
         this.nbMovie = findViewById(R.id.nbMovieAdded);
         this.timeSpend = findViewById(R.id.nbTimeSPend);
         this.profileName = findViewById(R.id.profileName);
@@ -61,9 +67,19 @@ public class ProfileActivity  extends AppCompatActivity {
                     action_search_button();
             }
         });
+        newProfileButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        action_dialog();
+                    }
+                }
+        );
         buttonAccount.setEnabled(false);
         SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
-        profileName.setText(sharedPreferences.getString("Active_Profile", "error"));
+        String pName = sharedPreferences.getString("Active_Profile", "error");
+        profileName.setText(pName);
+        profilePicture.setImageResource(R.drawable.default_user);
 
         
         precActivity = getIntent().getStringExtra("precActivity");
@@ -120,6 +136,26 @@ public class ProfileActivity  extends AppCompatActivity {
         intent.putExtra("precActivity", "account");
         finish();
         startActivity(intent);
+    }
+
+    private void action_dialog()  {
+        DialoProfileActivity.FullNameListener listener = new DialoProfileActivity.FullNameListener() {
+            @Override
+            public void fullNameEntered(String fullName) {
+                SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+                SharedPreferences.Editor e = sharedPreferences.edit();
+                Set<String> set = sharedPreferences.getStringSet("List_Profils", new HashSet<String>());
+                set.add(fullName);
+                e.putStringSet("List_Profils", set);
+                e.putString("Active_Profile", fullName);
+                e.apply();
+                profileName.setText(sharedPreferences.getString("Active_Profile","error"));
+            }
+        };
+        final DialoProfileActivity dialog = new DialoProfileActivity(this, listener);
+
+        dialog.show();
+
     }
 
 }
