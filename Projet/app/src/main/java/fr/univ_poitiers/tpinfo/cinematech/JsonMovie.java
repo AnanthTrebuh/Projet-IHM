@@ -22,7 +22,7 @@ import java.util.Locale;
 public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
-    String id, director;
+    String id, director, writer;
     ArrayList<String> characters;
     private String TAG = "CineTech";
 
@@ -80,7 +80,7 @@ public class JsonMovie {
         queue.add(request);
     }
 
-    //Fill data for
+    //Fill data for director and characters
     private void init(RequestQueue queue)
     {
         String url = "https://api.themoviedb.org/3/movie/" + this.id + "/credits" + MoviesActivity.KEY;
@@ -90,18 +90,15 @@ public class JsonMovie {
                 try {
                     JSONObject object = new JSONObject(string);
                     JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
-                    //Loop on each crew to find the job: director
+                    //Loop on each crew to find the job: director, writter and fill characters
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject cpy = (JSONObject) jsonArray.get(i);
                         if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
                             director = cpy.get("name").toString();
-                            break;
                         }
-                    }
-
-                    //Loop to fill the characters
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject cpy = (JSONObject) jsonArray.get(i);
+                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("writer")){
+                            writer = cpy.get("name").toString();
+                        }
                         characters.add(cpy.getString("character").toString());
                     }
                 } catch (JSONException e) {
@@ -149,12 +146,17 @@ public class JsonMovie {
     }
 
     //Director
-    public String getRealisator(RequestQueue queue) throws JSONException {
+    public String getRealisator() throws JSONException {
         return this.director;
     }
 
+    //scriptWriter
+    public String getWriter(){
+        return this.writer;
+    }
+
     //Characters
-    public ArrayList<String> getCharacters(Request queue){
+    public ArrayList<String> getCharacters(){
         return this.characters;
     }
 }
