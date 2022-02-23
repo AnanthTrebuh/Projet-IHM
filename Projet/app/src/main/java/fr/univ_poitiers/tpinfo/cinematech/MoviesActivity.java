@@ -10,17 +10,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.android.volley.RequestQueue;
 import com.google.android.material.tabs.TabLayout;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,8 +33,6 @@ public class MoviesActivity extends AppCompatActivity {
     Button buttonSearch;
     ViewPager viewpager;
     String precActivity;
-
-    private static String JSON_URL = "https://api.themoviedb.org/3/movie/157336?api_key=38cf06282c993b63af90dd9de695152f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

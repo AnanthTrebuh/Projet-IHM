@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,6 +23,7 @@ public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
     String id, director;
+    ArrayList<String> characters;
     private String TAG = "CineTech";
 
     JsonMovie(String data, RequestQueue queue, boolean Title)
@@ -30,6 +32,7 @@ public class JsonMovie {
             findJsonByTitle(data, queue);
         else
             findJsonById(data, queue);
+        init();
         Log.d(TAG, "JsonMovie: " + MoviesActivity.KEY);
     }
 
@@ -49,7 +52,7 @@ public class JsonMovie {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d("HA", "YA ERREUR CHEF ");
+                Log.d(TAG, "Error in request");
             }
         });
         queue.add(request);
@@ -71,7 +74,44 @@ public class JsonMovie {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d("HA", "YA ERREUR CHEF ");
+                Log.d(TAG, "Error in request");
+            }
+        });
+        queue.add(request);
+    }
+
+    //Fill data for
+    private void init(RequestQueue queue)
+    {
+        String url = "https://api.themoviedb.org/3/movie/" + this.id + "/credits" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject object = new JSONObject(string);
+                    JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
+                    //Loop on each crew to find the job: director
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject cpy = (JSONObject) jsonArray.get(i);
+                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
+                            director = cpy.get("name").toString();
+                            break;
+                        }
+                    }
+
+                    //Loop to fill the characters
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject cpy = (JSONObject) jsonArray.get(i);
+                        characters.add(cpy.getString("character").toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in request");
             }
         });
         queue.add(request);
@@ -110,32 +150,11 @@ public class JsonMovie {
 
     //Director
     private String getRealisator(RequestQueue queue) throws JSONException {
-        String url = "https://api.themoviedb.org/3/movie/" + this.id + "/credits" + MoviesActivity.KEY;
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject object = new JSONObject(string);
-                    JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
-                    //Loop on each crew to find the job: director
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject cpy = (JSONObject) jsonArray.get(i);
-                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
-                            director = cpy.get("name").toString();
-                            break;
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("HA", "YA ERREUR CHEF ");
-            }
-        });
-        queue.add(request);
         return this.director;
+    }
+
+    //Characters
+    private ArrayList<String> getCharacters(Request queue){
+        return this.characters;
     }
 }
