@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -16,6 +17,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.List;
 
 public class ResearchActivity extends AppCompatActivity {
 
@@ -146,6 +149,13 @@ public class ResearchActivity extends AppCompatActivity {
         s = s.replaceAll("\\s+","+");
         Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
         toast.show();
+        
+    }
+    
+    //we create a List of movie that has an id, an name and an url for the image
+    private void initListMovies(String research){
+        //ArrayAdapter<JsonListMovie> itemsAdaptater = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
+        //listview.setAdapter(itemsAdaptater);
     }
 
     @Override
