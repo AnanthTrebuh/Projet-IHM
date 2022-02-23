@@ -58,7 +58,7 @@ public class MoviesActivity extends AppCompatActivity {
         movieTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         vpAdapter.addFragment(new FragmentMovieToSee(), this.getString(R.string.to_see));
-        vpAdapter.addFragment(new FragmentMovie(), this.getString(R.string.to_come));
+        vpAdapter.addFragment(new FragmentMovie(), this.getString(R.string.seen));
         viewpager.setAdapter(vpAdapter);
         buttonMovie.setEnabled(false);
 
