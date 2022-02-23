@@ -177,7 +177,7 @@ public class ResearchActivity extends AppCompatActivity {
                     }
 
                     //ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-                    //listview.setAdapter(itemsAdapter);
+                    listview.setAdapter(new ArrayAdapter<JsonListMovie>(getApplicationContext(),android.R.layout.simple_list_item_1, items));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -251,8 +251,8 @@ public class ResearchActivity extends AppCompatActivity {
     private void initListMovies(String research, RequestQueue queue){
         fillAllIdName(research, queue);
         fillAllUrl(queue);
-        ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-        listview.setAdapter(itemsAdapter);
+        //ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
+        //listview.setAdapter(itemsAdapter);
     }
 
     @Override
