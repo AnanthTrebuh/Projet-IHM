@@ -121,40 +121,40 @@ public class JsonMovie {
         this.jsonObject = object;
     }
 
-    private String getImageFromMovie() throws JSONException {
+    public String getImageFromMovie() throws JSONException {
         //TODO, voir movie/movie_id/IMAGES
         return jsonObject.getString("title");
     }
 
-    private String getTitle() throws JSONException {
+    public String getTitle() throws JSONException {
         return jsonObject.getString("title");
     }
 
-    private String getReleaseDate() throws JSONException {
+    public String getReleaseDate() throws JSONException {
         return jsonObject.getString("release_date");
     }
 
-    private String getRunTime() throws JSONException {
+    public String getRunTime() throws JSONException {
         return jsonObject.getString("runtime");
     }
 
-    private String getOverview() throws JSONException {
+    public String getOverview() throws JSONException {
         return jsonObject.getString("overview");
     }
 
-    private boolean upcoming() throws JSONException, ParseException {
+    public boolean upcoming() throws JSONException, ParseException {
         Date currentDate = new Date(System.currentTimeMillis());
         Date movieDate = new SimpleDateFormat().parse(jsonObject.getString("release_date"));
         return (currentDate.getTime() - movieDate.getTime()) > 0;
     }
 
     //Director
-    private String getRealisator(RequestQueue queue) throws JSONException {
+    public String getRealisator(RequestQueue queue) throws JSONException {
         return this.director;
     }
 
     //Characters
-    private ArrayList<String> getCharacters(Request queue){
+    public ArrayList<String> getCharacters(Request queue){
         return this.characters;
     }
 }

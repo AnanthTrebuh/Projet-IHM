@@ -8,10 +8,12 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -49,6 +51,39 @@ public class ResearchActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: precActivity : " + precActivity);
 
         buttonSearch.setEnabled(false);
+        /*
+        searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus){
+                if( hasFocus ){
+                    buttonAccount.setVisibility(View.INVISIBLE);
+                    buttonDvd.setVisibility(View.INVISIBLE);
+                    buttonMovie.setVisibility(View.INVISIBLE);
+                    buttonSearch.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    if (buttonMovie.getVisibility() == View.INVISIBLE){
+                        buttonAccount.setVisibility(View.VISIBLE);
+                        buttonMovie.setVisibility(View.VISIBLE);
+                        buttonDvd.setVisibility(View.VISIBLE);
+                        buttonSearch.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } );
+        */
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                action_research();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -104,6 +139,13 @@ public class ResearchActivity extends AppCompatActivity {
         intent.putExtra("precActivity", "search");
         finish();
         startActivity(intent);
+    }
+
+    private void action_research(){
+        String s = this.searchBar.getQuery().toString();
+        s = s.replaceAll("\\s+","+");
+        Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     @Override
