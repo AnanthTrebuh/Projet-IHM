@@ -51,6 +51,7 @@ public class JsonMovie {
             public void onResponse(String string) {
                 try {
                     JSONObject object = new JSONObject(string);
+                    id = object.getString("id").toString();
                     if(object.length() > 0)
                         findJsonById(object.getString("id"), queue);
                 } catch (JSONException e) {
@@ -110,7 +111,7 @@ public class JsonMovie {
                             writer = cpy.get("name").toString();
                         }
                         if(cpy.get("character") != null){
-                            characters.add(cpy.get("character").toString());
+                            characters.add(cpy.get("name").toString());
                         }
                     }
                 } catch (JSONException e) {
