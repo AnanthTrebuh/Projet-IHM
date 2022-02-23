@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.android.volley.RequestQueue;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -24,6 +25,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MoviesActivity extends AppCompatActivity {
+    /*Variables for json*/
+    public static final String KEY = "?api_key=38cf06282c993b63af90dd9de695152f";
+    public static final String URL_ID_MOVIE = "https://api.themoviedb.org/3/movie/";
+    public static final String URL_TITLE_MOVIE =  "https://api.themoviedb.org/3/search/movie";
+    RequestQueue queue;
+
     public static String TAG = "CineTech";
     TabLayout movieTab;
     Button buttonMovie;
