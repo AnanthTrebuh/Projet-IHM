@@ -1,6 +1,10 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,17 +16,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
-    String id, director;
+    String id, director, writer, base_url, backdrop_size, file_path;
+    ArrayList<String> characters;
     private String TAG = "CineTech";
+    ImageView movieImage;
 
     JsonMovie(String data, RequestQueue queue, boolean Title)
     {
@@ -30,6 +40,7 @@ public class JsonMovie {
             findJsonByTitle(data, queue);
         else
             findJsonById(data, queue);
+        init(queue);
         Log.d(TAG, "JsonMovie: " + MoviesActivity.KEY);
     }
 
@@ -49,7 +60,7 @@ public class JsonMovie {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d("HA", "YA ERREUR CHEF ");
+                Log.d(TAG, "Error in request");
             }
         });
         queue.add(request);
@@ -71,45 +82,15 @@ public class JsonMovie {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d("HA", "YA ERREUR CHEF ");
+                Log.d(TAG, "Error in request");
             }
         });
         queue.add(request);
     }
 
-    private void fillDataMovie(JSONObject object) {
-        this.jsonObject = object;
-    }
-
-    private String getImageFromMovie() throws JSONException {
-        //TODO, voir movie/movie_id/IMAGES
-        return jsonObject.getString("title");
-    }
-
-    private String getTitle() throws JSONException {
-        return jsonObject.getString("title");
-    }
-
-    private String getReleaseDate() throws JSONException {
-        return jsonObject.getString("release_date");
-    }
-
-    private String getRunTime() throws JSONException {
-        return jsonObject.getString("runtime");
-    }
-
-    private String getOverview() throws JSONException {
-        return jsonObject.getString("overview");
-    }
-
-    private boolean upcoming() throws JSONException, ParseException {
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date movieDate = new SimpleDateFormat().parse(jsonObject.getString("release_date"));
-        return (currentDate.getTime() - movieDate.getTime()) > 0;
-    }
-
-    //Director
-    private String getRealisator(RequestQueue queue) throws JSONException {
+    //Fill data for director and characters
+    private void init(RequestQueue queue)
+    {
         String url = "https://api.themoviedb.org/3/movie/" + this.id + "/credits" + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -117,15 +98,46 @@ public class JsonMovie {
                 try {
                     JSONObject object = new JSONObject(string);
                     JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
-                    //Loop on each crew to find the job: director
+                    //Loop on each crew to find the job: director, writter and fill characters
                     for(int i = 0; i < jsonArray.length(); i++){
                         JSONObject cpy = (JSONObject) jsonArray.get(i);
                         if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
                             director = cpy.get("name").toString();
-                            break;
                         }
+                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("writer")){
+                            writer = cpy.get("name").toString();
+                        }
+                        characters.add(cpy.getString("character").toString());
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in request");
+            }
+        });
+        queue.add(request);
+    }
+
+    //get an image from the API: get the base_url, backdrop_size and file_path
+    private void getUrl(RequestQueue queue) throws JSONException {
+        //base_url and file_size are in /configuration
+        String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONObject object = (JSONObject) jsonObject.get("images");
+                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                    base_url = object.getString("base_url").toString();
+                    backdrop_size = jsonArray.get(0).toString();
+                } catch (JSONException e) {
+                    Log.d(TAG, "onResponse: ");
                     e.printStackTrace();
                 }
             }
@@ -136,6 +148,108 @@ public class JsonMovie {
             }
         });
         queue.add(request);
+
+        //to get file_path of image
+        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    file_path = object.getString("file_path");
+                } catch (JSONException e) {
+                    Log.d(TAG, "onResponse: ");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("HA", "YA ERREUR CHEF ");
+            }
+        });
+        queue.add(request2);
+    }
+
+    public class LoadImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public LoadImage(ImageView img){
+            this.imageView = img;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings){
+            String urlLink = strings[0];
+            Bitmap bitmap = null;
+            try{
+                InputStream inputStream = new java.net.URL(urlLink).openStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap){
+            movieImage.setImageBitmap(bitmap);
+        }
+    }
+
+    private void changeImage(ImageView img) throws JSONException {
+        this.movieImage = img;
+        LoadImage loadImage = new LoadImage(img);
+        loadImage.execute(base_url+backdrop_size+file_path);
+    }
+
+    private void fillDataMovie(JSONObject object) {
+        this.jsonObject = object;
+    }
+
+    public String getImageFromMovie() throws JSONException {
+        //TODO, voir movie/movie_id/IMAGES
+        return jsonObject.getString("title");
+    }
+
+    public String getTitle() throws JSONException {
+        return jsonObject.getString("title");
+    }
+
+    public String getReleaseDate() throws JSONException {
+        return jsonObject.getString("release_date");
+    }
+
+    public String getRunTime() throws JSONException {
+        return jsonObject.getString("runtime");
+    }
+
+    public String getOverview() throws JSONException {
+        return jsonObject.getString("overview");
+    }
+
+    public boolean upcoming() throws JSONException, ParseException {
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date movieDate = new SimpleDateFormat().parse(jsonObject.getString("release_date"));
+        return (currentDate.getTime() - movieDate.getTime()) > 0;
+    }
+
+    //Director
+    public String getRealisator() throws JSONException {
         return this.director;
+    }
+
+    //scriptWriter
+    public String getWriter(){
+        return this.writer;
+    }
+
+    //Characters
+    public ArrayList<String> getCharacters(){
+        return this.characters;
     }
 }

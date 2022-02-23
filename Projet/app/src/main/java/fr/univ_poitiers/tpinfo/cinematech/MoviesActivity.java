@@ -34,8 +34,6 @@ public class MoviesActivity extends AppCompatActivity {
     ViewPager viewpager;
     String precActivity;
 
-    private static String JSON_URL = "https://api.themoviedb.org/3/movie/157336?api_key=38cf06282c993b63af90dd9de695152f";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
