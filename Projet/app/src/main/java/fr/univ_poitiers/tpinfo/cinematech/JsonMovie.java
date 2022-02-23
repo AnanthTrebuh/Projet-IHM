@@ -109,7 +109,9 @@ public class JsonMovie {
                         if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("writer")){
                             writer = cpy.get("name").toString();
                         }
-                        characters.add(cpy.getString("character").toString());
+                        if(cpy.get("character") != null){
+                            characters.add(cpy.get("character").toString());
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
