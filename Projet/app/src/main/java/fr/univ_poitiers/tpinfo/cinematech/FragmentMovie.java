@@ -24,10 +24,10 @@ public class FragmentMovie extends Fragment {
         // Inflate the layout for this fragment
         ArrayList<Movies> movies = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
-        for (int i = 0; i < 50; i++) {
-            Movies m1 = new Movies(String.valueOf(i), "testToCome" + i, "Michel", "17/02/2022", acteurs, 90);
+        
+            Movies m1 = new Movies(String.valueOf(634649), "test" , "Michel", "17/02/2022", acteurs, 90);
             movies.add(m1);
-        }
+
         CustomListAdapter arrayAdapter = new CustomListAdapter(listview.getContext(), movies);
         listview.setAdapter(arrayAdapter);
 
