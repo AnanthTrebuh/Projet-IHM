@@ -21,7 +21,7 @@
     <string name="datesortie">date de sortie</string>
     <string name="ajouter_la_liste_voir">Ajouter dans liste à voir</string>
     <string name="acteurs_principaux">Acteurs principaux</string>
-    <string name="scenario_de">Réaliser  par</string>
+    <string name="scenario_de">Scenariste</string>
     <string name="enter_profile_name">Entrez le nom du nouveau profil :</string>
     <string name="Cancel">Annuler</string>
     <string name="new_profile">Nouvel Utilisateur</string>
@@ -29,4 +29,5 @@
     <string name="director">Réalisateur</string>
     <string name="title">Titre</string>
     <string name="search_hint">recherche</string>
+    <string name="Empty">Vide</string>
 </resources>

@@ -21,7 +21,7 @@
     <string name="ajouter_la_liste_voir">Add in list to watch</string>
     <string name="datesortie">"came out "</string>
     <string name="acteurs_principaux">principals actors</string>
-    <string name="scenario_de">scenario of</string>
+    <string name="scenario_de">Writer</string>
     <string name="seen">Seen</string>
     <string name="DVD_Number">Number of DVD</string>
     <string name="Missing_DVD_number">Number of missing DVD</string>
@@ -36,4 +36,5 @@
     <string name="Change_Profile">Change User</string>
     <string name="search_hint">search</string>
     <string name="name">Name</string>
+    <string name="Empty">Empty</string>
 </resources>
