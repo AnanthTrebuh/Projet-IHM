@@ -2,23 +2,41 @@ package fr.univ_poitiers.tpinfo.cinematech;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class ItemActivity  extends AppCompatActivity {
+    String base_url, backdrop_size, file_path;
+    String titleS, id;
     TextView synopsis;
     TextView realisation;
     TextView time;
@@ -26,7 +44,7 @@ public class ItemActivity  extends AppCompatActivity {
     TextView dateExit;
     TextView title;
     TextView scenario;
-    JsonMovie jm;
+    ImageView imageMovie;
 
     Button addToWatch;
 
@@ -35,49 +53,174 @@ public class ItemActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String id = getIntent().getStringExtra("movie");
+        this.id = getIntent().getStringExtra("movie");
         setContentView(R.layout.item_activity);
         queue = Volley.newRequestQueue(this);
 
-        jm = new JsonMovie(id, queue, false);
+        imageMovie = findViewById(R.id.imageMovie);
+        synopsis = findViewById(R.id.synopsisMovie);
+        realisation = findViewById(R.id.realizationMovie);
+        time = findViewById(R.id.timeMovie);
+        actors = findViewById(R.id.actorsMovie);
+        dateExit = findViewById(R.id.dateExitMovie);
+        title = findViewById(R.id.titleMovie);
+        scenario = findViewById(R.id.scenarioMovie);
+        addToWatch = findViewById(R.id.buttonAddListMovie);
+        queue = Volley.newRequestQueue(this);
 
-        this.synopsis = findViewById(R.id.synopsisMovie);
-        this.realisation = findViewById(R.id.realizationMovie);
-        this.time = findViewById(R.id.timeMovie);
-        this.actors = findViewById(R.id.actorsMovie);
-        this.dateExit = findViewById(R.id.dateExitMovie);
-        this.title = findViewById(R.id.titleMovie);
-        this.scenario = findViewById(R.id.scenarioMovie);
-        this.addToWatch = findViewById(R.id.buttonAddListMovie);
-        this.queue = Volley.newRequestQueue(this);
-
-        addToWatch.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        action_add_movie();
-                    }
-                }
-        );
-
+        setUp(id);
+        setUpDirReaChara(id);
         try {
-            this.synopsis.setText(jm.getOverview());
-            this.realisation.setText(jm.getRealisator());
-            this.time.setText(jm.getRunTime());
-            ArrayList<String> actors = jm.getCharacters();
-            String actorsString = "";
-            for(String s : actors)
-                actorsString += ", " + s;
-            this.actors.setText(actorsString);
-            this.dateExit.setText(jm.getReleaseDate());
-            this.title.setText(jm.getTitle());
-            this.scenario.setText(jm.getWriter());
-
+            setUpUrl(id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        //we wait two seconds for that the url is filled by the thread
+        new Handler().postDelayed(this::changeImage, 2000);
+    }
+
+    //Fill data for overView, title, releaseDate
+    private void setUp(String idMovie){
+        String url = MoviesActivity.URL_ID_MOVIE + idMovie + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject object = new JSONObject(string);
+                    String runtime = object.getString("runtime").toString();
+                    if(runtime == null){
+                        time.setText("Unknown");
+                    }
+                    else{
+                        time.setText(object.getString("runtime").toString());
+                    }
+
+                    String overview = object.getString("overview").toString();
+                    if(runtime == null){
+                        synopsis.setText("Unknown");
+                    }
+                    else{
+                        synopsis.setText(object.getString("overview").toString());
+                    }
+                    title.setText(object.getString("title").toString());
+                    dateExit.setText(object.getString("release_date").toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in request");
+            }
+        });
+        queue.add(request);
+    }
+
+    //Fill data for director and characters
+    private void setUpDirReaChara(String idMovie){
+        String url = "https://api.themoviedb.org/3/movie/" + idMovie + "/credits" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject object = new JSONObject(string);
+                    JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
+                    //Loop on each crew to find the job: director, writter
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject cpy = (JSONObject) jsonArray.get(i);
+                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
+                            realisation.setText(cpy.get("name").toString());
+                        }
+                        if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("writer")){
+                            scenario.setText(cpy.get("name").toString());
+                        }
+                    }
 
 
+                    jsonArray = object.getJSONArray("cast"); //get data from all crew in this movie
+                    //Loop on each cast to fill characters
+                    int i = 0;
+                    String actorsString= "";
+                    while(i < jsonArray.length() && i < 3){
+                        JSONObject cpy = (JSONObject) jsonArray.get(i);
+                        if(i == 0){
+                            actorsString += cpy.get("name").toString();
+                        }
+                        else{
+                            actorsString += ", " + cpy.get("name").toString();
+                        }
+                        i++;
+                    }
+                    actors.setText(actorsString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(MoviesActivity.TAG, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in request");
+            }
+        });
+        queue.add(request);
+    }
+
+    //get an image from the API: get the base_url, backdrop_size and file_path
+    private void setUpUrl(String idMovie) throws JSONException {
+        //base_url and file_size are in /configuration
+        String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONObject object = (JSONObject) jsonObject.get("images");
+                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                    base_url = object.getString("base_url").toString();
+                    backdrop_size = jsonArray.get(0).toString();
+                } catch (JSONException e) {
+                    Log.d(MoviesActivity.TAG, "onResponse: ");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in base_url response ");
+            }
+        });
+        queue.add(request);
+
+        //to get file_path of image
+        String url2 = "https://api.themoviedb.org/3/movie/" + idMovie + "/images" + MoviesActivity.KEY;
+        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    file_path = object.getString("file_path");
+                } catch (JSONException e) {
+                    Log.d(MoviesActivity.TAG, "onResponse: ");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in file_path reponse");
+            }
+        });
+        queue.add(request2);
+    }
+
+    private void changeImage(){
+        LoadImage loadImage = new LoadImage(imageMovie);
+        loadImage.execute(base_url+backdrop_size+file_path);
     }
 
     public void action_add_movie(){
@@ -85,11 +228,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
-        try {
-            movieList.add(jm.getTitle());
-        } catch (JSONException jsonException) {
-            jsonException.printStackTrace();
-        }
+        movieList.add(this.titleS);
         e.putStringSet(name+"_movie", movieList);
         e.apply();
     }

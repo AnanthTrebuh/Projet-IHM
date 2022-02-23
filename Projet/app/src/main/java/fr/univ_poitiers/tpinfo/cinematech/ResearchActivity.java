@@ -36,7 +36,8 @@ public class ResearchActivity extends AppCompatActivity {
     SearchView searchBar;
     ListView listview;
     String precActivity;
-    ArrayList<JsonListMovie> items;
+    ArrayList<JsonListMovie> items = new ArrayList<JsonListMovie>();
+    String currentBaseUrl, currentBackdropSize, currentFilePath;
     int cpt = 0;
 
     @Override
@@ -172,8 +173,11 @@ public class ResearchActivity extends AppCompatActivity {
 
                     for (int i = 0; i < jsonArray.length(); i++){
                         JSONObject object1 = (JSONObject) jsonArray.get(i);
-                        items.add(new JsonListMovie(object1.getString("title"), object1.getString("id"), null,null,null));
+                        items.add(new JsonListMovie(object1.getString("title"), object1.getString("id")));
                     }
+
+                    //ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
+                    //listview.setAdapter(itemsAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -201,8 +205,8 @@ public class ResearchActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(string);
                         JSONObject object = (JSONObject) jsonObject.get("images");
                         JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
-                        items.get(cpt).changeBaseUrl(object.getString("base_url").toString());
-                        items.get(cpt).changeBackdropSize(jsonArray.get(0).toString());
+                        currentBackdropSize = jsonArray.get(0).toString();
+                        currentBaseUrl = object.getString("base_url").toString();
                     } catch (JSONException e) {
                         Log.d(TAG, "onResponse: ");
                         e.printStackTrace();
@@ -225,7 +229,7 @@ public class ResearchActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(string);
                         JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
                         JSONObject object = (JSONObject) jsonArray.get(0);
-                        items.get(cpt).changeFullPath(object.getString("file_path"));
+                        currentFilePath = object.getString("file_path");
                     } catch (JSONException e) {
                         Log.d(TAG, "onResponse: ");
                         e.printStackTrace();
@@ -238,17 +242,17 @@ public class ResearchActivity extends AppCompatActivity {
                 }
             });
             queue.add(request2);
+            items.get(cpt).setUrl(currentBaseUrl + currentBackdropSize+currentFilePath);
             cpt++;
         }
     }
     
     //we create a List of movie that has an id, an name and an url for the image
     private void initListMovies(String research, RequestQueue queue){
-        //fillAllIdName(research, queue);
-        //fillAllUrl(queue);
-        items.add(new JsonListMovie("HA", "terrible", "c'est ca", "oui", "non"));
-        ArrayAdapter<JsonListMovie> itemsAdaptater = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-        listview.setAdapter(itemsAdaptater);
+        fillAllIdName(research, queue);
+        fillAllUrl(queue);
+        ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
+        listview.setAdapter(itemsAdapter);
     }
 
     @Override

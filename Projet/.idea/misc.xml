@@ -17,20 +17,11 @@
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/fragment_movie_to_see.xml" value="0.35260416666666666" />
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/item_activity.xml" value="0.36666666666666664" />
         <entry key="..\:/Master 1/Projet-IHM/Projet/app/src/main/res/layout/list_item_layout.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/activity_profile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/fragment_dvd_to_buy.xml" value="0.18686868686868688" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/fragment_dvd_to_come.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/fragment_movie.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/fragment_movie_to_come.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/fragment_movie_to_see.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/item_activity.xml" value="0.33" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/layout_dialog_profile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/layout_dialog_profile_change.xml" value="0.36666666666666664" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/list_item_dvd_layout.xml" value="0.75" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/layout/list_item_layout.xml" value="1.0" />
-        <entry key="..\:/Master 1/Projet_IHM/Projet/app/src/main/res/xml/searchable.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nathan/Mes Cours/Master 1/Projet IHM/Projet/app/src/main/res/layout/activity_dvd.xml" value="0.278125" />
         <entry key="..\:/Users/nathan/Mes Cours/Master 1/Projet IHM/Projet/app/src/main/res/layout/activity_main.xml" value="0.278125" />
+        <entry key="app/src/main/res/layout/activity_research.xml" value="0.16493136359292032" />
+        <entry key="app/src/main/res/layout/item_activity.xml" value="0.26166220580330596" />
+        <entry key="app/src/main/res/layout/search_activity.xml" value="0.1503623188405797" />
       </map>
     </option>
   </component>

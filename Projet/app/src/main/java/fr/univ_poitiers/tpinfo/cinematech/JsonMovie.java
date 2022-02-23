@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,8 +28,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class JsonMovie {
-    JSONObject jsonObject;
-    JSONArray jsonArray;
     String id, director, writer, base_url, backdrop_size, file_path;
     String overview, runtime, releaseDate, title;
     ArrayList<String> characters;
@@ -201,7 +200,7 @@ public class JsonMovie {
 
     public boolean upcoming() throws JSONException, ParseException {
         Date currentDate = new Date(System.currentTimeMillis());
-        Date movieDate = new SimpleDateFormat().parse(jsonObject.getString("release_date"));
+        Date movieDate = new SimpleDateFormat().parse(this.releaseDate);
         return (currentDate.getTime() - movieDate.getTime()) > 0;
     }
 
