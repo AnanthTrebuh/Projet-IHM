@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class ResearchActivity extends AppCompatActivity {
 
     public static String TAG = "CineTech";
+    RequestQueue queue;
     Button buttonMovie;
     Button buttonDvd;
     Button buttonAccount;
@@ -43,6 +44,7 @@ public class ResearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_research);
 
+        queue = Volley.newRequestQueue(this);
         searchBar = findViewById(R.id.searchView);
         listview = findViewById(R.id.listView);
 

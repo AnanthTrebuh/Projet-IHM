@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 
@@ -43,6 +44,7 @@ public class ItemActivity  extends AppCompatActivity {
         this.title = findViewById(R.id.titleMovie);
         this.scenario = findViewById(R.id.scenarioMovie);
         this.addToWatch = findViewById(R.id.buttonAddListMovie);
+        this.queue = Volley.newRequestQueue(this);
 
         addToWatch.setOnClickListener(
                 new View.OnClickListener() {
