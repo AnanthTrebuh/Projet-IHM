@@ -30,7 +30,7 @@ public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
     String id, director, writer, base_url, backdrop_size, file_path;
-    String overview;
+    String overview, runtime, releaseDate, title;
     ArrayList<String> characters;
     private String TAG = "CineTech";
     ImageView movieImage;
@@ -74,9 +74,9 @@ public class JsonMovie {
                 try {
                     JSONObject object = new JSONObject(string);
                     overview = object.getString("overview").toString();
-                    Log.d(TAG, overview);
-                    jsonObject = object;
-                    Log.d(TAG, object.getString("overview").toString());
+                    runtime = object.getString("runtime").toString();
+                    releaseDate = object.getString("release_date").toString();
+                    title = object.getString("title").toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -181,19 +181,19 @@ public class JsonMovie {
     }
 
     public String getTitle() throws JSONException {
-        return jsonObject.getString("title");
+        return this.title;
     }
 
     public String getReleaseDate() throws JSONException {
-        return jsonObject.getString("release_date");
+        return this.releaseDate;
     }
 
     public String getRunTime() throws JSONException {
-        return jsonObject.getString("runtime");
+        return this.runtime;
     }
 
     public String getOverview() throws JSONException {
-        return jsonObject.getString("overview");
+        return overview;
     }
 
     public boolean upcoming() throws JSONException, ParseException {
