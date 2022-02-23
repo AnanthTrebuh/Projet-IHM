@@ -29,11 +29,11 @@ public class JsonMovie {
             findJsonByTitle(data, queue);
         else
             findJsonById(data, queue);
-        Log.d(TAG, "JsonMovie: " + MainActivity.KEY);
+        Log.d(TAG, "JsonMovie: " + MoviesActivity.KEY);
     }
 
-    private static void findJsonByTitle(String nameMovie, RequestQueue queue){
-        String url = MainActivity.URL_TITLE_MOVIE + MainActivity.KEY + "&query=" + nameMovie;
+    private void findJsonByTitle(String nameMovie, RequestQueue queue){
+        String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + nameMovie;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -55,7 +55,7 @@ public class JsonMovie {
     }
 
     private void findJsonById(String idMovie, RequestQueue queue){
-        String url = MainActivity.URL_ID_MOVIE + idMovie + MainActivity.KEY;
+        String url = MoviesActivity.URL_ID_MOVIE + idMovie + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
