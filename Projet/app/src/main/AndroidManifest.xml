@@ -24,6 +24,9 @@
             android:name=".DVDActivity"
             android:exported="false" />
         <activity
+            android:name=".ItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".MoviesActivity"
             android:exported="true">
             <intent-filter>
