@@ -30,4 +30,5 @@
     <string name="title">Titre</string>
     <string name="search_hint">recherche</string>
     <string name="Empty">Vide</string>
+    <string name="name">Nom</string>
 </resources>
