@@ -244,8 +244,9 @@ public class ResearchActivity extends AppCompatActivity {
     
     //we create a List of movie that has an id, an name and an url for the image
     private void initListMovies(String research, RequestQueue queue){
-        fillAllIdName(research, queue);
-        fillAllUrl(queue);
+        //fillAllIdName(research, queue);
+        //fillAllUrl(queue);
+        items.add(new JsonListMovie("HA", "terrible", "c'est ca", "oui", "non"));
         ArrayAdapter<JsonListMovie> itemsAdaptater = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
         listview.setAdapter(itemsAdaptater);
     }

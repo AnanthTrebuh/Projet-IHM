@@ -30,6 +30,7 @@ public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
     String id, director, writer, base_url, backdrop_size, file_path;
+    String overview;
     ArrayList<String> characters;
     private String TAG = "CineTech";
     ImageView movieImage;
@@ -73,8 +74,8 @@ public class JsonMovie {
             public void onResponse(String string) {
                 try {
                     JSONObject object = new JSONObject(string);
-                    if(object.length() > 0)
-                        fillDataMovie(object);
+                    overview = jsonObject.getString("overview").toString();
+                    jsonObject = object;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -180,11 +181,6 @@ public class JsonMovie {
 
     private void fillDataMovie(JSONObject object) {
         this.jsonObject = object;
-    }
-
-    public String getImageFromMovie() throws JSONException {
-        //TODO, voir movie/movie_id/IMAGES
-        return jsonObject.getString("title");
     }
 
     public String getTitle() throws JSONException {
