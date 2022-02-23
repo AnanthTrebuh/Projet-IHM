@@ -35,9 +35,8 @@
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/director"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView_title"
         app:layout_constraintStart_toEndOf="@+id/imageView_affiche"
         app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
