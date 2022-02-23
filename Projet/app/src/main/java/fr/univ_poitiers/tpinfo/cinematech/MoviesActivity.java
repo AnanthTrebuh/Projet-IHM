@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashSet;
@@ -39,7 +40,8 @@ public class MoviesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
         Log.d(TAG, "onCreate: movieActivity");
-
+        queue = Volley.newRequestQueue(this);
+        
         movieTab = findViewById(R.id.TabLayoutMovies);
         buttonMovie = findViewById(R.id.buttonMovie);
         buttonDvd = findViewById(R.id.buttonDvd);
@@ -124,6 +126,11 @@ public class MoviesActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
+
+    public RequestQueue getQueue(){
+        return this.queue;
+    }
+
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: movieActivity");

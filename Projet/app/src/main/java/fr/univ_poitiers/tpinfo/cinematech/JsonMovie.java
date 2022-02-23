@@ -173,36 +173,7 @@ public class JsonMovie {
         queue.add(request2);
     }
 
-    public class LoadImage extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public LoadImage(ImageView img){
-            this.imageView = img;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings){
-            String urlLink = strings[0];
-            Bitmap bitmap = null;
-            try{
-                InputStream inputStream = new java.net.URL(urlLink).openStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap){
-            movieImage.setImageBitmap(bitmap);
-        }
-    }
-
     private void changeImage(ImageView img) throws JSONException {
-        this.movieImage = img;
         LoadImage loadImage = new LoadImage(img);
         loadImage.execute(base_url+backdrop_size+file_path);
     }

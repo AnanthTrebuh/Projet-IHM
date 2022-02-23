@@ -60,7 +60,6 @@ public class ItemActivity  extends AppCompatActivity {
                         e.putStringSet(name+"_movie", movieList);
                         e.apply();
 
-
                     }
                 }
         );

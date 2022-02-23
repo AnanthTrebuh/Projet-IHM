@@ -2,23 +2,28 @@ package fr.univ_poitiers.tpinfo.cinematech;
 
 import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.material.tabs.TabLayout;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ResearchActivity extends AppCompatActivity {
 
@@ -30,6 +35,8 @@ public class ResearchActivity extends AppCompatActivity {
     SearchView searchBar;
     ListView listview;
     String precActivity;
+    ArrayList<JsonListMovie> items;
+    int cpt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,13 +156,96 @@ public class ResearchActivity extends AppCompatActivity {
         s = s.replaceAll("\\s+","+");
         Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
         toast.show();
-        
+        initListMovies(s, queue);
+    }
+
+    private void fillAllIdName(String research, RequestQueue queue){
+        String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=100";
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject object = new JSONObject(string);
+                    JSONArray jsonArray = object.getJSONArray("results");
+
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject object1 = (JSONObject) jsonArray.get(i);
+                        items.add(new JsonListMovie(object1.getString("title"), object1.getString("id"), null,null,null));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in request");
+            }
+        });
+        queue.add(request);
+    }
+
+    private void fillAllUrl(RequestQueue queue){
+        for(int i = 0; i < items.size(); i++){
+            String id = items.get(i).getId();
+
+            //base_url and file_size are in /configuration
+            String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String string) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(string);
+                        JSONObject object = (JSONObject) jsonObject.get("images");
+                        JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                        items.get(cpt).changeBaseUrl(object.getString("base_url").toString());
+                        items.get(cpt).changeBackdropSize(jsonArray.get(0).toString());
+                    } catch (JSONException e) {
+                        Log.d(TAG, "onResponse: ");
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.d("HA", "YA ERREUR CHEF ");
+                }
+            });
+            queue.add(request);
+
+            //to get file_path of image
+            String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+            StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String string) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(string);
+                        JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                        JSONObject object = (JSONObject) jsonArray.get(0);
+                        items.get(cpt).changeFullPath(object.getString("file_path"));
+                    } catch (JSONException e) {
+                        Log.d(TAG, "onResponse: ");
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.d("HA", "YA ERREUR CHEF ");
+                }
+            });
+            queue.add(request2);
+            cpt++;
+        }
     }
     
     //we create a List of movie that has an id, an name and an url for the image
-    private void initListMovies(String research){
-        //ArrayAdapter<JsonListMovie> itemsAdaptater = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-        //listview.setAdapter(itemsAdaptater);
+    private void initListMovies(String research, RequestQueue queue){
+        fillAllIdName(research, queue);
+        fillAllUrl(queue);
+        ArrayAdapter<JsonListMovie> itemsAdaptater = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
+        listview.setAdapter(itemsAdaptater);
     }
 
     @Override
