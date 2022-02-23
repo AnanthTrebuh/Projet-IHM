@@ -99,11 +99,6 @@ public class JsonMovie {
         //TODO, voir movie/movie_id/IMAGES
         return jsonObject.getString("title");
     }
-    this.title = title;
-        this.realisateur = real;
-        this.date = date;
-        this.acteurs = acteurs;
-        this.duree = duree;
 
     private String getTitle() throws JSONException {
         return jsonObject.getString("title");
