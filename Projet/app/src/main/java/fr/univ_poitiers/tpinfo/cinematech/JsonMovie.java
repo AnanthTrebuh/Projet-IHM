@@ -1,6 +1,10 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,9 +29,10 @@ import java.util.Locale;
 public class JsonMovie {
     JSONObject jsonObject;
     JSONArray jsonArray;
-    String id, director, writer;
+    String id, director, writer, base_url, backdrop_size, file_path;
     ArrayList<String> characters;
     private String TAG = "CineTech";
+    ImageView movieImage;
 
     JsonMovie(String data, RequestQueue queue, boolean Title)
     {
@@ -112,6 +120,91 @@ public class JsonMovie {
             }
         });
         queue.add(request);
+    }
+
+    //get an image from the API: get the base_url, backdrop_size and file_path
+    private void getUrl(RequestQueue queue) throws JSONException {
+        //base_url and file_size are in /configuration
+        String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONObject object = (JSONObject) jsonObject.get("images");
+                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                    base_url = object.getString("base_url").toString();
+                    backdrop_size = jsonArray.get(0).toString();
+                } catch (JSONException e) {
+                    Log.d(TAG, "onResponse: ");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("HA", "YA ERREUR CHEF ");
+            }
+        });
+        queue.add(request);
+
+        //to get file_path of image
+        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    file_path = object.getString("file_path");
+                } catch (JSONException e) {
+                    Log.d(TAG, "onResponse: ");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("HA", "YA ERREUR CHEF ");
+            }
+        });
+        queue.add(request2);
+    }
+
+    public class LoadImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        public LoadImage(ImageView img){
+            this.imageView = img;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings){
+            String urlLink = strings[0];
+            Bitmap bitmap = null;
+            try{
+                InputStream inputStream = new java.net.URL(urlLink).openStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap){
+            movieImage.setImageBitmap(bitmap);
+        }
+    }
+
+    private void changeImage(ImageView img) throws JSONException {
+        this.movieImage = img;
+        LoadImage loadImage = new LoadImage(img);
+        loadImage.execute(base_url+backdrop_size+file_path);
     }
 
     private void fillDataMovie(JSONObject object) {
