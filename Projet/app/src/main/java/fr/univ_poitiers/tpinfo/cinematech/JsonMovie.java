@@ -32,7 +32,7 @@ public class JsonMovie {
             findJsonByTitle(data, queue);
         else
             findJsonById(data, queue);
-        init();
+        init(queue);
         Log.d(TAG, "JsonMovie: " + MoviesActivity.KEY);
     }
 
