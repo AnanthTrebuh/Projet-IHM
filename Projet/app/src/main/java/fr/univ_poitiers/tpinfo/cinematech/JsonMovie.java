@@ -74,7 +74,7 @@ public class JsonMovie {
             public void onResponse(String string) {
                 try {
                     JSONObject object = new JSONObject(string);
-                    overview = jsonObject.getString("overview").toString();
+                    overview = object.getString("overview").toString();
                     jsonObject = object;
                 } catch (JSONException e) {
                     e.printStackTrace();
