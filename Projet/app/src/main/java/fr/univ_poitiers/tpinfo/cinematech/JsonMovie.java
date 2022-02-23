@@ -42,7 +42,6 @@ public class JsonMovie {
         else
             findJsonById(data, queue);
         init(queue);
-        Log.d(TAG, "JsonMovie: " + MoviesActivity.KEY);
     }
 
     private void findJsonByTitle(String nameMovie, RequestQueue queue){
@@ -74,8 +73,10 @@ public class JsonMovie {
             public void onResponse(String string) {
                 try {
                     JSONObject object = new JSONObject(string);
-                    overview = jsonObject.getString("overview").toString();
+                    overview = object.getString("overview").toString();
+                    Log.d(TAG, overview);
                     jsonObject = object;
+                    Log.d(TAG, object.getString("overview").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -177,10 +178,6 @@ public class JsonMovie {
     private void changeImage(ImageView img) throws JSONException {
         LoadImage loadImage = new LoadImage(img);
         loadImage.execute(base_url+backdrop_size+file_path);
-    }
-
-    private void fillDataMovie(JSONObject object) {
-        this.jsonObject = object;
     }
 
     public String getTitle() throws JSONException {

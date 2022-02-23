@@ -26,6 +26,7 @@ public class ItemActivity  extends AppCompatActivity {
     TextView dateExit;
     TextView title;
     TextView scenario;
+    JsonMovie jm;
 
     Button addToWatch;
 
@@ -34,8 +35,12 @@ public class ItemActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String id = (String)savedInstanceState.get("movie");
-        JsonMovie jm = new JsonMovie(id, queue, false);
+        String id = getIntent().getStringExtra("movie");
+        setContentView(R.layout.item_activity);
+        queue = Volley.newRequestQueue(this);
+
+        jm = new JsonMovie(id, queue, false);
+
         this.synopsis = findViewById(R.id.synopsisMovie);
         this.realisation = findViewById(R.id.realizationMovie);
         this.time = findViewById(R.id.timeMovie);
@@ -50,18 +55,7 @@ public class ItemActivity  extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
-                        SharedPreferences.Editor e = sharedPreferences.edit();
-                        String name = sharedPreferences.getString("Active_Profile","default");
-                        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
-                        try {
-                            movieList.add(jm.getTitle());
-                        } catch (JSONException jsonException) {
-                            jsonException.printStackTrace();
-                        }
-                        e.putStringSet(name+"_movie", movieList);
-                        e.apply();
-
+                        action_add_movie();
                     }
                 }
         );
@@ -84,5 +78,19 @@ public class ItemActivity  extends AppCompatActivity {
         }
 
 
+    }
+
+    public void action_add_movie(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        SharedPreferences.Editor e = sharedPreferences.edit();
+        String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
+        try {
+            movieList.add(jm.getTitle());
+        } catch (JSONException jsonException) {
+            jsonException.printStackTrace();
+        }
+        e.putStringSet(name+"_movie", movieList);
+        e.apply();
     }
 }
