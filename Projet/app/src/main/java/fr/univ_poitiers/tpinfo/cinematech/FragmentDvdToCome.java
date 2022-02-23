@@ -18,8 +18,8 @@ public class FragmentDvdToCome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_to_come, container, false);
-        listview = view.findViewById(R.id.listviewMovie);
+        View view = inflater.inflate(R.layout.fragment_dvd_to_come, container, false);
+        listview = view.findViewById(R.id.listView);
         // Inflate the layout for this fragment
         ArrayList<Dvd> dvd = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
@@ -29,7 +29,7 @@ public class FragmentDvdToCome extends Fragment {
             dvd.add(m1);
             b = !b;
         }
-        ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(listview.getContext(), android.R.layout.simple_list_item_1, dvd);
+        CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), dvd);
         listview.setAdapter(arrayAdapter);
 
         return view;

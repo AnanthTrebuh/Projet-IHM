@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-
 public class FragmentDvdToBuy extends Fragment {
     public static String TAG = "CineTech";
 
@@ -23,11 +22,9 @@ public class FragmentDvdToBuy extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_to_come, container, false);
-        listview = view.findViewById(R.id.listviewMovie);
+        View view = inflater.inflate(R.layout.fragment_dvd_to_buy, container, false);
+        listview = view.findViewById(R.id.listView);
         // Inflate the layout for this fragment
-
-        listview.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         ArrayList<Dvd> dvd = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
         boolean b = false;
@@ -36,18 +33,16 @@ public class FragmentDvdToBuy extends Fragment {
             dvd.add(m1);
             b = !b;
         }
-        ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(listview.getContext(), android.R.layout.simple_list_item_checked, dvd);
+        Log.d(TAG, "onCreateView: after creationg dvd list");
+        CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), dvd);
         listview.setAdapter(arrayAdapter);
-
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: " + position);
-                CheckedTextView v = (CheckedTextView) view;
                 Dvd current = (Dvd) listview.getItemAtPosition(position);
                 dvd.remove(current);
-                ArrayAdapter<Dvd> arrayAdapter = new ArrayAdapter<Dvd>(listview.getContext(), android.R.layout.simple_list_item_checked, dvd);
+                CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), dvd);
                 listview.setAdapter(arrayAdapter);
             }
         });

@@ -17,7 +17,7 @@ public class Dvd extends Movies{
         }
         return this.getTitle() + " " + bluray;
     }
-    public boolean isBluray() {
+    public boolean isBluray(){
         return bluray;
     }
 
