@@ -26,4 +26,7 @@
     <string name="Cancel">Annuler</string>
     <string name="new_profile">Nouvel Utilisateur</string>
     <string name="Change_Profile">Changer d\'Utilisateur</string>
+    <string name="director">Réalisateur</string>
+    <string name="title">Titre</string>
+    <string name="search_hint">recherche</string>
 </resources>

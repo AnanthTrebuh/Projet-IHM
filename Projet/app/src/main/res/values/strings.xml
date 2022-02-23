@@ -34,4 +34,5 @@
     <string name="Cancel">Cancel</string>
     <string name="new_profile">New User</string>
     <string name="Change_Profile">Change User</string>
+    <string name="search_hint">search</string>
 </resources>
