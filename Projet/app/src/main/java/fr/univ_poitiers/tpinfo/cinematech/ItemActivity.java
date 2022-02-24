@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -68,6 +69,17 @@ public class ItemActivity  extends AppCompatActivity {
         addToWatch = findViewById(R.id.buttonAddListMovie);
         queue = Volley.newRequestQueue(this);
 
+        addToWatch.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        action_add_movie();
+                        Toast.makeText(ItemActivity.this, "Movie added", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+        );
+
         setUp(id);
         setUpDirReaChara(id);
         try {
@@ -112,6 +124,7 @@ public class ItemActivity  extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.d(MoviesActivity.TAG, "Error in request");
+
             }
         });
         queue.add(request);
@@ -228,7 +241,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
-        movieList.add(this.titleS);
+        movieList.add(this.id);
         e.putStringSet(name+"_movie", movieList);
         e.apply();
     }

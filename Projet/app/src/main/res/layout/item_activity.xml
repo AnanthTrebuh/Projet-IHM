@@ -48,14 +48,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="@string/titre" />
+                        android:text="@string/titre"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="@string/duree" />
+                        android:text="@string/duree"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/timeMovie"
@@ -68,7 +71,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="datesortie" />
+                        android:text="@string/date_sortie"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/dateExitMovie"
@@ -84,7 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/realisation_de" />
+                android:text="@string/realisation_de"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/realizationMovie"
@@ -97,7 +102,8 @@
                 android:layout_width="171dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/acteurs_principaux" />
+                android:text="@string/acteurs_principaux"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/actorsMovie"
@@ -110,7 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="@string/scenario_de" />
+                android:text="@string/scenario_de"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/scenarioMovie"
@@ -119,13 +126,18 @@
                 android:text="@string/basique" />
 
             <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/synopsis"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/synopsisMovie"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="171dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="56dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/synopsis" />
+                android:text="@string/Empty" />
 
         </LinearLayout>
     </ScrollView>
