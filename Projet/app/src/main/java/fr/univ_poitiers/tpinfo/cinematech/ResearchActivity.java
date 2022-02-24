@@ -4,7 +4,9 @@ import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,7 +38,7 @@ public class ResearchActivity extends AppCompatActivity {
     SearchView searchBar;
     ListView listview;
     String precActivity;
-    ArrayList<JsonListMovie> items = new ArrayList<JsonListMovie>();
+    ArrayList<ResearchMovie> items = new ArrayList<ResearchMovie>();
     String currentBaseUrl, currentBackdropSize, currentFilePath;
     int cpt = 0;
 
@@ -162,36 +164,41 @@ public class ResearchActivity extends AppCompatActivity {
         initListMovies(s, queue);
     }
 
-    private void fillAllIdName(String research, RequestQueue queue){
-        String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=100";
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject object = new JSONObject(string);
-                    JSONArray jsonArray = object.getJSONArray("results");
-
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject object1 = (JSONObject) jsonArray.get(i);
-                        items.add(new JsonListMovie(object1.getString("title"), object1.getString("id")));
+    private void fillAllIdName(String research){
+        for(int i= 1; i < 20; i++){ //search through 20 first resulsts
+            String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + i;
+            Log.d(TAG, url);
+            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String string) {
+                    try {
+                        JSONObject object = new JSONObject(string);
+                        JSONArray jsonArray = object.getJSONArray("results");
+                        if(jsonArray.length() > 0){
+                            for(int j = 0; j < jsonArray.length(); j++){
+                                JSONObject object1 = (JSONObject) jsonArray.get(j);
+                                items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
+                                Log.d(TAG, "HA: " + items.get(j).getName());
+                            }
+                            Log.d(TAG, "HA: " + items.size());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    //ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-                    listview.setAdapter(new ArrayAdapter<JsonListMovie>(getApplicationContext(),android.R.layout.simple_list_item_1, items));
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "Error in request");
-            }
-        });
-        queue.add(request);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.d(TAG, "Error in request");
+                }
+            });
+            queue.add(request);
+            Log.d(TAG, "size of items: " + items.size());
+        }
+
     }
 
-    private void fillAllUrl(RequestQueue queue){
+    private void fillAllUrl(){
         for(int i = 0; i < items.size(); i++){
             String id = items.get(i).getId();
 
@@ -246,13 +253,21 @@ public class ResearchActivity extends AppCompatActivity {
             cpt++;
         }
     }
-    
+
     //we create a List of movie that has an id, an name and an url for the image
     private void initListMovies(String research, RequestQueue queue){
-        fillAllIdName(research, queue);
-        fillAllUrl(queue);
-        //ArrayAdapter<JsonListMovie> itemsAdapter = new ArrayAdapter<JsonListMovie>(this, android.R.layout.simple_list_item_1, items);
-        //listview.setAdapter(itemsAdapter);
+        fillAllIdName(research);
+
+        Log.d(TAG, "size of items after fillID: " + items.size());
+        fillAllUrl();
+
+        Log.d(TAG, "size of items after fill URL: " + items.size());
+        new Handler().postDelayed(this::showData, 2000);
+    }
+
+    private void showData(){
+        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.activity_research, items);
+        listview.setAdapter(rmAdapter);
     }
 
     @Override

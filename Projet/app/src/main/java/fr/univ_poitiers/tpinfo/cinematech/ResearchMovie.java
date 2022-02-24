@@ -1,10 +1,10 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
-public class JsonListMovie {
+public class ResearchMovie {
     private String urlImage, name;
     private String id;
-    
-    JsonListMovie(String name, String id){
+
+    ResearchMovie(String name, String id){
         this.urlImage = null;
         this.id = id;
         this.name = name;
@@ -21,4 +21,6 @@ public class JsonListMovie {
     public String getUrl(){
         return this.urlImage;
     }
+
+    public String getName(){ return this.name; }
 }
