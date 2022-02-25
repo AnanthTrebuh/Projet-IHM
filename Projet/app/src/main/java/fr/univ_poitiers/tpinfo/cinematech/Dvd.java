@@ -2,8 +2,8 @@ package fr.univ_poitiers.tpinfo.cinematech;
 
 public class Dvd extends Movies{
     boolean bluray;
-    Dvd(String id, String title, String real, String date, String[] acteurs, int duree, boolean bluray){
-        super(id, title, real, date, acteurs, duree);
+    Dvd(String id, String title, String real, boolean bluray){
+        super(id, title, real);
         this.bluray = bluray;
     }
 

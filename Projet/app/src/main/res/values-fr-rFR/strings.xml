@@ -35,4 +35,5 @@
     <string name="duree" translatable="false">Durée</string>
     <string name="add_to_seen">Ajout à la liste Vu</string>
     <string name="add_to_getlist">Ajout à la liste Acquis</string>
+    <string name="add_list_dvd_to_get">"Ajout à la liste des DVD "</string>
 </resources>

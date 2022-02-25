@@ -24,13 +24,14 @@ public class FragmentMovie extends Fragment {
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
         ArrayList<Movies> movies = new ArrayList<>();
-        String[] acteurs = {"jean bon", "jean michel"};
 
-            Movies m1 = new Movies(String.valueOf(634649), "test" , "Michel", "17/02/2022", acteurs, 90);
+            Movies m1 = new Movies(String.valueOf(634649), "test" , "Michel");
             movies.add(m1);
 
-        CustomListAdapter arrayAdapter = new CustomListAdapter(listview.getContext(), movies);
-        listview.setAdapter(arrayAdapter);
+
+
+        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), movies);
+        listview.setAdapter(Adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

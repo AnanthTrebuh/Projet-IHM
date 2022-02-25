@@ -30,7 +30,7 @@ public class FragmentDvdToBuy extends Fragment {
         String[] acteurs = {"jean bon", "jean michel"};
         boolean b = false;
         for (int i = 0; i < 50; i++) {
-            Dvd m1 = new Dvd(String.valueOf(i),"DvdToGet" + i, "M", "17/02/2022", acteurs, 90, b);
+            Dvd m1 = new Dvd(String.valueOf(i),"DvdToGet" + i, "M", b);
             dvd.add(m1);
             b = !b;
         }

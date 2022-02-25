@@ -30,7 +30,7 @@ public class FragmentMovieToSee extends Fragment {
         ArrayList<Movies> movies = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
         for (int i = 0; i < 25; i++) {
-            Movies m = new Movies(String.valueOf(i), "MovieToSee" + i, "M", "17/02/2022", acteurs, 90);
+            Movies m = new Movies(String.valueOf(i), "MovieToSee" + i, "M");
             movies.add(m);
         }
         CustomListAdapter arrayAdapter = new CustomListAdapter(getActivity(), movies);

@@ -43,5 +43,6 @@
     <string name="movie_image" translatable="false">Movie image</string>
     <string name="add_to_seen">Add To Seen List</string>
     <string name="add_to_getlist">Add to the list of possession</string>
+    <string name="add_list_dvd_to_get">Add in list of dvd you want</string>
     <!--<string name="date_sortie">date_sortie</string>-->
 </resources>

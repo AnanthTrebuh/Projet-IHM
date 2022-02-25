@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class ItemActivity  extends AppCompatActivity {
     ImageView imageMovie;
 
     Button addToWatch;
+    Button addDVD;
 
     RequestQueue queue;
 
@@ -68,11 +70,12 @@ public class ItemActivity  extends AppCompatActivity {
         title = findViewById(R.id.titleMovie);
         scenario = findViewById(R.id.scenarioMovie);
         addToWatch = findViewById(R.id.buttonAddListMovie);
+        addDVD = findViewById(R.id.addDvdbutton);
         switch(list){
             case "seen" :
-            case "get" : addToWatch.setVisibility(View.INVISIBLE); break;
-            case "toSeen" : addToWatch.setText(this.getString(R.string.add_to_seen));break;
-            case "toGet" : addToWatch.setText(this.getString(R.string.add_to_getlist));break;
+            case "get" : addToWatch.setVisibility(View.INVISIBLE);addDVD.setVisibility(View.INVISIBLE); break;
+            case "toSeen" : addDVD.setVisibility(View.INVISIBLE); addToWatch.setText(this.getString(R.string.add_to_seen));break;
+            case "toGet" : addDVD.setVisibility(View.INVISIBLE);addToWatch.setText(this.getString(R.string.add_to_getlist));break;
             case "search" : addToWatch.setText(this.getString(R.string.ajouter_la_liste_voir));break;
             default: break;
         }
@@ -82,12 +85,18 @@ public class ItemActivity  extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        action_add_movie();
+                        switch(list){
+                            case "toSeen" : action_add_movie();break;
+                            case "toGet" : action_add_dvd();break;
+                            case "search" : action_add_movie_to_seen();break;
+                            default: break;
+                        }
                         Toast.makeText(ItemActivity.this, "Movie added", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }
         );
+        addDVD.setOnClickListener(view -> {action_add_dvd_to_buy(); finish();});
 
         setUp(id);
         setUpDirReaChara(id);
@@ -113,7 +122,7 @@ public class ItemActivity  extends AppCompatActivity {
                         time.setText("Unknown");
                     }
                     else{
-                        time.setText(object.getString("runtime").toString());
+                        time.setText(object.getString("runtime").toString() + "min");
                     }
 
                     String overview = object.getString("overview").toString();
@@ -249,9 +258,36 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
+        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>());
+        movieList.add(this.id);
+        e.putStringSet(name+"_movie_seen", movieList);
+        e.apply();
+    }
+    public void action_add_movie_to_seen(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        SharedPreferences.Editor e = sharedPreferences.edit();
+        String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
         movieList.add(this.id);
         e.putStringSet(name+"_movie", movieList);
+        e.apply();
+    }
+    public void action_add_dvd_to_buy(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        SharedPreferences.Editor e = sharedPreferences.edit();
+        String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieList = sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>());
+        movieList.add(this.id);
+        e.putStringSet(name+"_dvd", movieList);
+        e.apply();
+    }
+    public void action_add_dvd(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        SharedPreferences.Editor e = sharedPreferences.edit();
+        String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieList = sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>());
+        movieList.add(this.id);
+        e.putStringSet(name+"_dvd_buy", movieList);
         e.apply();
     }
 }
