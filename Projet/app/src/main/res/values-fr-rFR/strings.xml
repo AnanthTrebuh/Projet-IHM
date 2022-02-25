@@ -37,4 +37,5 @@
     <string name="add_to_getlist">Ajout à la liste Acquis</string>
     <string name="add_list_dvd_to_get">"Ajout à la liste des DVD "</string>
     <string name="Unknown">Unconnu</string>
+    <string name="del_profile">Supprimer un utilisateur</string>
 </resources>
