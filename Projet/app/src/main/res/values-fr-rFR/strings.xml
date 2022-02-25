@@ -32,6 +32,7 @@
     <string name="search_hint">recherche</string>
     <string name="Empty">Vide</string>
     <string name="name">Nom</string>
-    <string name="duree" translatable="false">"Durée "</string>
-    <string name="add_to_seen">Ajout à la list Vu</string>
+    <string name="duree" translatable="false">Durée</string>
+    <string name="add_to_seen">Ajout à la liste Vu</string>
+    <string name="add_to_getlist">Ajout à la liste Acquis</string>
 </resources>

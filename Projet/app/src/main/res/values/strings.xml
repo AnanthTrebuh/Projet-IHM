@@ -5,6 +5,7 @@
     <string name="movies">Movies</string>
     <string name="dvd">DVD</string>
     <string name="my_account">My Account</string>
+    <string name="buy">Buy</string>
     <string name="to_buy">To Buy</string>
     <string name="profile_name">profile name</string>
     <string name="movies_added">movies added</string>
@@ -14,12 +15,12 @@
     <string name="search">Search</string>
     <string name="image_of_movie">image_of_movie</string>
     <string name="realisation_de">realisation_de</string>
-    <string name="duree" translatable="false">duree</string>
+    <string name="duree">duree</string>
     <string name="synopsis" translatable="false">synopsis</string>
     <string name="acteur_1_acteur_2_acteur_3" translatable="false">acteur_1_acteur_2_acteur_3</string>
     <string name="titre">title</string>
     <string name="ajouter_la_liste_voir">Add in list to watch</string>
-    <string name="datesortie">"came out "</string>
+    <string name="datesortie">release date</string>
     <string name="acteurs_principaux">principals actors</string>
     <string name="scenario_de">Writer</string>
     <string name="seen">Seen</string>
@@ -37,8 +38,10 @@
     <string name="search_hint">search</string>
     <string name="name">Name</string>
     <string name="Empty">Empty</string>
-    <string name="basique">Basique</string>
-    <string name="TITLE">Title</string>
-    <string name="movie_image">Movie image</string>
-    <string name="date_sortie">date_sortie</string>
+    <string name="basique" translatable="false">Basique</string>
+    <string name="TITLE" translatable="false">Title</string>
+    <string name="movie_image" translatable="false">Movie image</string>
+    <string name="add_to_seen">Add To Seen List</string>
+    <string name="add_to_getlist">Add to the list of possession</string>
+    <!--<string name="date_sortie">date_sortie</string>-->
 </resources>
