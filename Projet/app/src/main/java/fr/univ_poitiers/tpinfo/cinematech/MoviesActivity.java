@@ -34,6 +34,8 @@ public class MoviesActivity extends AppCompatActivity {
     Button buttonSearch;
     ViewPager viewpager;
     String precActivity;
+    FragmentMovie fragmentMovie;
+    FragmentMovieToSee fragmentMovieToSee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,37 @@ public class MoviesActivity extends AppCompatActivity {
         viewpager = findViewById(R.id.viewPagerMovie);
         movieTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+
+        fragmentMovie = new FragmentMovie();
+        fragmentMovieToSee = new FragmentMovieToSee();
+
         vpAdapter.addFragment(new FragmentMovieToSee(), this.getString(R.string.to_see));
-        vpAdapter.addFragment(new FragmentMovie(), this.getString(R.string.seen));
+        vpAdapter.addFragment(fragmentMovie, this.getString(R.string.seen));
+
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                              @Override
+                                              public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                                              }
+
+                                              @Override
+                                              public void onPageSelected(int position) {
+                                                  Thread t1 = new Thread(new Runnable() {
+                                                      @Override
+                                                      public void run() {
+                                                          fragmentMovie.initList();
+                                                      }
+                                                  });
+                                                  t1.start();
+                                              }
+
+                                              @Override
+                                              public void onPageScrollStateChanged(int state) {
+
+                                              }
+                                          }
+        );
+
         viewpager.setAdapter(vpAdapter);
         buttonMovie.setEnabled(false);
 

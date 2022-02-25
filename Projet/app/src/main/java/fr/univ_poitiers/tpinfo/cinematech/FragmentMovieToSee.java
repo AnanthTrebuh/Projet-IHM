@@ -49,4 +49,5 @@ public class FragmentMovieToSee extends Fragment {
         });
         return view;
     }
+
 }

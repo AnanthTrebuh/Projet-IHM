@@ -35,9 +35,10 @@ import java.util.Set;
 import java.util.concurrent.Semaphore;
 
 public class FragmentMovie extends Fragment {
-    ListView listview;
-    RequestQueue queue;
-    ArrayList<Movies> movies;
+    private ListView listview;
+    private RequestQueue queue;
+    private ArrayList<Movies> movies;
+    Set<String> movieTestList;
 
     //static String title, director;
 
@@ -49,7 +50,8 @@ public class FragmentMovie extends Fragment {
         // Inflate the layout for this fragment
         queue = Volley.newRequestQueue(getContext());
         movies = new ArrayList<Movies>();
-        initList();
+
+
 
         CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), new ArrayList<Movies>());
         listview.setAdapter(Adapter);
@@ -68,16 +70,24 @@ public class FragmentMovie extends Fragment {
     }
 
     public void initList(){
-        addMovie("634649");
+        movies.clear();
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
-
-        for(String id : movieList ){
-            addMovie(id);
+        if(!movieList.equals(movieTestList)){
+            movieTestList = new HashSet<>(movieList);
+            for(String id : movieList ){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+                addMovie(id);
+            }
         }
+
     }
     public void getTitle(String id, RequestQueue queue){
         String url = MoviesActivity.URL_ID_MOVIE + id + MoviesActivity.KEY;
@@ -85,8 +95,18 @@ public class FragmentMovie extends Fragment {
             try {
                 JSONObject object = new JSONObject(string);
                 String name = object.getString("title").toString();
-                movies.add(new Movies("",name,""));
-
+                boolean done = false;
+                for (int i = 0; i < movies.size() && !done; i++){
+                    if(movies.get(i).getTitle().equals("")){
+                        if( name != "" || name != null){
+                            movies.get(i).setTitle(name);
+                        }
+                        else{
+                            movies.get(i).setTitle("error");
+                        }
+                        done = true;
+                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -110,18 +130,26 @@ public class FragmentMovie extends Fragment {
                 boolean done = false;
                 for (int i = 0; i < movies.size() && !done; i++){
                     if(movies.get(i).getRealisateur().equals("")){
-                        movies.get(i).setRealisateur(director);
+                        if( director != "" || director != null){
+                            movies.get(i).setRealisateur(director);
+                        }
+                        else{
+                            movies.get(i).setRealisateur("error");
+                        }
+                        done = true;
                     }
                 }
                 actualiseMovie();
             } catch (JSONException e) {
                 e.printStackTrace();
+                boolean done = false;
                 Log.d(MoviesActivity.TAG, e.toString());
             }
         }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
     }
     public void addMovie(String id){
+        movies.add(new Movies(id, "",""));
         getTitle(id, queue);
         getDirector(id, queue);
     }
