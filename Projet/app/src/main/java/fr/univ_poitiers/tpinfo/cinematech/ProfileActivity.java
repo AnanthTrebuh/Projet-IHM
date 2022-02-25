@@ -135,40 +135,40 @@ public class ProfileActivity  extends AppCompatActivity {
     }
     private void back_dvd(){
         Intent intent = new Intent(this, DVDActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void back_movie(){
         Intent intent = new Intent(this, MoviesActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void back_search() {
         Intent intent = new Intent(this, ResearchActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
         intent.putExtra("precActivity", "account");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void action_movies_button(){
         Log.d(TAG, "action_movie_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
         intent.putExtra("precActivity", "account");
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
         intent.putExtra("precActivity", "account");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void action_dialog()  {

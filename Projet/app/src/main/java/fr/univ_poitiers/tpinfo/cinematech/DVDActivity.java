@@ -69,42 +69,42 @@ public class DVDActivity extends AppCompatActivity {
 
     private void back_search() {
         Intent intent = new Intent(this, ResearchActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void back_movie(){
         Intent intent = new Intent(this, MoviesActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void back_account(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
         intent.putExtra("precActivity", "dvd");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
         intent.putExtra("precActivity", "dvd");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("precActivity", "dvd");
-        finish();
         startActivity(intent);
+        finish();
     }
     @Override
     public void onStart(){

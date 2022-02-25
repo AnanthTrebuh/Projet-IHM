@@ -123,42 +123,42 @@ public class ResearchActivity extends AppCompatActivity {
 
     private void back_dvd() {
         Intent intent = new Intent(this, DVDActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void back_movie(){
         Intent intent = new Intent(this, MoviesActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void back_account(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
         intent.putExtra("precActivity", "search");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void action_dvd_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
         intent.putExtra("precActivity", "search");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("precActivity", "search");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void action_research() throws InterruptedException {

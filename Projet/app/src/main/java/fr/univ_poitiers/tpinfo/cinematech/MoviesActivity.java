@@ -90,13 +90,13 @@ public class MoviesActivity extends AppCompatActivity {
     }
     private void back_dvd(){
         Intent intent = new Intent(this, DVDActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void back_account(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
@@ -111,21 +111,21 @@ public class MoviesActivity extends AppCompatActivity {
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("precActivity", "movie");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     private void back_search() {
         Intent intent = new Intent(this, ResearchActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
         intent.putExtra("precActivity", "movies");
-        finish();
         startActivity(intent);
+        finish();
     }
 
     public RequestQueue getQueue(){
