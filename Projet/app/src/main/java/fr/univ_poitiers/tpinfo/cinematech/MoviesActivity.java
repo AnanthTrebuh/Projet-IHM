@@ -49,7 +49,7 @@ public class MoviesActivity extends AppCompatActivity {
         buttonAccount = findViewById(R.id.buttonAccount);
         buttonAccount.setOnClickListener(view -> action_account_button());
         buttonSearch = findViewById(R.id.buttonSearch);
-        buttonSearch.setOnClickListener(view -> back_search());
+        buttonSearch.setOnClickListener(view -> action_search_button());
 
         precActivity = getIntent().getStringExtra("precActivity");
             Log.d(TAG, "onCreate: " + precActivity);

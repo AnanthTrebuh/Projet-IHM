@@ -38,7 +38,7 @@ import java.util.Set;
 
 public class ItemActivity  extends AppCompatActivity {
     String base_url, backdrop_size, file_path;
-    String titleS, id;
+    String id;
     TextView synopsis;
     TextView realisation;
     TextView time;
@@ -79,7 +79,7 @@ public class ItemActivity  extends AppCompatActivity {
             case "search" : addToWatch.setText(this.getString(R.string.ajouter_la_liste_voir));break;
             default: break;
         }
-        queue = Volley.newRequestQueue(this);
+
 
         addToWatch.setOnClickListener(
                 new View.OnClickListener() {
@@ -119,15 +119,15 @@ public class ItemActivity  extends AppCompatActivity {
                     JSONObject object = new JSONObject(string);
                     String runtime = object.getString("runtime").toString();
                     if(runtime == null){
-                        time.setText("Unknown");
+                        time.setText(R.string.Unknown);
                     }
                     else{
                         time.setText(object.getString("runtime").toString() + "min");
                     }
 
                     String overview = object.getString("overview").toString();
-                    if(runtime == null){
-                        synopsis.setText("Unknown");
+                    if(overview == null){
+                        synopsis.setText(R.string.Unknown);
                     }
                     else{
                         synopsis.setText(object.getString("overview").toString());
@@ -258,7 +258,8 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>());
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
+
         movieList.add(this.id);
         e.putStringSet(name+"_movie_seen", movieList);
         e.apply();
@@ -267,7 +268,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
         movieList.add(this.id);
         e.putStringSet(name+"_movie", movieList);
         e.apply();
@@ -276,7 +277,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>());
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>()));
         movieList.add(this.id);
         e.putStringSet(name+"_dvd", movieList);
         e.apply();
@@ -285,7 +286,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>());
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>()));
         movieList.add(this.id);
         e.putStringSet(name+"_dvd_buy", movieList);
         e.apply();
