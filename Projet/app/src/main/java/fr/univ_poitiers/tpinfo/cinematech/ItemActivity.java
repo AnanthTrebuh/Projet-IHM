@@ -249,7 +249,7 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = sharedPreferences.getStringSet(name+"_movie", new HashSet<String>());
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
         movieList.add(this.id);
         e.putStringSet(name+"_movie", movieList);
         e.apply();
