@@ -38,7 +38,8 @@ public class ResearchActivity extends AppCompatActivity {
     SearchView searchBar;
     ListView listview;
     String precActivity;
-    ArrayList<ResearchMovie> items = new ArrayList<ResearchMovie>();
+    ArrayList<ResearchMovie> items = new ArrayList<>();
+    ResearchMovieAdapter rmAdapter;
     String currentBaseUrl, currentBackdropSize, currentFilePath;
     int cpt = 0;
 
@@ -90,7 +91,11 @@ public class ResearchActivity extends AppCompatActivity {
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                action_research();
+                try {
+                    action_research();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
 
@@ -156,7 +161,7 @@ public class ResearchActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void action_research(){
+    private void action_research() throws InterruptedException {
         String s = this.searchBar.getQuery().toString();
         s = s.replaceAll("\\s+","+");
         Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
@@ -179,11 +184,15 @@ public class ResearchActivity extends AppCompatActivity {
                                 JSONObject object1 = (JSONObject) jsonArray.get(j);
                                 items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
                                 Log.d(TAG, "HA: " + items.get(j).getName());
+
+                                Log.d(TAG, "size of items after fillID: " + items.size());
+                                fillAllUrl(items.get(j).getId());
                             }
                             Log.d(TAG, "HA: " + items.size());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Log.d(TAG, e.toString());
                     }
                 }
             }, new Response.ErrorListener() {
@@ -198,78 +207,77 @@ public class ResearchActivity extends AppCompatActivity {
 
     }
 
-    private void fillAllUrl(){
-        for(int i = 0; i < items.size(); i++){
-            String id = items.get(i).getId();
+private void fillAllUrl(String id){
+        //base_url and file_size are in /configuration
+        String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+        Log.d(TAG, "fillAllUrl: "+url);
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-            //base_url and file_size are in /configuration
-            String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
-            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONObject object = (JSONObject) jsonObject.get("images");
+                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                    currentBackdropSize = jsonArray.get(0).toString();
+                    currentBaseUrl = object.getString("base_url").toString();
+                    Log.d(TAG, "base url:" + currentBaseUrl);
+                } catch (JSONException e) {
+                    Log.d(TAG, e.toString());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in volley response");
+            }
+        });
+        queue.add(request);
 
-                @Override
-                public void onResponse(String string) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(string);
-                        JSONObject object = (JSONObject) jsonObject.get("images");
-                        JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
-                        currentBackdropSize = jsonArray.get(0).toString();
-                        currentBaseUrl = object.getString("base_url").toString();
-                    } catch (JSONException e) {
-                        Log.d(TAG, "onResponse: ");
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.d("HA", "YA ERREUR CHEF ");
-                }
-            });
-            queue.add(request);
+        //to get file_path of image
+        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+        Log.d(TAG, "fillAllUrl: "+url2);
+        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    currentFilePath = object.getString("file_path");
+                    Log.d(TAG, "onResponse: before");
+                    items.get(items.size()-1).setUrl(currentBaseUrl + currentBackdropSize + currentFilePath);
+                    Log.d(TAG, "onResponse: after");
+                    rmAdapter.add(items.get(items.size()-1));
+                    //listview.setAdapter(rmAdapter);
 
-            //to get file_path of image
-            String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
-            StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String string) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(string);
-                        JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
-                        JSONObject object = (JSONObject) jsonArray.get(0);
-                        currentFilePath = object.getString("file_path");
-                    } catch (JSONException e) {
-                        Log.d(TAG, "onResponse: ");
-                        e.printStackTrace();
-                    }
+                    Log.d(TAG, "size of rmAdapter : " + rmAdapter.getCount());
+
+                } catch (JSONException e) {
+                    Log.d(TAG, e.toString());
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.d("HA", "YA ERREUR CHEF ");
-                }
-            });
-            queue.add(request2);
-            items.get(cpt).setUrl(currentBaseUrl + currentBackdropSize+currentFilePath);
-            cpt++;
-        }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in Volley response");
+            }
+        });
+        queue.add(request2);
+        cpt++;
     }
 
     //we create a List of movie that has an id, an name and an url for the image
-    private void initListMovies(String research, RequestQueue queue){
+    private void initListMovies(String research, RequestQueue queue) throws InterruptedException {
+        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
+
         fillAllIdName(research);
-
         Log.d(TAG, "size of items after fillID: " + items.size());
-        fillAllUrl();
 
-        Log.d(TAG, "size of items after fill URL: " + items.size());
-        new Handler().postDelayed(this::showData, 2000);
-    }
-
-    private void showData(){
-        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.activity_research, items);
         listview.setAdapter(rmAdapter);
     }
-
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: searchActivity");
