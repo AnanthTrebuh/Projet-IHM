@@ -51,6 +51,16 @@ public class MoviesActivity extends AppCompatActivity {
         buttonSearch = findViewById(R.id.buttonSearch);
         buttonSearch.setOnClickListener(view -> action_search_button());
 
+        SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        if(!sharedPreferences.contains("Active_Profile")){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Active_Profile","default");
+            Set<String> set = new HashSet<>();
+            set.add("default");
+            editor.putStringSet("List_Profils",set);
+            editor.putInt("default_img",R.drawable.default_user);
+            editor.apply();
+        }
         precActivity = getIntent().getStringExtra("precActivity");
             Log.d(TAG, "onCreate: " + precActivity);
 
@@ -62,16 +72,7 @@ public class MoviesActivity extends AppCompatActivity {
         viewpager.setAdapter(vpAdapter);
         buttonMovie.setEnabled(false);
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
-        if(!sharedPreferences.contains("Active_Profile")){
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("Active_Profile","default");
-            Set<String> set = new HashSet<String>();
-            set.add("default");
-            editor.putStringSet("List_Profils",set);
-            editor.putInt("default_img",R.drawable.default_user);
-            editor.apply();
-        }
+
     }
     @Override
     @MainThread

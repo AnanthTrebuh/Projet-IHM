@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ import java.util.Set;
 public class FragmentMovie extends Fragment {
     ListView listview;
     RequestQueue queue;
-
+    static String title, director;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class FragmentMovie extends Fragment {
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
         queue = Volley.newRequestQueue(getContext());
-
-        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), initList());
+        ArrayList<Movies> movies = initList();
+        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), movies);
         listview.setAdapter(Adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,23 +63,54 @@ public class FragmentMovie extends Fragment {
 
     public ArrayList<Movies> initList(){
         ArrayList<Movies> movies = new ArrayList<>();
-
-        Movies m1 = new Movies(String.valueOf(634649), getTitle("634649", queue) , getDirector("634649", queue));
+        getTitle("634649", queue);
+        getDirector("634649", queue);
+        Movies m1 = new Movies(String.valueOf(634649),title , director);
         movies.add(m1);
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
-        String[] listMovie = movieList.toArray(new String[0]);
-        String id;
-        for(int i = 0; i < listMovie.length; i++){
-            id = listMovie[i];
-            Movies m = new Movies(id, getTitle(id, queue), getDirector(id, queue));
+        for(String id : movieList ){
+            getTitle(id, queue);
+            getDirector(id, queue);
+            Movies m = new Movies(id, title, director);
             movies.add(m);
         }
         return movies;
     }
-
+    public void getTitle(String id, RequestQueue queue){
+        String url = MoviesActivity.URL_ID_MOVIE + id + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject object = new JSONObject(string);
+                title = (object.getString("title").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
+        queue.add(request);
+    }
+    public void getDirector(String id, RequestQueue queue){
+        String url = "https://api.themoviedb.org/3/movie/" + id + "/credits" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject object = new JSONObject(string);
+                JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
+                //Loop on each crew to find the job: director, writter
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject cpy = (JSONObject) jsonArray.get(i);
+                    if(cpy.get("job").toString().toLowerCase(Locale.ROOT).equals("director")){
+                        director = (cpy.get("name").toString());
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d(MoviesActivity.TAG, e.toString());
+            }
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
+        queue.add(request);
+    }
 
 }

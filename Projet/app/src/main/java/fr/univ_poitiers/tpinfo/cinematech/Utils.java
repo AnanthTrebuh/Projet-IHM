@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public class Utils {
-
+/*
     static String title, director;
 
     public static String getTitle(String id, RequestQueue queue){
@@ -74,5 +74,5 @@ public class Utils {
         });
         queue.add(request);
         return director;
-    }
+    }*/
 }
