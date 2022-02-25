@@ -5,7 +5,8 @@
     <string name="dvd">DVD</string>
     <string name="movies">Film</string>
     <string name="my_account">Mon Compte</string>
-    <string name="to_buy">à Acheter</string>
+    <string name="buy">Obtenus</string>
+    <string name="to_buy">à acheter</string>
     <string name="profile_name">nom profile</string>
     <string name="movies_added">films ajoutés</string>
     <string name="time_spent_watching">temps passé</string>
@@ -18,7 +19,7 @@
     <string name="DVD_Number">Nombre de DVD</string>
     <string name="Missing_DVD_number">Nombre de DVD manquants</string>
     <string name="realisation_de">Réaliser par :</string>
-    <string name="date_sortie">Date de sortie :</string>
+    <string name="datesortie">Date de sortie :</string>
     <string name="ajouter_la_liste_voir">Ajouter dans liste à voir</string>
     <string name="acteurs_principaux">Acteurs principaux :</string>
     <string name="scenario_de">Scenariste</string>
@@ -31,5 +32,6 @@
     <string name="search_hint">recherche</string>
     <string name="Empty">Vide</string>
     <string name="name">Nom</string>
-    <string name="duree" translatable="false">Durée :</string>
+    <string name="duree" translatable="false">"Durée "</string>
+    <string name="add_to_seen">Ajout à la list Vu</string>
 </resources>

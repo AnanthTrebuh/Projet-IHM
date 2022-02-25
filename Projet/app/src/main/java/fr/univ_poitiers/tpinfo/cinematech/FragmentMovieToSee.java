@@ -39,12 +39,6 @@ public class FragmentMovieToSee extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemClick: " + position);
-                /*
-                Movies current = (Movies) listview.getItemAtPosition(position);
-                movies.remove(current);
-                CustomListAdapter arrayAdapter = new CustomListAdapter(getActivity(), movies);
-                listview.setAdapter(arrayAdapter);
-                */
                 Movies current = (Movies) listview.getItemAtPosition(position);
 
                 Intent intent = new Intent(getContext(), ItemActivity.class);

@@ -45,7 +45,7 @@ public class DVDActivity extends AppCompatActivity {
         dvdTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         vpAdapter.addFragment(new FragmentDvdToBuy(), this.getString(R.string.to_buy));
-        vpAdapter.addFragment(new FragmentDvd(), this.getString(R.string.to_come));
+        vpAdapter.addFragment(new FragmentDvd(), this.getString(R.string.buy));
         viewpager.setAdapter(vpAdapter);
 
         buttonDvd.setEnabled(false);

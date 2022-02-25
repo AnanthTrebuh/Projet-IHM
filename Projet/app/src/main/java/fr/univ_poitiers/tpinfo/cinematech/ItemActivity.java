@@ -55,6 +55,7 @@ public class ItemActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.id = getIntent().getStringExtra("movie");
+        String list = getIntent().getStringExtra("list");
         setContentView(R.layout.item_activity);
         queue = Volley.newRequestQueue(this);
 
@@ -67,6 +68,14 @@ public class ItemActivity  extends AppCompatActivity {
         title = findViewById(R.id.titleMovie);
         scenario = findViewById(R.id.scenarioMovie);
         addToWatch = findViewById(R.id.buttonAddListMovie);
+        switch(list){
+            case "seen" :
+            case "get" : addToWatch.setVisibility(View.INVISIBLE); break;
+            case "toSeen" : addToWatch.setText(this.getString(R.string.add_to_seen));break;
+            case "toGet" : addToWatch.setText(this.getString(R.string.add_to_getlist));break;
+            case "search" : addToWatch.setText(this.getString(R.string.ajouter_la_liste_voir));break;
+            default: break;
+        }
         queue = Volley.newRequestQueue(this);
 
         addToWatch.setOnClickListener(
