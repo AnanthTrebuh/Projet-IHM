@@ -16,6 +16,7 @@ public class Movies {
     public String getId(){return id;}
     public String getTitle(){return title;}
     public String getRealisateur(){return realisateur;}
+    public void setRealisateur(String real){this.realisateur = real;}
 
     @Override
     public String toString() {

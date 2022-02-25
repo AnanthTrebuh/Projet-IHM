@@ -32,11 +32,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Semaphore;
 
 public class FragmentMovie extends Fragment {
     ListView listview;
     RequestQueue queue;
-    static String title, director;
+    ArrayList<Movies> movies;
+
+    //static String title, director;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,8 +48,10 @@ public class FragmentMovie extends Fragment {
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
         queue = Volley.newRequestQueue(getContext());
-        ArrayList<Movies> movies = initList();
-        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), movies);
+        movies = new ArrayList<Movies>();
+        initList();
+
+        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), new ArrayList<Movies>());
         listview.setAdapter(Adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,31 +67,26 @@ public class FragmentMovie extends Fragment {
         return view;
     }
 
-    public ArrayList<Movies> initList(){
-        ArrayList<Movies> movies = new ArrayList<>();
-        getTitle("634649", queue);
-        getDirector("634649", queue);
-        Movies m1 = new Movies(String.valueOf(634649),title , director);
-        movies.add(m1);
+    public void initList(){
+        addMovie("634649");
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
+
         for(String id : movieList ){
-            getTitle(id, queue);
-            getDirector(id, queue);
-            Movies m = new Movies(id, title, director);
-            movies.add(m);
+            addMovie(id);
         }
-        return movies;
     }
     public void getTitle(String id, RequestQueue queue){
         String url = MoviesActivity.URL_ID_MOVIE + id + MoviesActivity.KEY;
-        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+        StringRequest request = new StringRequest(Request.Method.GET, url, string->{
             try {
                 JSONObject object = new JSONObject(string);
-                title = (object.getString("title").toString());
+                String name = object.getString("title").toString();
+                movies.add(new Movies("",name,""));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -96,6 +97,7 @@ public class FragmentMovie extends Fragment {
         String url = "https://api.themoviedb.org/3/movie/" + id + "/credits" + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
             try {
+                String director ="";
                 JSONObject object = new JSONObject(string);
                 JSONArray jsonArray = object.getJSONArray("crew"); //get data from all crew in this movie
                 //Loop on each crew to find the job: director, writter
@@ -105,6 +107,13 @@ public class FragmentMovie extends Fragment {
                         director = (cpy.get("name").toString());
                     }
                 }
+                boolean done = false;
+                for (int i = 0; i < movies.size() && !done; i++){
+                    if(movies.get(i).getRealisateur().equals("")){
+                        movies.get(i).setRealisateur(director);
+                    }
+                }
+                actualiseMovie();
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.d(MoviesActivity.TAG, e.toString());
@@ -112,5 +121,12 @@ public class FragmentMovie extends Fragment {
         }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
     }
-
+    public void addMovie(String id){
+        getTitle(id, queue);
+        getDirector(id, queue);
+    }
+    public void actualiseMovie(){
+        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), movies);
+        listview.setAdapter(Adapter);
+    }
 }

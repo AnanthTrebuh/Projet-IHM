@@ -77,4 +77,8 @@ public class CustomListAdapter extends BaseAdapter {
         TextView directorView;
         //CheckBox checkBoxView;
     }
+
+    public ArrayList<Movies> getListData(){
+        return listData;
+    }
 }
