@@ -50,6 +50,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Change_Profile" />
 
+            <Button
+                android:id="@+id/delProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/del_profile" />
+
             <View
                 android:id="@+id/divider3"
                 android:layout_width="match_parent"

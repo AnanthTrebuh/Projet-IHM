@@ -25,6 +25,7 @@ public class ProfileActivity  extends AppCompatActivity {
     Button buttonSearch;
     Button newProfileButton;
     Button changeProfileButton;
+    Button deleteProfileButton;
 
     TextView nbMovie;
     TextView timeSpend;
@@ -47,6 +48,7 @@ public class ProfileActivity  extends AppCompatActivity {
         this.buttonSearch = findViewById(R.id.buttonSearch);
         this.newProfileButton = findViewById(R.id.newProfile);
         this.changeProfileButton = findViewById(R.id.changeProfile);
+        this.deleteProfileButton = findViewById(R.id.delProfile);
 
         this.nbMovie = findViewById(R.id.nbMovieAdded);
         this.timeSpend = findViewById(R.id.nbTimeSPend);
@@ -95,6 +97,15 @@ public class ProfileActivity  extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         action_dialog_change();
+                    }
+                }
+        );
+
+        deleteProfileButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        action_dialog_del();
                     }
                 }
         );
@@ -205,6 +216,44 @@ public class ProfileActivity  extends AppCompatActivity {
         dialog.show();
     }
 
+    private void action_dialog_del(){
+        SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        Set<String> profils = new HashSet<>(sharedPreferences.getStringSet("List_Profils", new HashSet<String>()));
+        if(profils.size() <= 1){
+            Toast.makeText(this, "Need more than one profile", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            DialoProfileChangeActivity.ChangeNameListener listener = new DialoProfileChangeActivity.ChangeNameListener() {
+                @Override
+                public void fullNameSelected(String fullName) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor e = sharedPreferences.edit();
+                    Set<String> profils = new HashSet<>(sharedPreferences.getStringSet("List_Profils", new HashSet<String>()));
+                    profils.remove(fullName);
+                    e.remove(fullName + "_movie");
+                    e.remove(fullName + "_movie_seen");
+                    e.remove(fullName + "_dvd");
+                    e.remove(fullName + "_dvd_buy");
+                    e.putStringSet("List_Profils", profils);
+
+                    if (fullName.equals(sharedPreferences.getString("Active_Profile", ""))) {
+                        e.putString("Active_Profile", profils.stream().findFirst().get());
+                    }
+
+                    e.commit();
+                    actualise_profile();
+                }
+            };
+
+            final DialoProfileChangeActivity dialog = new DialoProfileChangeActivity(
+                    this,
+                    listener,
+                    (HashSet<String>) sharedPreferences.getStringSet("List_Profils", new HashSet<String>())
+            );
+            dialog.show();
+        }
+    }
+
     private void actualise_profile(){
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         String pName = sharedPreferences.getString("Active_Profile","error");
@@ -213,8 +262,8 @@ public class ProfileActivity  extends AppCompatActivity {
         int movie_seen = sharedPreferences.getStringSet(pName+"_movie_seen", new HashSet<String>()).size();
         int nbDVD =sharedPreferences.getStringSet(pName+"_dvd",new HashSet<String>()).size();
         int nbDVDAquired = sharedPreferences.getStringSet(pName+"_dvd_buy",new HashSet<String>()).size();
-        nbMovie.setText( Integer.toString(movie));
-        toSee.setText( Integer.toString(movie - movie_seen));
+        nbMovie.setText( Integer.toString(movie + movie_seen));
+        toSee.setText( Integer.toString(movie));
         seen.setText( Integer.toString(movie_seen));
 
         dvd.setText(Integer.toString(nbDVD));
