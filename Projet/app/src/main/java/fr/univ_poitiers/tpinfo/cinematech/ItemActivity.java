@@ -88,13 +88,7 @@ public class ItemActivity  extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                        switch(prec){
-                            case "movie": intent = new Intent(getApplicationContext(), MoviesActivity.class); break;
-                            case "dvd" :  intent = new Intent(getApplicationContext(), DVDActivity.class); break;
-                            case "search" : intent = new Intent(getApplicationContext(), ResearchActivity.class); break;
-                            default: break;
-                        }
+
                         switch(list){
                             case "toSeen" : action_add_movie();break;
                             case "toGet" : action_add_dvd();break;
@@ -102,8 +96,17 @@ public class ItemActivity  extends AppCompatActivity {
                             default: break;
                         }
                         Toast.makeText(ItemActivity.this, "Movie added", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                        switch(prec){
+                            case "movie": intent = new Intent(getApplicationContext(), MoviesActivity.class);
+                                startActivity(intent);
+                                break;
+                            case "dvd" :  intent = new Intent(getApplicationContext(), DVDActivity.class);
+                                            startActivity(intent);
+                                            break;
+                            default: break;
+                        }
                         finish();
-                        startActivity(intent);
                     }
                 }
         );

@@ -38,9 +38,8 @@ public class FragmentMovie extends Fragment {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
                 intent.putExtra("list", "seen");
-                intent.putExtra("precActivity", "movie");
+                intent.putExtra("precActivity", "movie_seen");
                 startActivity(intent);
-                getActivity().finish();
             }
         });
         return view;

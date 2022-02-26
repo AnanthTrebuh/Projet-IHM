@@ -40,7 +40,7 @@ public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
         loadImage.execute(this.urls.get(position));
         //set text with the appropriate title
         textImage.setText(items.get(index).getName());
-
+        textImage.setTextSize(20);
         return convertView;
     }
 
