@@ -41,25 +41,6 @@ public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
         //set text with the appropriate title
         textImage.setText(items.get(index).getName());
 
-        //set listener on textView on click
-        textImage.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        clickOnMovie();
-                    }
-                }
-        );
-
-        //set listener on movieImage
-        textImage.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        clickOnMovie();
-                    }
-                }
-        );
         return convertView;
     }
 
@@ -68,11 +49,4 @@ public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
         super.add(object);
     }
 
-    public void clickOnMovie(){
-        Log.d(MoviesActivity.TAG, "clickOnMovie: ");
-        //Intent intent = new Intent(this, ItemActivity.class);
-        //intent.putExtra("precActivity", "account");
-        //startActivity(intent);
-        //finish();
-    }
 }

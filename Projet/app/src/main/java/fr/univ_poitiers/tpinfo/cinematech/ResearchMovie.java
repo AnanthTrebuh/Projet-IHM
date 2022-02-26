@@ -5,7 +5,6 @@ import android.widget.ImageView;
 public class ResearchMovie {
     private String urlImage, name;
     private String id;
-    private String imageID;
 
     ResearchMovie(String name, String id){
         this.urlImage = null;
@@ -20,10 +19,6 @@ public class ResearchMovie {
     public void setUrl(String url){
         this.urlImage = url;
     }
-
-    public String getImage() { return this.imageID; }
-
-    public void setImage(String imageID) { this.imageID = imageID; }
 
     public String getUrl(){
         return this.urlImage;

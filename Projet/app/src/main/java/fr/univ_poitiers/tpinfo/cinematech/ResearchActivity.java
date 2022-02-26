@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -242,6 +243,16 @@ private void fillAllUrl(String id, final VolleyCallBack callBack){
         });
 
         listview.setAdapter(rmAdapter);
+
+        listview.setOnItemClickListener((parent, view1, position, id) -> {
+            Log.i(TAG, "onClick: " + position);
+            Movies current = (Movies) listview.getItemAtPosition(position);
+
+            Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
+            intent.putExtra("movie", current.getId());
+            intent.putExtra("list", "search");
+            startActivity(intent);
+        });
     }
 
     @Override
