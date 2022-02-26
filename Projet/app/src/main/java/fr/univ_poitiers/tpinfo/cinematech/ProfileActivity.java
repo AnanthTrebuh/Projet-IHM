@@ -181,7 +181,13 @@ public class ProfileActivity  extends AppCompatActivity {
                 set.add(fullName);
                 e.putStringSet("List_Profils", set);
                 e.putString("Active_Profile", fullName);
-                e.putStringSet(fullName+"_movie", new HashSet<String>());
+
+                Set<String> movieList = new HashSet<>();
+                for (int i = 1; i < 10; i++){
+                    movieList.add("76874"+String.valueOf(i));
+                }
+
+                e.putStringSet(fullName+"_movie",movieList);
                 e.putStringSet(fullName+"_movie_seen",  new HashSet<String>());
                 e.putStringSet(fullName+"_dvd",  new HashSet<String>());
                 e.putStringSet(fullName+"_dvd_buy",  new HashSet<String>());

@@ -86,13 +86,16 @@ public class ItemActivity  extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         switch(list){
-                            case "toSeen" : action_add_movie();break;
+                            case "toSeen" : action_add_movie(); break;
                             case "toGet" : action_add_dvd();break;
                             case "search" : action_add_movie_to_seen();break;
                             default: break;
                         }
                         Toast.makeText(ItemActivity.this, "Movie added", Toast.LENGTH_SHORT).show();
                         finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 }
         );
@@ -258,8 +261,11 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
         movieList.add(this.id);
+        movieListInit.remove(this.id);
+        e.putStringSet(name+"_movie", movieListInit);
         e.putStringSet(name+"_movie_seen", movieList);
         e.apply();
     }
@@ -285,8 +291,11 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>()));
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>()));
         movieList.add(this.id);
+        movieListInit.remove(this.id);
+        e.putStringSet(name+"_dvd", movieListInit);
         e.putStringSet(name+"_dvd_buy", movieList);
         e.apply();
     }

@@ -160,7 +160,7 @@ public class MoviesActivity extends AppCompatActivity {
     public RequestQueue getQueue(){
         return this.queue;
     }
-/*
+
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: movieActivity");
@@ -190,5 +190,5 @@ public class MoviesActivity extends AppCompatActivity {
     public void onDestroy(){
         Log.d(TAG, "onDestroy: movieActivity");
         super.onDestroy();
-    }*/
+    }
 }

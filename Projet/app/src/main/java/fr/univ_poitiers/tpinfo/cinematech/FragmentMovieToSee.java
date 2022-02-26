@@ -1,6 +1,8 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +21,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FragmentMovieToSee extends Fragment {
     public static String TAG = "CineTech";
@@ -36,12 +40,9 @@ public class FragmentMovieToSee extends Fragment {
         fillListView = new FillListView(queue,listview, this.getContext(), "_movie");
 
         ArrayList<Movies> movies = new ArrayList<>();
-        /*for (int i = 0; i < 25; i++) {
-            Movies m = new Movies(String.valueOf(i), "MovieToSee" + i, "M");
-            movies.add(m);
-        }*/
         CustomListAdapter arrayAdapter = new CustomListAdapter(getActivity(), movies);
         listview.setAdapter(arrayAdapter);
+        this.initList();
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -60,4 +61,5 @@ public class FragmentMovieToSee extends Fragment {
     public void initList() {
         fillListView.fillList();
     }
+
 }
