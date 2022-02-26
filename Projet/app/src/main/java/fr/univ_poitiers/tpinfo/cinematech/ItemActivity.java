@@ -1,6 +1,7 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -58,6 +59,7 @@ public class ItemActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.id = getIntent().getStringExtra("movie");
         String list = getIntent().getStringExtra("list");
+        String prec = getIntent().getStringExtra("precActivity");
         setContentView(R.layout.item_activity);
         queue = Volley.newRequestQueue(this);
 
@@ -93,9 +95,11 @@ public class ItemActivity  extends AppCompatActivity {
                         }
                         Toast.makeText(ItemActivity.this, "Movie added", Toast.LENGTH_SHORT).show();
                         finish();
-                        overridePendingTransition(0, 0);
-                        startActivity(getIntent());
-                        overridePendingTransition(0, 0);
+                        switch(prec){
+                            case "movie": startActivity(new Intent(getApplicationContext(), MoviesActivity.class)); break;
+                            case "dvd" :  startActivity(new Intent(getApplicationContext(), DVDActivity.class)); break;
+                            default: break;
+                        }
                     }
                 }
         );
