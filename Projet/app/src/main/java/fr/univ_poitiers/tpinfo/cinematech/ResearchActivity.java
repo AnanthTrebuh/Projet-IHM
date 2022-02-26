@@ -4,14 +4,11 @@ import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -151,6 +148,7 @@ public class ResearchActivity extends AppCompatActivity {
     private void fillAllIdName(String research, final VolleyCallBack callBack){
         for(int i= 1; i < 20; i++){ //search through 20 first resulsts
             String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + i;
+            Log.d(TAG, "fillAllIdName: " + url);
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String string) {
@@ -161,6 +159,7 @@ public class ResearchActivity extends AppCompatActivity {
                             for(int j = 0; j < jsonArray.length(); j++){
                                 JSONObject object1 = (JSONObject) jsonArray.get(j);
                                 items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
+                                Log.d(TAG, "IDS: " + j + " id : " + items.get(j).getId() + " name : " + items.get(j).getName());
                                 fillAllUrl(items.get(j).getId(), callBack);
                             }
                         }
@@ -230,28 +229,27 @@ private void fillAllUrl(String id, final VolleyCallBack callBack){
 
     //we create a List of movie that has an id, an name and an url for the image
     private void initListMovies(String research, RequestQueue queue) throws InterruptedException {
-
         ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
         fillAllIdName(research, new VolleyCallBack() {
-
             @Override
             public void onSuccess(String URL) {
                 // this is where you will call the geofire, here you have the response from the volley.
                 rmAdapter.add(items.get(items.size()-1), URL);
+                Log.d("HA", "initListMovie ID: " + items.get(items.size()-1).getId());
             }
         });
 
         listview.setAdapter(rmAdapter);
-
-        listview.setOnItemClickListener((parent, view1, position, id) -> {
-            Log.i(TAG, "onClick: " + position);
-            ResearchMovie current = (ResearchMovie) listview.getItemAtPosition(position);
-
-            Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
-            intent.putExtra("movie", current.getId());
-            intent.putExtra("list", "search");
-            startActivity(intent);
-        });
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick (AdapterView< ? > adapter, View view, int position, long arg){
+                    Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
+                    intent.putExtra("movie", items.get(position).getId());
+                    intent.putExtra("list", "search");
+                    startActivity(intent);
+                }
+            }
+        );
     }
 
     @Override

@@ -59,6 +59,7 @@ public class ItemActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.id = getIntent().getStringExtra("movie");
+        Log.d("HA", "ONCREATE ITEMactivity: " + this.id);
         String list = getIntent().getStringExtra("list");
         prec = getIntent().getStringExtra("precActivity");
         setContentView(R.layout.item_activity);
@@ -123,6 +124,7 @@ public class ItemActivity  extends AppCompatActivity {
     //Fill data for overView, title, releaseDate
     private void setUp(String idMovie){
         String url = MoviesActivity.URL_ID_MOVIE + idMovie + MoviesActivity.KEY;
+        Log.d("HA", "url ID: " + url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
