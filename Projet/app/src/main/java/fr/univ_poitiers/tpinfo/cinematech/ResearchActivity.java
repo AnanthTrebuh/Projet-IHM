@@ -176,7 +176,6 @@ public class ResearchActivity extends AppCompatActivity {
             });
             queue.add(request);
         }
-
     }
 
 private void fillAllUrl(String id, final VolleyCallBack callBack){
@@ -246,7 +245,7 @@ private void fillAllUrl(String id, final VolleyCallBack callBack){
 
         listview.setOnItemClickListener((parent, view1, position, id) -> {
             Log.i(TAG, "onClick: " + position);
-            Movies current = (Movies) listview.getItemAtPosition(position);
+            ResearchMovie current = (ResearchMovie) listview.getItemAtPosition(position);
 
             Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
             intent.putExtra("movie", current.getId());
