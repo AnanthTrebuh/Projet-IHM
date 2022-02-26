@@ -278,6 +278,7 @@ private void fillAllUrl(String id){
 
         listview.setAdapter(rmAdapter);
     }
+
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: searchActivity");
