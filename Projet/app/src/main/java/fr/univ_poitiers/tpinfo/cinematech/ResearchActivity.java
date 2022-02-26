@@ -139,8 +139,6 @@ public class ResearchActivity extends AppCompatActivity {
     private void action_research() throws InterruptedException {
         String s = this.searchBar.getQuery().toString();
         s = s.replaceAll("\\s+","+");
-        Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
-        toast.show();
         initListMovies(s, queue);
     }
 
