@@ -61,7 +61,6 @@ public class ResearchActivity extends AppCompatActivity {
         buttonAccount.setOnClickListener(view -> action_account_button());
 
         precActivity = getIntent().getStringExtra("precActivity");
-        Log.d(TAG, "onCreate: precActivity : " + precActivity);
 
         buttonSearch.setEnabled(false);
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -140,41 +139,35 @@ public class ResearchActivity extends AppCompatActivity {
     private void action_research() throws InterruptedException {
         String s = this.searchBar.getQuery().toString();
         s = s.replaceAll("\\s+","+");
-        Toast toast = Toast.makeText(this, s, Toast.LENGTH_LONG);
-        toast.show();
         initListMovies(s, queue);
     }
 
     private void fillAllIdName(String research, final VolleyCallBack callBack){
-        for(int i= 1; i < 20; i++){ //search through 20 first resulsts
-            String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + i;
-            Log.d(TAG, "fillAllIdName: " + url);
-            StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String string) {
-                    try {
-                        JSONObject object = new JSONObject(string);
-                        JSONArray jsonArray = object.getJSONArray("results");
-                        if(jsonArray.length() > 0){
-                            for(int j = 0; j < jsonArray.length(); j++){
-                                JSONObject object1 = (JSONObject) jsonArray.get(j);
-                                items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
-                                Log.d(TAG, "IDS: " + j + " id : " + items.get(j).getId() + " name : " + items.get(j).getName());
-                                fillAllUrl(items.get(j).getId(), callBack);
-                            }
+        String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + 1;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject object = new JSONObject(string);
+                    JSONArray jsonArray = object.getJSONArray("results");
+                    if(jsonArray.length() > 0){
+                        for(int j = 0; j < jsonArray.length(); j++){ //search through 20 first resulsts
+                            JSONObject object1 = (JSONObject) jsonArray.get(j);
+                            items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
+                            fillAllUrl(items.get(j).getId(), callBack);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.d(TAG, "Error in request");
-                }
-            });
-            queue.add(request);
-        }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(TAG, "Error in request");
+            }
+        });
+        queue.add(request);
     }
 
 private void fillAllUrl(String id, final VolleyCallBack callBack){
@@ -235,7 +228,6 @@ private void fillAllUrl(String id, final VolleyCallBack callBack){
             public void onSuccess(String URL) {
                 // this is where you will call the geofire, here you have the response from the volley.
                 rmAdapter.add(items.get(items.size()-1), URL);
-                Log.d("HA", "initListMovie ID: " + items.get(items.size()-1).getId());
             }
         });
 

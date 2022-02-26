@@ -59,7 +59,6 @@ public class ItemActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.id = getIntent().getStringExtra("movie");
-        Log.d("HA", "ONCREATE ITEMactivity: " + this.id);
         String list = getIntent().getStringExtra("list");
         prec = getIntent().getStringExtra("precActivity");
         setContentView(R.layout.item_activity);
