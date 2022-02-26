@@ -29,7 +29,7 @@ public class FragmentDvd extends Fragment {
         listview = view.findViewById(R.id.listView);
         // Inflate the layout for this fragment
 
-        CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), new ArrayList<Dvd>());
+        CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), new ArrayList<>());
         listview.setAdapter(arrayAdapter);
         queue = Volley.newRequestQueue(getContext());
         fillListView = new FillListView(queue,listview, this.getContext(), "_dvd_buy");
@@ -41,7 +41,9 @@ public class FragmentDvd extends Fragment {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
                 intent.putExtra("list", "get");
+                intent.putExtra("precActivity", "dvd");
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

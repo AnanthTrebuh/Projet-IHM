@@ -26,7 +26,7 @@ public class FragmentMovie extends Fragment {
         // Inflate the layout for this fragment
         queue = Volley.newRequestQueue(getContext());
 
-        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), new ArrayList<Movies>());
+        CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), new ArrayList<>());
         listview.setAdapter(Adapter);
 
         fillListView = new FillListView(queue,listview, this.getContext(), "_movie_seen");

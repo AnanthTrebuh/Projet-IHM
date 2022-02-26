@@ -59,7 +59,7 @@ public class FillListView {
             movieTestList = new HashSet<>(movieList);
             for (String id : movieList) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }

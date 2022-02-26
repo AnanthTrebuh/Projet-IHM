@@ -14,29 +14,32 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 
 public class FragmentDvdToBuy extends Fragment {
     public static String TAG = "CineTech";
 
     ListView listview;
+    private RequestQueue queue;
+    FillListView fillListView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dvd_to_buy, container, false);
         listview = view.findViewById(R.id.listView);
         // Inflate the layout for this fragment
+        queue = Volley.newRequestQueue(this.getContext());
+        fillListView = new FillListView(queue,listview, this.getContext(), "_dvd");
+
         ArrayList<Dvd> dvd = new ArrayList<>();
-        String[] acteurs = {"jean bon", "jean michel"};
-         boolean b = false;
-      for (int i = 0; i < 50; i++) {
-            Dvd m1 = new Dvd(String.valueOf(i),"DvdToGet" + i, "M", b);
-            dvd.add(m1);
-            b = !b;
-        }
-        Log.d(TAG, "onCreateView: after creationg dvd list");
         CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), dvd);
         listview.setAdapter(arrayAdapter);
+        this.initList();
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -44,9 +47,14 @@ public class FragmentDvdToBuy extends Fragment {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
                 intent.putExtra("list", "toGet");
+                intent.putExtra("precActivity", "dvd");
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;
+    }
+    public void initList() {
+        fillListView.fillList();
     }
 }
