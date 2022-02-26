@@ -30,7 +30,7 @@ public class FragmentMovie extends Fragment {
         listview.setAdapter(Adapter);
 
         fillListView = new FillListView(queue,listview, this.getContext(), "_movie_seen");
-
+        fillListView.fillList();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

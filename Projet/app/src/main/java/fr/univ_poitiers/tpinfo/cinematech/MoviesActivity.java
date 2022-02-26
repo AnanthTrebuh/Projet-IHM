@@ -75,30 +75,6 @@ public class MoviesActivity extends AppCompatActivity {
         vpAdapter.addFragment(fragmentMovieToSee, this.getString(R.string.to_see));
         vpAdapter.addFragment(fragmentMovie, this.getString(R.string.seen));
 
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                                              @Override
-                                              public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                                              }
-
-                                              @Override
-                                              public void onPageSelected(int position) {
-                                                  Thread t1 = new Thread(new Runnable() {
-                                                      @Override
-                                                      public void run() {
-                                                          fragmentMovie.initList();
-                                                      }
-                                                  });
-                                                  t1.start();
-                                              }
-
-                                              @Override
-                                              public void onPageScrollStateChanged(int state) {
-
-                                              }
-                                          }
-        );
-
         viewpager.setAdapter(vpAdapter);
         buttonMovie.setEnabled(false);
     }

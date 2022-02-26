@@ -246,6 +246,7 @@ private void fillAllUrl(String id, final VolleyCallBack callBack){
                     Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
                     intent.putExtra("movie", items.get(position).getId());
                     intent.putExtra("list", "search");
+                    intent.putExtra("precActivity", "search");
                     startActivity(intent);
                 }
             }
