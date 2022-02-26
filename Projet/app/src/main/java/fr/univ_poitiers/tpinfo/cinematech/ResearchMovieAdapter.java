@@ -1,7 +1,8 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
 import android.content.Context;
-import android.media.Image;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
     private ArrayList<ResearchMovie> items;
+    private ArrayList<String> urls = new ArrayList<>();
 
     public ResearchMovieAdapter(@NonNull Context context, int ressource, ArrayList<ResearchMovie> items){
         super(context, ressource);
@@ -29,12 +31,48 @@ public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.research_item, parent, false);
         }
+        //find ImageView and TextView of movie
         ImageView movieImage = convertView.findViewById(R.id.researchImageView);
         TextView textImage = convertView.findViewById(R.id.researchTextView);
 
+        //Load Image from url
         LoadImage loadImage = new LoadImage(movieImage);
-        loadImage.execute(items.get(index).getUrl());
+        loadImage.execute(this.urls.get(position));
+        //set text with the appropriate title
         textImage.setText(items.get(index).getName());
+
+        //set listener on textView on click
+        textImage.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clickOnMovie();
+                    }
+                }
+        );
+
+        //set listener on movieImage
+        textImage.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clickOnMovie();
+                    }
+                }
+        );
         return convertView;
+    }
+
+    public void add(ResearchMovie object, String url){
+        this.urls.add(url);
+        super.add(object);
+    }
+
+    public void clickOnMovie(){
+        Log.d(MoviesActivity.TAG, "clickOnMovie: ");
+        //Intent intent = new Intent(this, ItemActivity.class);
+        //intent.putExtra("precActivity", "account");
+        //startActivity(intent);
+        //finish();
     }
 }

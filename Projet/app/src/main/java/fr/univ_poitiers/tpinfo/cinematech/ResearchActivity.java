@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -39,9 +40,7 @@ public class ResearchActivity extends AppCompatActivity {
     ListView listview;
     String precActivity;
     ArrayList<ResearchMovie> items = new ArrayList<>();
-    ResearchMovieAdapter rmAdapter;
     String currentBaseUrl, currentBackdropSize, currentFilePath;
-    int cpt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,27 +66,6 @@ public class ResearchActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: precActivity : " + precActivity);
 
         buttonSearch.setEnabled(false);
-        /*
-        searchBar.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus){
-                if( hasFocus ){
-                    buttonAccount.setVisibility(View.INVISIBLE);
-                    buttonDvd.setVisibility(View.INVISIBLE);
-                    buttonMovie.setVisibility(View.INVISIBLE);
-                    buttonSearch.setVisibility(View.INVISIBLE);
-                }
-                else{
-                    if (buttonMovie.getVisibility() == View.INVISIBLE){
-                        buttonAccount.setVisibility(View.VISIBLE);
-                        buttonMovie.setVisibility(View.VISIBLE);
-                        buttonDvd.setVisibility(View.VISIBLE);
-                        buttonSearch.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        } );
-        */
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -169,10 +147,9 @@ public class ResearchActivity extends AppCompatActivity {
         initListMovies(s, queue);
     }
 
-    private void fillAllIdName(String research){
+    private void fillAllIdName(String research, final VolleyCallBack callBack){
         for(int i= 1; i < 20; i++){ //search through 20 first resulsts
             String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + i;
-            Log.d(TAG, url);
             StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String string) {
@@ -183,16 +160,11 @@ public class ResearchActivity extends AppCompatActivity {
                             for(int j = 0; j < jsonArray.length(); j++){
                                 JSONObject object1 = (JSONObject) jsonArray.get(j);
                                 items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
-                                Log.d(TAG, "HA: " + items.get(j).getName());
-
-                                Log.d(TAG, "size of items after fillID: " + items.size());
-                                fillAllUrl(items.get(j).getId());
+                                fillAllUrl(items.get(j).getId(), callBack);
                             }
-                            Log.d(TAG, "HA: " + items.size());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.d(TAG, e.toString());
                     }
                 }
             }, new Response.ErrorListener() {
@@ -202,15 +174,13 @@ public class ResearchActivity extends AppCompatActivity {
                 }
             });
             queue.add(request);
-            Log.d(TAG, "size of items: " + items.size());
         }
 
     }
 
-private void fillAllUrl(String id){
+private void fillAllUrl(String id, final VolleyCallBack callBack){
         //base_url and file_size are in /configuration
         String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
-        Log.d(TAG, "fillAllUrl: "+url);
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
             @Override
@@ -221,9 +191,7 @@ private void fillAllUrl(String id){
                     JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
                     currentBackdropSize = jsonArray.get(0).toString();
                     currentBaseUrl = object.getString("base_url").toString();
-                    Log.d(TAG, "base url:" + currentBaseUrl);
                 } catch (JSONException e) {
-                    Log.d(TAG, e.toString());
                     e.printStackTrace();
                 }
             }
@@ -237,7 +205,6 @@ private void fillAllUrl(String id){
 
         //to get file_path of image
         String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
-        Log.d(TAG, "fillAllUrl: "+url2);
         StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
             @Override
             public void onResponse(String string) {
@@ -246,16 +213,9 @@ private void fillAllUrl(String id){
                     JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
                     JSONObject object = (JSONObject) jsonArray.get(0);
                     currentFilePath = object.getString("file_path");
-                    Log.d(TAG, "onResponse: before");
                     items.get(items.size()-1).setUrl(currentBaseUrl + currentBackdropSize + currentFilePath);
-                    Log.d(TAG, "onResponse: after");
-                    rmAdapter.add(items.get(items.size()-1));
-                    //listview.setAdapter(rmAdapter);
-
-                    Log.d(TAG, "size of rmAdapter : " + rmAdapter.getCount());
-
+                    callBack.onSuccess(items.get(items.size()-1).getUrl());
                 } catch (JSONException e) {
-                    Log.d(TAG, e.toString());
                     e.printStackTrace();
                 }
             }
@@ -266,15 +226,20 @@ private void fillAllUrl(String id){
             }
         });
         queue.add(request2);
-        cpt++;
     }
 
     //we create a List of movie that has an id, an name and an url for the image
     private void initListMovies(String research, RequestQueue queue) throws InterruptedException {
-        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
 
-        fillAllIdName(research);
-        Log.d(TAG, "size of items after fillID: " + items.size());
+        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
+        fillAllIdName(research, new VolleyCallBack() {
+
+            @Override
+            public void onSuccess(String URL) {
+                // this is where you will call the geofire, here you have the response from the volley.
+                rmAdapter.add(items.get(items.size()-1), URL);
+            }
+        });
 
         listview.setAdapter(rmAdapter);
     }
@@ -309,4 +274,8 @@ private void fillAllUrl(String id){
         Log.d(TAG, "onDestroy: searchActivity");
         super.onDestroy();
     }
+}
+
+interface VolleyCallBack {
+    void onSuccess(String URL);
 }

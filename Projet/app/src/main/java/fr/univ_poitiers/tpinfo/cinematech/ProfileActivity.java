@@ -36,6 +36,7 @@ public class ProfileActivity  extends AppCompatActivity {
     TextView dvdAquired;
     ImageView profilePicture;
     String precActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
