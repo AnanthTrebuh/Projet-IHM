@@ -34,8 +34,10 @@ public class FillListView {
         this.context = context;
         this.spec = spec;
         this.movies = new ArrayList<Movies>();
+        this.dvd = new ArrayList<Dvd>();
+        b = spec.contains("dvd");
     }
-    public FillListView(RequestQueue queue, ListView listView, Context context, String spec, boolean b){
+    /*public FillListView(RequestQueue queue, ListView listView, Context context, String spec, boolean b){
         this.queue = queue;
         this.listView = listView;
         this.context = context;
@@ -43,19 +45,19 @@ public class FillListView {
         this.dvd = new ArrayList<>();
         this.b = b;
         Log.d(MoviesActivity.TAG, "FillListView: dvd create");
-    }
+    }*/
 
-    public void fillList(){
+    public void fillList() {
         Log.d(MoviesActivity.TAG, "fillList: ");
         movies.clear();
         dvd.clear();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        SharedPreferences sharedPreferences = context.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE);
         SharedPreferences.Editor e = sharedPreferences.edit();
-        String name = sharedPreferences.getString("Active_Profile","default");
+        String name = sharedPreferences.getString("Active_Profile", "default");
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name + spec, new HashSet<String>()));
-        if(!movieList.equals(movieTestList)){
+        if (!movieList.equals(movieTestList)) {
             movieTestList = new HashSet<>(movieList);
-            for(String id : movieList ){
+            for (String id : movieList) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException interruptedException) {
@@ -64,8 +66,8 @@ public class FillListView {
                 addMovie(id);
             }
         }
-
     }
+
     public void getTitle(String id, RequestQueue queue){
         String url = MoviesActivity.URL_ID_MOVIE + id + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, string->{

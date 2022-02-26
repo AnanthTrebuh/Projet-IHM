@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class FragmentDvd extends Fragment {
     ListView listview;
     private RequestQueue queue;
     FillListView fillListView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class FragmentDvd extends Fragment {
 
         CustomListAdapterDvd arrayAdapter = new CustomListAdapterDvd(getActivity(), new ArrayList<Dvd>());
         listview.setAdapter(arrayAdapter);
-
-        fillListView = new FillListView(queue,listview, this.getContext(), "_dvd_buy", true);
+        queue = Volley.newRequestQueue(getContext());
+        fillListView = new FillListView(queue,listview, this.getContext(), "_dvd_buy");
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
