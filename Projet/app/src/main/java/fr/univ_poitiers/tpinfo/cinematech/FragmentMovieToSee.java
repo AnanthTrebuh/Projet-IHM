@@ -15,26 +15,34 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 
 public class FragmentMovieToSee extends Fragment {
     public static String TAG = "CineTech";
     ListView listview;
+    private RequestQueue queue;
+    FillListView fillListView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_movie_to_see, container, false);
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
+        queue = Volley.newRequestQueue(this.getContext());
+        fillListView = new FillListView(queue,listview, this.getContext(), "_movie");
+
         ArrayList<Movies> movies = new ArrayList<>();
-        String[] acteurs = {"jean bon", "jean michel"};
-        for (int i = 0; i < 25; i++) {
+        /*for (int i = 0; i < 25; i++) {
             Movies m = new Movies(String.valueOf(i), "MovieToSee" + i, "M");
             movies.add(m);
-        }
+        }*/
         CustomListAdapter arrayAdapter = new CustomListAdapter(getActivity(), movies);
         listview.setAdapter(arrayAdapter);
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -49,5 +57,7 @@ public class FragmentMovieToSee extends Fragment {
         });
         return view;
     }
-
+    public void initList() {
+        fillListView.fillList();
+    }
 }

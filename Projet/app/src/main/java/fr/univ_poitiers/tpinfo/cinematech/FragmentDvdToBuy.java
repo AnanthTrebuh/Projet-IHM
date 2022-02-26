@@ -28,8 +28,8 @@ public class FragmentDvdToBuy extends Fragment {
         // Inflate the layout for this fragment
         ArrayList<Dvd> dvd = new ArrayList<>();
         String[] acteurs = {"jean bon", "jean michel"};
-        boolean b = false;
-        for (int i = 0; i < 50; i++) {
+         boolean b = false;
+      for (int i = 0; i < 50; i++) {
             Dvd m1 = new Dvd(String.valueOf(i),"DvdToGet" + i, "M", b);
             dvd.add(m1);
             b = !b;

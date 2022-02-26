@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DVDActivity extends AppCompatActivity {
     public static String TAG = "CineTech";
@@ -21,6 +26,9 @@ public class DVDActivity extends AppCompatActivity {
     Button buttonSearch;
     ViewPager viewpager;
     String precActivity;
+
+    FragmentDvd fragmentDvd;
+    FragmentDvdToBuy fragmentDvdToBuy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +49,50 @@ public class DVDActivity extends AppCompatActivity {
         precActivity = getIntent().getStringExtra("precActivity");
         Log.d(TAG, "onCreate: " + precActivity);
 
+        SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
+        if(!sharedPreferences.contains("Active_Profile")){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Active_Profile","default");
+            Set<String> set = new HashSet<>();
+            set.add("default");
+            editor.putStringSet("List_Profils",set);
+            editor.putInt("default_img",R.drawable.default_user);
+            editor.apply();
+        }
+
         viewpager = findViewById(R.id.viewPagerDvd);
         dvdTab.setupWithViewPager(viewpager);
         VPAdapter vpAdapter = new VPAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        vpAdapter.addFragment(new FragmentDvdToBuy(), this.getString(R.string.to_buy));
-        vpAdapter.addFragment(new FragmentDvd(), this.getString(R.string.buy));
+
+        fragmentDvdToBuy = new FragmentDvdToBuy();
+        fragmentDvd =new FragmentDvd();
+
+        vpAdapter.addFragment(fragmentDvdToBuy, this.getString(R.string.to_buy));
+        vpAdapter.addFragment(fragmentDvd, this.getString(R.string.buy));
+
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Thread t1 = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentDvd.initList();
+                    }
+                });
+                t1.start();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         viewpager.setAdapter(vpAdapter);
 
         buttonDvd.setEnabled(false);
@@ -106,6 +153,7 @@ public class DVDActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    /*
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: dvdActivity");
@@ -135,5 +183,5 @@ public class DVDActivity extends AppCompatActivity {
     public void onDestroy(){
         Log.d(TAG, "onDestroy: dvdActivity");
         super.onDestroy();
-    }
+    }*/
 }

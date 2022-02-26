@@ -52,6 +52,7 @@ public class MoviesActivity extends AppCompatActivity {
         buttonAccount.setOnClickListener(view -> action_account_button());
         buttonSearch = findViewById(R.id.buttonSearch);
         buttonSearch.setOnClickListener(view -> action_search_button());
+        precActivity = getIntent().getStringExtra("precActivity");
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         if(!sharedPreferences.contains("Active_Profile")){
@@ -63,8 +64,6 @@ public class MoviesActivity extends AppCompatActivity {
             editor.putInt("default_img",R.drawable.default_user);
             editor.apply();
         }
-        precActivity = getIntent().getStringExtra("precActivity");
-            Log.d(TAG, "onCreate: " + precActivity);
 
         viewpager = findViewById(R.id.viewPagerMovie);
         movieTab.setupWithViewPager(viewpager);
@@ -73,7 +72,7 @@ public class MoviesActivity extends AppCompatActivity {
         fragmentMovie = new FragmentMovie();
         fragmentMovieToSee = new FragmentMovieToSee();
 
-        vpAdapter.addFragment(new FragmentMovieToSee(), this.getString(R.string.to_see));
+        vpAdapter.addFragment(fragmentMovieToSee, this.getString(R.string.to_see));
         vpAdapter.addFragment(fragmentMovie, this.getString(R.string.seen));
 
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -88,6 +87,7 @@ public class MoviesActivity extends AppCompatActivity {
                                                       @Override
                                                       public void run() {
                                                           fragmentMovie.initList();
+                                                          //fragmentMovieToSee.initList();
                                                       }
                                                   });
                                                   t1.start();
@@ -102,8 +102,6 @@ public class MoviesActivity extends AppCompatActivity {
 
         viewpager.setAdapter(vpAdapter);
         buttonMovie.setEnabled(false);
-
-
     }
     @Override
     @MainThread
@@ -162,7 +160,7 @@ public class MoviesActivity extends AppCompatActivity {
     public RequestQueue getQueue(){
         return this.queue;
     }
-
+/*
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: movieActivity");
@@ -192,5 +190,5 @@ public class MoviesActivity extends AppCompatActivity {
     public void onDestroy(){
         Log.d(TAG, "onDestroy: movieActivity");
         super.onDestroy();
-    }
+    }*/
 }

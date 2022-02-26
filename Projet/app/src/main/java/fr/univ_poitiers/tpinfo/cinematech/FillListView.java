@@ -23,8 +23,10 @@ public class FillListView {
     private String spec;
     private RequestQueue queue;
     private ArrayList<Movies> movies;
+    private ArrayList<Dvd> dvd;
     private Set<String> movieTestList;
     private Context context;
+    private boolean b;
 
     public FillListView(RequestQueue queue, ListView listView, Context context, String spec){
         this.queue = queue;
@@ -33,10 +35,20 @@ public class FillListView {
         this.spec = spec;
         this.movies = new ArrayList<Movies>();
     }
+    public FillListView(RequestQueue queue, ListView listView, Context context, String spec, boolean b){
+        this.queue = queue;
+        this.listView = listView;
+        this.context = context;
+        this.spec = spec;
+        this.dvd = new ArrayList<>();
+        this.b = b;
+        Log.d(MoviesActivity.TAG, "FillListView: dvd create");
+    }
 
     public void fillList(){
+        Log.d(MoviesActivity.TAG, "fillList: ");
         movies.clear();
-
+        dvd.clear();
         SharedPreferences sharedPreferences = context.getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
@@ -61,15 +73,27 @@ public class FillListView {
                 JSONObject object = new JSONObject(string);
                 String name = object.getString("title").toString();
                 boolean done = false;
-                for (int i = 0; i < movies.size() && !done; i++){
-                    if(movies.get(i).getTitle().equals("")){
-                        if( name != "" || name != null){
-                            movies.get(i).setTitle(name);
+                if(b){
+                    for (int i = 0; i < dvd.size() && !done; i++) {
+                        if (dvd.get(i).getTitle().equals("")) {
+                            if (name != "" || name != null) {
+                                dvd.get(i).setTitle(name);
+                            } else {
+                                dvd.get(i).setTitle("error");
+                            }
+                            done = true;
                         }
-                        else{
-                            movies.get(i).setTitle("error");
+                    }
+                }else {
+                    for (int i = 0; i < movies.size() && !done; i++) {
+                        if (movies.get(i).getTitle().equals("")) {
+                            if (name != "" || name != null) {
+                                movies.get(i).setTitle(name);
+                            } else {
+                                movies.get(i).setTitle("error");
+                            }
+                            done = true;
                         }
-                        done = true;
                     }
                 }
             } catch (JSONException e) {
@@ -93,15 +117,27 @@ public class FillListView {
                     }
                 }
                 boolean done = false;
-                for (int i = 0; i < movies.size() && !done; i++){
-                    if(movies.get(i).getRealisateur().equals("")){
-                        if( director != "" || director != null){
-                            movies.get(i).setRealisateur(director);
+                if(b){
+                    for (int i = 0; i < dvd.size() && !done; i++) {
+                        if (dvd.get(i).getRealisateur().equals("")) {
+                            if (director != "" || director != null) {
+                                dvd.get(i).setRealisateur(director);
+                            } else {
+                                dvd.get(i).setRealisateur("error");
+                            }
+                            done = true;
                         }
-                        else{
-                            movies.get(i).setRealisateur("error");
+                    }
+                }else {
+                    for (int i = 0; i < movies.size() && !done; i++) {
+                        if (movies.get(i).getRealisateur().equals("")) {
+                            if (director != "" || director != null) {
+                                movies.get(i).setRealisateur(director);
+                            } else {
+                                movies.get(i).setRealisateur("error");
+                            }
+                            done = true;
                         }
-                        done = true;
                     }
                 }
                 actualiseMovie();
@@ -114,12 +150,25 @@ public class FillListView {
         queue.add(request);
     }
     public void addMovie(String id){
-        movies.add(new Movies(id, "",""));
+        if(b){
+            Log.d(MoviesActivity.TAG, "addMovie: addMovie DVD");
+            boolean bluray = false;
+            if(Integer.parseInt(id)%2 == 0) bluray = true;
+            dvd.add(new Dvd(id, "", "", bluray));
+        }else {
+            movies.add(new Movies(id, "", ""));
+        }
         getTitle(id, queue);
         getDirector(id, queue);
+
     }
     public void actualiseMovie(){
-        CustomListAdapter Adapter = new CustomListAdapter(listView.getContext(), movies);
-        listView.setAdapter(Adapter);
+        if(b){
+            CustomListAdapterDvd Adapter = new CustomListAdapterDvd(listView.getContext(), dvd);
+            listView.setAdapter(Adapter);
+        }else {
+            CustomListAdapter Adapter = new CustomListAdapter(listView.getContext(), movies);
+            listView.setAdapter(Adapter);
+        }
     }
 }

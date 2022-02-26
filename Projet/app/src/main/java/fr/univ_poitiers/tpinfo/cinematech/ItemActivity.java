@@ -259,7 +259,6 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
-
         movieList.add(this.id);
         e.putStringSet(name+"_movie_seen", movieList);
         e.apply();
