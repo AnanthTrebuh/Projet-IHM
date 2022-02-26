@@ -87,7 +87,6 @@ public class MoviesActivity extends AppCompatActivity {
                                                       @Override
                                                       public void run() {
                                                           fragmentMovie.initList();
-                                                          //fragmentMovieToSee.initList();
                                                       }
                                                   });
                                                   t1.start();
@@ -127,6 +126,11 @@ public class MoviesActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    private void back_search() {
+        Intent intent = new Intent(this, ResearchActivity.class);
+        startActivity(intent);
+        finish();
+    }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
@@ -144,11 +148,7 @@ public class MoviesActivity extends AppCompatActivity {
         finish();
     }
 
-    private void back_search() {
-        Intent intent = new Intent(this, ResearchActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
@@ -160,7 +160,7 @@ public class MoviesActivity extends AppCompatActivity {
     public RequestQueue getQueue(){
         return this.queue;
     }
-
+/*
     @Override
     public void onStart(){
         Log.d(TAG, "onStart: movieActivity");
@@ -190,5 +190,5 @@ public class MoviesActivity extends AppCompatActivity {
     public void onDestroy(){
         Log.d(TAG, "onDestroy: movieActivity");
         super.onDestroy();
-    }
+    }*/
 }

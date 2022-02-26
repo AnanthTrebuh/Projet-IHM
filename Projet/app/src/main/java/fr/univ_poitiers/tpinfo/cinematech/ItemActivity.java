@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -38,7 +39,7 @@ import java.util.Locale;
 import java.util.Set;
 
 public class ItemActivity  extends AppCompatActivity {
-    String base_url, backdrop_size, file_path;
+    String base_url, backdrop_size, file_path, prec;
     String id;
     TextView synopsis;
     TextView realisation;
@@ -59,7 +60,7 @@ public class ItemActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.id = getIntent().getStringExtra("movie");
         String list = getIntent().getStringExtra("list");
-        String prec = getIntent().getStringExtra("precActivity");
+        prec = getIntent().getStringExtra("precActivity");
         setContentView(R.layout.item_activity);
         queue = Volley.newRequestQueue(this);
 
@@ -302,5 +303,35 @@ public class ItemActivity  extends AppCompatActivity {
         e.putStringSet(name+"_dvd", movieListInit);
         e.putStringSet(name+"_dvd_buy", movieList);
         e.apply();
+    }
+
+    @Override
+    @MainThread
+    public void onBackPressed(){
+        if(prec != null){
+            switch (prec){
+                case "dvd" :  back_dvd();break;
+                case "movie" :back_movie();break;
+                case "search" : back_search();break;
+                default: finish();break;
+            }
+        }else{
+            finish();
+        }
+    }
+    private void back_dvd(){
+        Intent intent = new Intent(this, DVDActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    private void back_movie(){
+        Intent intent = new Intent(this, MoviesActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    private void back_search() {
+        Intent intent = new Intent(this, ResearchActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
