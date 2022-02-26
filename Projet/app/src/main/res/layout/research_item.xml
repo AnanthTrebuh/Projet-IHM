@@ -20,6 +20,8 @@
         android:layout_width="111dp"
         android:layout_height="113dp"
         android:text="@string/TITLE"
+        android:textAlignment="center"
+        android:textColor="@color/default_user_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/researchImageView"
