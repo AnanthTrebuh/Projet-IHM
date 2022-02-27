@@ -120,7 +120,7 @@ public class ItemActivity  extends AppCompatActivity {
             e.printStackTrace();
         }
         //we wait two seconds for that the url is filled by the thread
-        new Handler().postDelayed(this::changeImage, 2000);
+        new Handler().postDelayed(this::changeImage, 20);
     }
 
     //Fill data for overView, title, releaseDate
@@ -322,7 +322,6 @@ public class ItemActivity  extends AppCompatActivity {
             switch (prec){
                 case "dvd" :  back_dvd();break;
                 case "movie" :back_movie();break;
-                case "search" : back_search();break;
                 default: finish();break;
             }
         }else{
@@ -339,9 +338,5 @@ public class ItemActivity  extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void back_search() {
-        Intent intent = new Intent(this, ResearchActivity.class);
-        startActivity(intent);
-        finish();
-    }
+
 }

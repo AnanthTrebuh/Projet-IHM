@@ -48,7 +48,6 @@ public class CustomListAdapter extends BaseAdapter {
             holder.afficheView = (ImageView) convertView.findViewById(R.id.imageView_affiche);
             holder.titleView = (TextView) convertView.findViewById(R.id.textView_title);
             holder.directorView = (TextView) convertView.findViewById(R.id.textView_director);
-            //holder.checkBoxView = convertView.findViewById(R.id.checkBox);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -56,11 +55,12 @@ public class CustomListAdapter extends BaseAdapter {
 
         String realisateur;
 
+        Movies movie = this.listData.get(position);
+        holder.titleView.setText(movie.getTitle());
+        realisateur =  context.getString(R.string.director) +" : " + movie.getRealisateur();
 
-            Movies movie = this.listData.get(position);
-            holder.titleView.setText(movie.getTitle());
-            realisateur =  context.getString(R.string.director) +" : " + movie.getRealisateur();
-
+        LoadImage loadImage = new LoadImage(holder.afficheView);
+        loadImage.execute( "https://api.themoviedb.org/3/movie/" + movie.getId() + "/images" + MoviesActivity.KEY);
 
         holder.directorView.setText(realisateur);
 
@@ -75,7 +75,6 @@ public class CustomListAdapter extends BaseAdapter {
         ImageView afficheView;
         TextView titleView;
         TextView directorView;
-        //CheckBox checkBoxView;
     }
 
     public ArrayList<Movies> getListData(){
