@@ -186,6 +186,7 @@ public class ProfileActivity  extends AppCompatActivity {
                 e.putStringSet(fullName+"_movie_seen",  new HashSet<String>());
                 e.putStringSet(fullName+"_dvd",  new HashSet<String>());
                 e.putStringSet(fullName+"_dvd_buy",  new HashSet<String>());
+                e.putInt(fullName+"_time", 0);
                 e.apply();
                 actualise_profile();
             }
@@ -262,12 +263,29 @@ public class ProfileActivity  extends AppCompatActivity {
         int movie_seen = sharedPreferences.getStringSet(pName+"_movie_seen", new HashSet<String>()).size();
         int nbDVD =sharedPreferences.getStringSet(pName+"_dvd",new HashSet<String>()).size();
         int nbDVDAquired = sharedPreferences.getStringSet(pName+"_dvd_buy",new HashSet<String>()).size();
+        int time = sharedPreferences.getInt(pName+"_time", 0);
+
         nbMovie.setText( Integer.toString(movie + movie_seen));
+
         toSee.setText( Integer.toString(movie));
         seen.setText( Integer.toString(movie_seen));
 
         dvd.setText(Integer.toString(nbDVD));
         dvdAquired.setText(Integer.toString(nbDVDAquired));
+
+        String timeString = "";
+        Log.d("Cinetech -Int", Integer.toString(time));
+        if(time / ( 60 * 24) >= 1 ){
+            timeString += Integer.toString(time / ( 60 * 24))+"j ";
+            time = time % (60 * 24);
+            Log.d("Cinetech -Int", Integer.toString(time));
+        }
+        timeString += Integer.toString(time / 60)+"h ";
+        time = time % 60;
+        timeString += Integer.toString(time)+"min";
+
+        timeSpend.setText(timeString);
+
 
     }
 

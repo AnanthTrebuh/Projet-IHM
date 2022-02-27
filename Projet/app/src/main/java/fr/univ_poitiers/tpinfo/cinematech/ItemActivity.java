@@ -277,6 +277,9 @@ public class ItemActivity  extends AppCompatActivity {
         Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
         movieList.add(this.id);
         movieListInit.remove(this.id);
+        int timeToAdd = sharedPreferences.getInt(name+"_time", 0);
+        timeToAdd += Integer.parseInt(time.getText().toString().replace("min",""));
+        e.putInt(name+"_time", timeToAdd);
         e.putStringSet(name+"_movie", movieListInit);
         e.putStringSet(name+"_movie_seen", movieList);
         e.apply();
