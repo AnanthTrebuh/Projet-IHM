@@ -170,7 +170,7 @@ public class ResearchActivity extends AppCompatActivity {
         queue.add(request);
     }
 
-private void fillAllUrl(String id, final VolleyCallBack callBack){
+    private void fillAllUrl(String id, final VolleyCallBack callBack){
         //base_url and file_size are in /configuration
         String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {

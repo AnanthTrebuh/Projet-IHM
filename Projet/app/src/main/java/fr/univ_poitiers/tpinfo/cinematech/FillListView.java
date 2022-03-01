@@ -7,6 +7,8 @@ import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -104,6 +106,84 @@ public class FillListView {
         }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
     }
+
+    public void getImage(String id){
+        //to get file_path of image
+        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+        //base_url and file_size are in /configuration
+        String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONObject object = (JSONObject) jsonObject.get("images");
+                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                    String currentBackdropSize = jsonArray.get(0).toString();
+                    String currentBaseUrl = object.getString("base_url").toString();
+                    getImageBis(url2, currentBackdropSize, currentBaseUrl);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in volley response");
+            }
+        });
+        queue.add(request);
+    }
+
+    public void getImageBis(String url2, String currentBackdropSize, String currentBaseUrl){
+        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                    JSONObject object = (JSONObject) jsonArray.get(0);
+                    String currentFilePath = object.getString("file_path");
+                    String urlImage = currentBaseUrl + currentBackdropSize + currentFilePath;
+                    //fill images movies
+                    boolean done = false;
+                    if(b){
+                        for (int i = 0; i < dvd.size() && !done; i++) {
+                            if (dvd.get(i).getRealisateur().equals("")) {
+                                if (urlImage != "" || urlImage != null) {
+                                    dvd.get(i).setUrl(urlImage);
+                                } else {
+                                    dvd.get(i).setUrl("error");
+                                }
+                                done = true;
+                            }
+                        }
+                    }else {
+                        for (int i = 0; i < movies.size() && !done; i++) {
+                            if (movies.get(i).getRealisateur().equals("")) {
+                                if (urlImage != "" || urlImage != null) {
+                                    movies.get(i).setUrl(urlImage);
+                                } else {
+                                    movies.get(i).setUrl("error");
+                                }
+                                done = true;
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d(MoviesActivity.TAG, "Error in Volley response");
+            }
+        });
+        queue.add(request2);
+    }
+
     public void getDirector(String id, RequestQueue queue){
         String url = "https://api.themoviedb.org/3/movie/" + id + "/credits" + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
@@ -162,7 +242,7 @@ public class FillListView {
         }
         getTitle(id, queue);
         getDirector(id, queue);
-
+        getImage(id);
     }
     public void actualiseMovie(){
         if(b){

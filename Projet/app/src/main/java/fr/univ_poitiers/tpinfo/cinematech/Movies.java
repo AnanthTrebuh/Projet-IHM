@@ -6,6 +6,7 @@ public class Movies {
     private String realisateur;
     private String date;
     private String[] acteurs;
+    private String urlImage;
     private int duree; //en minutes
 
     Movies(String id, String title, String real){
@@ -18,6 +19,7 @@ public class Movies {
     public void setTitle(String tit){this.title = tit;}
     public String getRealisateur(){return realisateur;}
     public void setRealisateur(String real){this.realisateur = real;}
+    public void setUrl(String url) { this.urlImage = url; }
 
     @Override
     public String toString() {
