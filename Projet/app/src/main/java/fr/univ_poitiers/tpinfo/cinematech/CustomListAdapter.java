@@ -1,6 +1,7 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,16 +59,10 @@ public class CustomListAdapter extends BaseAdapter {
         Movies movie = this.listData.get(position);
         holder.titleView.setText(movie.getTitle());
         realisateur =  context.getString(R.string.director) +" : " + movie.getRealisateur();
-
         LoadImage loadImage = new LoadImage(holder.afficheView);
-        loadImage.execute( "https://api.themoviedb.org/3/movie/" + movie.getId() + "/images" + MoviesActivity.KEY);
+        loadImage.execute(movie.getUrl());
 
         holder.directorView.setText(realisateur);
-
-        /*
-        int imageId = this.getMipmapResIdByName(country.getFlagName());
-        holder.afficheView.setImageResource(imageId);
-        */
 
         return convertView;
     }

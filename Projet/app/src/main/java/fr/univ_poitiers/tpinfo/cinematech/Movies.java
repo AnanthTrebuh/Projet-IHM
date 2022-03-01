@@ -4,10 +4,7 @@ public class Movies {
     private String id;
     private String title;
     private String realisateur;
-    private String date;
-    private String[] acteurs;
-    private String urlImage;
-    private int duree; //en minutes
+    private String backdropSize, baseUrl, urlImage;
 
     Movies(String id, String title, String real){
         this.id = id;
@@ -19,7 +16,11 @@ public class Movies {
     public void setTitle(String tit){this.title = tit;}
     public String getRealisateur(){return realisateur;}
     public void setRealisateur(String real){this.realisateur = real;}
-    public void setUrl(String url) { this.urlImage = url; }
+    public void setUrl(String url) { this.urlImage = this.baseUrl + this.backdropSize + url; }
+    public String getUrl() { return this.urlImage; }
+    public void setbackdropSize(String backdropSize) { this.backdropSize = backdropSize; }
+    public String getbackdropSize() { return this.backdropSize; }
+    public void setbaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
 
     @Override
     public String toString() {

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
     private ArrayList<ResearchMovie> items;
-    private ArrayList<String> urls = new ArrayList<>();
 
     public ResearchMovieAdapter(@NonNull Context context, int ressource, ArrayList<ResearchMovie> items){
         super(context, ressource);
@@ -36,17 +35,13 @@ public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
         TextView textImage = convertView.findViewById(R.id.researchTextView);
 
         //Load Image from url
+        Log.d("RATE", "index = " + index + " url: " + items.get(index).getUrl());
         LoadImage loadImage = new LoadImage(movieImage);
-        loadImage.execute(this.urls.get(position));
+        loadImage.execute(items.get(index).getUrl());
+
         //set text with the appropriate title
         textImage.setText(items.get(index).getName());
         textImage.setTextSize(18);
         return convertView;
     }
-
-    public void add(ResearchMovie object, String url){
-        this.urls.add(url);
-        super.add(object);
-    }
-
 }

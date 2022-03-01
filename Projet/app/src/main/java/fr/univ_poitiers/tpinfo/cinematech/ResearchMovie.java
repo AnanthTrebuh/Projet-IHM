@@ -3,8 +3,9 @@ package fr.univ_poitiers.tpinfo.cinematech;
 import android.widget.ImageView;
 
 public class ResearchMovie {
-    private String urlImage, name;
+    private String name;
     private String id;
+    private String backdropSize, baseUrl, urlImage;
 
     ResearchMovie(String name, String id){
         this.urlImage = null;
@@ -20,9 +21,7 @@ public class ResearchMovie {
         this.urlImage = url;
     }
 
-    public String getUrl(){
-        return this.urlImage;
-    }
+    public String getUrl(){ return this.urlImage; }
 
     public String getName(){ return this.name; }
 }

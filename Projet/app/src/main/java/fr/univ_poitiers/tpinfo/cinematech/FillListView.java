@@ -39,15 +39,6 @@ public class FillListView {
         this.dvd = new ArrayList<Dvd>();
         b = spec.contains("dvd");
     }
-    /*public FillListView(RequestQueue queue, ListView listView, Context context, String spec, boolean b){
-        this.queue = queue;
-        this.listView = listView;
-        this.context = context;
-        this.spec = spec;
-        this.dvd = new ArrayList<>();
-        this.b = b;
-        Log.d(MoviesActivity.TAG, "FillListView: dvd create");
-    }*/
 
     public void fillList() {
         Log.d(MoviesActivity.TAG, "fillList: ");
@@ -67,6 +58,13 @@ public class FillListView {
                 }
                 addMovie(id);
             }
+        }
+    }
+
+    public void fillImageView(){
+        for(int i= 0; i < movies.size(); i++){
+            String id = movies.get(i).getId();
+
         }
     }
 
@@ -108,80 +106,93 @@ public class FillListView {
     }
 
     public void getImage(String id){
-        //to get file_path of image
-        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
         //base_url and file_size are in /configuration
         String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject jsonObject = new JSONObject(string);
-                    JSONObject object = (JSONObject) jsonObject.get("images");
-                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
-                    String currentBackdropSize = jsonArray.get(0).toString();
-                    String currentBaseUrl = object.getString("base_url").toString();
-                    getImageBis(url2, currentBackdropSize, currentBaseUrl);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(MoviesActivity.TAG, "Error in volley response");
-            }
-        });
-        queue.add(request);
-    }
-
-    public void getImageBis(String url2, String currentBackdropSize, String currentBaseUrl){
-        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject jsonObject = new JSONObject(string);
-                    JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
-                    JSONObject object = (JSONObject) jsonArray.get(0);
-                    String currentFilePath = object.getString("file_path");
-                    String urlImage = currentBaseUrl + currentBackdropSize + currentFilePath;
-                    //fill images movies
-                    boolean done = false;
-                    if(b){
-                        for (int i = 0; i < dvd.size() && !done; i++) {
-                            if (dvd.get(i).getRealisateur().equals("")) {
-                                if (urlImage != "" || urlImage != null) {
-                                    dvd.get(i).setUrl(urlImage);
-                                } else {
-                                    dvd.get(i).setUrl("error");
-                                }
-                                done = true;
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject jsonObject = new JSONObject(string);
+                JSONObject object = (JSONObject) jsonObject.get("images");
+                JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                String currentBackdropSize = jsonArray.get(0).toString();
+                String currentBaseUrl = object.getString("base_url").toString();
+                boolean done = false;
+                if(b){
+                    for (int i = 0; i < dvd.size() && !done; i++) {
+                        if (dvd.get(i).getbackdropSize() == null) {
+                            if (currentBackdropSize != "" || currentBackdropSize != null || currentBaseUrl != "" || currentBaseUrl != null) {
+                                dvd.get(i).setbackdropSize(currentBackdropSize);
+                                dvd.get(i).setbaseUrl(currentBaseUrl);
+                            } else {
+                                dvd.get(i).setbackdropSize("error");
+                                dvd.get(i).setbaseUrl("error");
                             }
-                        }
-                    }else {
-                        for (int i = 0; i < movies.size() && !done; i++) {
-                            if (movies.get(i).getRealisateur().equals("")) {
-                                if (urlImage != "" || urlImage != null) {
-                                    movies.get(i).setUrl(urlImage);
-                                } else {
-                                    movies.get(i).setUrl("error");
-                                }
-                                done = true;
-                            }
+                            done = true;
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else {
+                    for (int i = 0; i < movies.size() && !done; i++) {
+                        if (movies.get(i).getbackdropSize() == null) {
+                            if (currentBackdropSize != "" || currentBackdropSize != null || currentBaseUrl != "" || currentBaseUrl != null) {
+                                movies.get(i).setbackdropSize(currentBackdropSize);
+                                movies.get(i).setbaseUrl(currentBaseUrl);
+                            } else {
+                                movies.get(i).setbackdropSize("error");
+                                movies.get(i).setbaseUrl("error");
+                            }
+                            done = true;
+                        }
+                    }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(MoviesActivity.TAG, "Error in Volley response");
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
+
+        queue.add(request);
+        getImageBis(id);
+    }
+
+    public void getImageBis(String id){
+        //to get file_path of image
+        String url = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject jsonObject = new JSONObject(string);
+                JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
+                JSONObject object = (JSONObject) jsonArray.get(0);
+                String currentFilePath = object.getString("file_path");
+                //fill images movies
+                boolean done = false;
+                if(b){
+                    for (int i = 0; i < dvd.size() && !done; i++) {
+                        if (dvd.get(i).getUrl() == null) {
+                            if (currentFilePath != "" || currentFilePath != null) {
+                                dvd.get(i).setUrl(currentFilePath);
+                            } else {
+                                dvd.get(i).setUrl("error");
+                            }
+                            done = true;
+                        }
+                    }
+                }else {
+                    for (int i = 0; i < movies.size() && !done; i++) {
+                        if (movies.get(i).getUrl() == null) {
+                            if (currentFilePath != "" || currentFilePath != null) {
+                                movies.get(i).setUrl(currentFilePath);
+                            } else {
+                                movies.get(i).setUrl("error");
+                            }
+                            done = true;
+                        }
+                    }
+                }
+                actualiseMovie();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
-        queue.add(request2);
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
+        queue.add(request);
     }
 
     public void getDirector(String id, RequestQueue queue){
@@ -222,7 +233,6 @@ public class FillListView {
                         }
                     }
                 }
-                actualiseMovie();
             } catch (JSONException e) {
                 e.printStackTrace();
                 boolean done = false;
@@ -231,6 +241,7 @@ public class FillListView {
         }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
     }
+
     public void addMovie(String id){
         if(b){
             Log.d(MoviesActivity.TAG, "addMovie: addMovie DVD");
@@ -242,6 +253,12 @@ public class FillListView {
         }
         getTitle(id, queue);
         getDirector(id, queue);
+
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
         getImage(id);
     }
     public void actualiseMovie(){
@@ -253,4 +270,9 @@ public class FillListView {
             listView.setAdapter(Adapter);
         }
     }
+}
+
+//
+interface VolleyCallBackURLListView {
+    void onSuccess(String URL);
 }

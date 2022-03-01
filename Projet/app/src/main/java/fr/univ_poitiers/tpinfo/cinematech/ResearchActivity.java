@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ResearchActivity extends AppCompatActivity {
 
@@ -38,7 +39,9 @@ public class ResearchActivity extends AppCompatActivity {
     ListView listview;
     String precActivity;
     ArrayList<ResearchMovie> items = new ArrayList<>();
-    String currentBaseUrl, currentBackdropSize, currentFilePath;
+    ResearchMovieAdapter rmAdapter;
+    String backdropSize, baseUrl;
+    int cpt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class ResearchActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         searchBar = findViewById(R.id.searchView);
         listview = findViewById(R.id.listView);
+        rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
 
         buttonDvd = findViewById(R.id.buttonDvd);
         buttonDvd.setOnClickListener(view -> action_dvd_button());
@@ -137,100 +141,75 @@ public class ResearchActivity extends AppCompatActivity {
     }
 
     private void action_research() throws InterruptedException {
+        items.clear();
+        rmAdapter.clear();
+        cpt = 0;
         String s = this.searchBar.getQuery().toString();
         s = s.replaceAll("\\s+","+");
-        initListMovies(s, queue);
+        fillAllIdName(s);
     }
 
-    private void fillAllIdName(String research, final VolleyCallBack callBack){
+    private void fillAllIdName(String research){
         String url = MoviesActivity.URL_TITLE_MOVIE + MoviesActivity.KEY + "&query=" + research + "&page=" + 1;
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject object = new JSONObject(string);
-                    JSONArray jsonArray = object.getJSONArray("results");
-                    if(jsonArray.length() > 0){
-                        for(int j = 0; j < jsonArray.length(); j++){ //search through 20 first resulsts
-                            JSONObject object1 = (JSONObject) jsonArray.get(j);
-                            items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
-                            fillAllUrl(items.get(j).getId(), callBack);
-                        }
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject object = new JSONObject(string);
+                JSONArray jsonArray = object.getJSONArray("results");
+                if(jsonArray.length() > 0){
+                    for(int j = 0; j < jsonArray.length(); j++){ //search through 20 first resulsts
+                        JSONObject object1 = (JSONObject) jsonArray.get(j);
+                        items.add(new ResearchMovie(object1.getString("title"), object1.getString("id")));
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    fillAllUrl();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "Error in request");
-            }
-        });
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
+        
     }
 
-    private void fillAllUrl(String id, final VolleyCallBack callBack){
+    private void fillAllUrl(){
         //base_url and file_size are in /configuration
         String url = "https://api.themoviedb.org/3/configuration" + MoviesActivity.KEY;
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String string) {
-                try {
-                    JSONObject jsonObject = new JSONObject(string);
-                    JSONObject object = (JSONObject) jsonObject.get("images");
-                    JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
-                    currentBackdropSize = jsonArray.get(0).toString();
-                    currentBaseUrl = object.getString("base_url").toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        StringRequest request = new StringRequest(Request.Method.GET, url, string -> {
+            try {
+                JSONObject jsonObject = new JSONObject(string);
+                JSONObject object = (JSONObject) jsonObject.get("images");
+                JSONArray jsonArray = object.getJSONArray("backdrop_sizes");
+                backdropSize = jsonArray.get(0).toString();
+                baseUrl = object.getString("base_url").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "Error in volley response");
-            }
-        });
+        }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
 
-        //to get file_path of image
-        String url2 = "https://api.themoviedb.org/3/movie/" + id + "/images" + MoviesActivity.KEY;
-        StringRequest request2 = new StringRequest(Request.Method.GET, url2, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String string) {
+        for(int i = 0; i < items.size(); i++){
+            //to get file_path of image
+            String url2 = "https://api.themoviedb.org/3/movie/" + items.get(i).getId() + "/images" + MoviesActivity.KEY;
+            StringRequest request2 = new StringRequest(Request.Method.GET, url2, string -> {
                 try {
                     JSONObject jsonObject = new JSONObject(string);
                     JSONArray jsonArray = jsonObject.getJSONArray("backdrops");
                     JSONObject object = (JSONObject) jsonArray.get(0);
-                    currentFilePath = object.getString("file_path");
-                    items.get(items.size()-1).setUrl(currentBaseUrl + currentBackdropSize + currentFilePath);
-                    callBack.onSuccess(items.get(items.size()-1).getUrl());
+                    String currentFilePath = object.getString("file_path");
+                    items.get(cpt).setUrl(baseUrl + backdropSize + currentFilePath);
+                    rmAdapter.add(items.get(cpt));
+                    cpt++;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d(TAG, "Error in Volley response");
-            }
-        });
-        queue.add(request2);
+            }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
+            queue.add(request2);
+        }
+        Log.d(TAG, "fillAllUrl: TESTESTTEST");
+        initListMovies();
     }
 
     //we create a List of movie that has an id, an name and an url for the image
-    private void initListMovies(String research, RequestQueue queue) throws InterruptedException {
-        ResearchMovieAdapter rmAdapter = new ResearchMovieAdapter(getApplicationContext(), R.layout.research_item, items);
-        fillAllIdName(research, new VolleyCallBack() {
-            @Override
-            public void onSuccess(String URL) {
-                // this is where you will call the geofire, here you have the response from the volley.
-                rmAdapter.add(items.get(items.size()-1), URL);
-            }
-        });
-
+    private void initListMovies(){
         listview.setAdapter(rmAdapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -275,8 +254,4 @@ public class ResearchActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy: searchActivity");
         super.onDestroy();
     }
-}
-
-interface VolleyCallBack {
-    void onSuccess(String URL);
 }

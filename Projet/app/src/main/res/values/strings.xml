@@ -46,5 +46,6 @@
     <string name="add_list_dvd_to_get">Add in list of dvd you want</string>
     <string name="Unknown">Unknown</string>
     <string name="del_profile">Delete User</string>
+    <string name="none">none</string>
     <!--<string name="date_sortie">date_sortie</string>-->
 </resources>
