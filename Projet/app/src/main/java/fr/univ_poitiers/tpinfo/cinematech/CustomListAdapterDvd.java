@@ -60,11 +60,8 @@ public class CustomListAdapterDvd extends BaseAdapter {
         }else{
             holder.imageViewBluray.setImageDrawable(context.getResources().getDrawable(R.drawable.dvd_icon));
         }
-
-        /*
-        int imageId = this.getMipmapResIdByName(country.getFlagName());
-        holder.afficheView.setImageResource(imageId);
-        */
+        LoadImage loadImage = new LoadImage(holder.afficheView);
+        loadImage.execute(dvd.getUrl());
 
         return convertView;
     }
@@ -73,6 +70,5 @@ public class CustomListAdapterDvd extends BaseAdapter {
         TextView titleView;
         TextView directorView;
         ImageView imageViewBluray;
-        //CheckBox checkBoxView;
     }
 }

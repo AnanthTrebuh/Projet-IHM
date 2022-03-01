@@ -44,8 +44,11 @@
     <string name="add_to_seen">Add To Seen List</string>
     <string name="add_to_getlist">Add to the list of possession</string>
     <string name="add_list_dvd_to_get">Add in list of dvd you want</string>
+    <string name="remove_list">Remove from the list</string>
     <string name="Unknown">Unknown</string>
     <string name="del_profile">Delete User</string>
-    <string name="none">none</string>
+    <string name="none" translatable="false">none</string>
+    <string name="movie_add">Movie add</string>
+    <string name="movie_remove">Movie remove</string>
     <!--<string name="date_sortie">date_sortie</string>-->
 </resources>

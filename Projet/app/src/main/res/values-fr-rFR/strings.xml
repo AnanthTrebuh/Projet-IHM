@@ -38,4 +38,7 @@
     <string name="add_list_dvd_to_get">"Ajout à la liste des DVD "</string>
     <string name="Unknown">Unconnu</string>
     <string name="del_profile">Supprimer un utilisateur</string>
+    <string name="remove_list">Retirer de la liste</string>
+    <string name="movie_add">Film Ajouté</string>
+    <string name="movie_remove">Film retiré</string>
 </resources>
