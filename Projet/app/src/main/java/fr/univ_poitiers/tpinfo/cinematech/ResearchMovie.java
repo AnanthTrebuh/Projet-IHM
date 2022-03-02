@@ -1,11 +1,10 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
-import android.widget.ImageView;
-
+//ResearMovie used in RsearchMovieAdapter to fill the listView
 public class ResearchMovie {
     private String name;
     private String id;
-    private String backdropSize, baseUrl, urlImage;
+    private String urlImage;
 
     ResearchMovie(String name, String id){
         this.urlImage = null;

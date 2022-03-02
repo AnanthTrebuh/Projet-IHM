@@ -153,35 +153,4 @@ public class DVDActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    /*
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart: dvdActivity");
-        super.onStart();
-    }
-    @Override
-    public void onResume(){
-        Log.d(TAG, "onResume: dvdActivity");
-        super.onResume();
-    }
-    @Override
-    public void onPause(){
-        Log.d(TAG, "onPause: dvdActivity");
-        super.onPause();
-    }
-    @Override
-    public  void onStop(){
-        Log.d(TAG, "onStop: dvdActivity");
-        super.onStop();
-    }
-    @Override
-    public void onRestart(){
-        Log.d(TAG, "onRestart: dvdActivity");
-        super.onRestart();
-    }
-    @Override
-    public void onDestroy(){
-        Log.d(TAG, "onDestroy: dvdActivity");
-        super.onDestroy();
-    }*/
 }

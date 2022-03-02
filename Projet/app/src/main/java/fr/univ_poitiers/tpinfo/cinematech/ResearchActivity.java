@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class ResearchActivity extends AppCompatActivity {
-
-    public static String TAG = "CineTech";
     RequestQueue queue;
     Button buttonMovie;
     Button buttonDvd;
@@ -117,7 +115,7 @@ public class ResearchActivity extends AppCompatActivity {
         finish();
     }
     private void action_movies_button(){
-        Log.d(TAG, "action_dvd_button: ");
+        Log.d(MoviesActivity.TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
         intent.putExtra("precActivity", "search");
         startActivity(intent);
@@ -125,7 +123,7 @@ public class ResearchActivity extends AppCompatActivity {
     }
 
     private void action_dvd_button() {
-        Log.d(TAG, "action_search_button: ");
+        Log.d(MoviesActivity.TAG, "action_search_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
         intent.putExtra("precActivity", "search");
         startActivity(intent);
@@ -133,7 +131,7 @@ public class ResearchActivity extends AppCompatActivity {
     }
 
     private  void action_account_button(){
-        Log.d(TAG, "action_account_button: ");
+        Log.d(MoviesActivity.TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("precActivity", "search");
         startActivity(intent);
@@ -167,7 +165,6 @@ public class ResearchActivity extends AppCompatActivity {
             }
         }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
         queue.add(request);
-        
     }
 
     private void fillAllUrl(){
@@ -204,7 +201,7 @@ public class ResearchActivity extends AppCompatActivity {
             }, volleyError -> Log.d(MoviesActivity.TAG, "Error in request"));
             queue.add(request2);
         }
-        Log.d(TAG, "fillAllUrl: TESTESTTEST");
+        Log.d(MoviesActivity.TAG, "fillAllUrl: TESTESTTEST");
         initListMovies();
     }
 
@@ -226,32 +223,32 @@ public class ResearchActivity extends AppCompatActivity {
 
     @Override
     public void onStart(){
-        Log.d(TAG, "onStart: searchActivity");
+        Log.d(MoviesActivity.TAG, "onStart: searchActivity");
         super.onStart();
     }
     @Override
     public void onResume(){
-        Log.d(TAG, "onResume: searchActivity");
+        Log.d(MoviesActivity.TAG, "onResume: searchActivity");
         super.onResume();
     }
     @Override
     public void onPause(){
-        Log.d(TAG, "onPause: searchActivity");
+        Log.d(MoviesActivity.TAG, "onPause: searchActivity");
         super.onPause();
     }
     @Override
     public  void onStop(){
-        Log.d(TAG, "onStop: searchActivity");
+        Log.d(MoviesActivity.TAG, "onStop: searchActivity");
         super.onStop();
     }
     @Override
     public void onRestart(){
-        Log.d(TAG, "onRestart: searchActivity");
+        Log.d(MoviesActivity.TAG, "onRestart: searchActivity");
         super.onRestart();
     }
     @Override
     public void onDestroy(){
-        Log.d(TAG, "onDestroy: searchActivity");
+        Log.d(MoviesActivity.TAG, "onDestroy: searchActivity");
         super.onDestroy();
     }
 }

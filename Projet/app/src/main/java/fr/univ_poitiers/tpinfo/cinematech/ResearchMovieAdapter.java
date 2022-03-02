@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+//Adapter to fill the listView after a research is made by a user, it is here that we have access on
+//The imageview and TextView
 public class ResearchMovieAdapter extends ArrayAdapter<ResearchMovie> {
     private ArrayList<ResearchMovie> items;
 

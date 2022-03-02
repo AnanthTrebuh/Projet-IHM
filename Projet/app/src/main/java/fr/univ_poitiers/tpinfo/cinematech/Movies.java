@@ -1,5 +1,7 @@
 package fr.univ_poitiers.tpinfo.cinematech;
 
+//Simple class movie with, id, title, realisateur, and an url based on baseUrl + backdropSize + imageName.jpg
+//With all the getters and setters necessary
 public class Movies {
     private String id;
     private String title;

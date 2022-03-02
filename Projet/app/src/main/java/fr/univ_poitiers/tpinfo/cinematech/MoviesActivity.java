@@ -132,39 +132,4 @@ public class MoviesActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    public RequestQueue getQueue(){
-        return this.queue;
-    }
-/*
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart: movieActivity");
-        super.onStart();
-    }
-    @Override
-    public void onResume(){
-        Log.d(TAG, "onResume: movieActivity");
-        super.onResume();
-    }
-    @Override
-    public void onPause(){
-        Log.d(TAG, "onPause: movieactivity");
-        super.onPause();
-    }
-    @Override
-    public  void onStop(){
-        Log.d(TAG, "onStop: movieActyivity");
-        super.onStop();
-    }
-    @Override
-    public void onRestart(){
-        Log.d(TAG, "onRestart: movieActivity");
-        super.onRestart();
-    }
-    @Override
-    public void onDestroy(){
-        Log.d(TAG, "onDestroy: movieActivity");
-        super.onDestroy();
-    }*/
 }

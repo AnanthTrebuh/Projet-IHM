@@ -271,8 +271,3 @@ public class FillListView {
         }
     }
 }
-
-//
-interface VolleyCallBackURLListView {
-    void onSuccess(String URL);
-}

@@ -46,7 +46,6 @@ public class CustomListAdapterDvd extends BaseAdapter {
             holder.titleView = (TextView) convertView.findViewById(R.id.textView_title);
             holder.directorView = (TextView) convertView.findViewById(R.id.textView_director);
             holder.imageViewBluray = (ImageView) convertView.findViewById(R.id.imageViewBluray);
-            //holder.checkBoxView = convertView.findViewById(R.id.checkBox);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
