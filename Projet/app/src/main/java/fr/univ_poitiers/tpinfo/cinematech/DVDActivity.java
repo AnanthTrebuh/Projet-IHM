@@ -104,9 +104,9 @@ public class DVDActivity extends AppCompatActivity {
     public void onBackPressed(){
         if(precActivity != null){
             switch (precActivity){
-                case "movie" :  back_movie();break;
-                case "account" : back_account();break;
-                case "search" : back_search(); break;
+                case Utils.ACT_MOVIE:  back_movie();break;
+                case Utils.ACT_ACCOUNT: back_account();break;
+                case Utils.ACT_SEARCH: back_search(); break;
                 default: finish();break;
             }
         }else{
@@ -133,7 +133,7 @@ public class DVDActivity extends AppCompatActivity {
     private void action_movies_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
-        intent.putExtra("precActivity", "dvd");
+        intent.putExtra("precActivity", Utils.ACT_DVD);
         startActivity(intent);
         finish();
     }
@@ -141,7 +141,7 @@ public class DVDActivity extends AppCompatActivity {
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
-        intent.putExtra("precActivity", "dvd");
+        intent.putExtra("precActivity", Utils.ACT_DVD);
         startActivity(intent);
         finish();
     }
@@ -149,7 +149,7 @@ public class DVDActivity extends AppCompatActivity {
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("precActivity", "dvd");
+        intent.putExtra("precActivity", Utils.ACT_DVD);
         startActivity(intent);
         finish();
     }

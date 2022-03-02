@@ -37,7 +37,7 @@ public class FragmentMovieToSee extends Fragment {
         listview = view.findViewById(R.id.listviewMovie);
         // Inflate the layout for this fragment
         queue = Volley.newRequestQueue(this.getContext());
-        fillListView = new FillListView(queue,listview, this.getContext(), "_movie");
+        fillListView = new FillListView(queue,listview, this.getContext(), Utils.MOVIE);
 
         ArrayList<Movies> movies = new ArrayList<>();
         CustomListAdapter arrayAdapter = new CustomListAdapter(getActivity(), movies);
@@ -52,8 +52,8 @@ public class FragmentMovieToSee extends Fragment {
 
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
-                intent.putExtra("list", "toSeen");
-                intent.putExtra("precActivity", "movie");
+                intent.putExtra("list", Utils.MOVIE);
+                intent.putExtra("precActivity", Utils.MOVIE);
                 startActivity(intent);
                 getActivity().finish();
             }

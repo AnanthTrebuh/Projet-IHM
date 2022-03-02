@@ -117,7 +117,7 @@ public class ResearchActivity extends AppCompatActivity {
     private void action_movies_button(){
         Log.d(MoviesActivity.TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
-        intent.putExtra("precActivity", "search");
+        intent.putExtra("precActivity", Utils.ACT_SEARCH);
         startActivity(intent);
         finish();
     }
@@ -125,7 +125,7 @@ public class ResearchActivity extends AppCompatActivity {
     private void action_dvd_button() {
         Log.d(MoviesActivity.TAG, "action_search_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
-        intent.putExtra("precActivity", "search");
+        intent.putExtra("precActivity", Utils.ACT_SEARCH);
         startActivity(intent);
         finish();
     }
@@ -133,7 +133,7 @@ public class ResearchActivity extends AppCompatActivity {
     private  void action_account_button(){
         Log.d(MoviesActivity.TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("precActivity", "search");
+        intent.putExtra("precActivity", Utils.ACT_SEARCH);
         startActivity(intent);
         finish();
     }
@@ -213,42 +213,11 @@ public class ResearchActivity extends AppCompatActivity {
                 public void onItemClick (AdapterView< ? > adapter, View view, int position, long arg){
                     Intent intent = new Intent(getApplicationContext(), ItemActivity.class);
                     intent.putExtra("movie", items.get(position).getId());
-                    intent.putExtra("list", "search");
-                    intent.putExtra("precActivity", "search");
+                    intent.putExtra("list", Utils.ACT_SEARCH);
+                    intent.putExtra("precActivity", Utils.ACT_SEARCH);
                     startActivity(intent);
                 }
             }
         );
-    }
-
-    @Override
-    public void onStart(){
-        Log.d(MoviesActivity.TAG, "onStart: searchActivity");
-        super.onStart();
-    }
-    @Override
-    public void onResume(){
-        Log.d(MoviesActivity.TAG, "onResume: searchActivity");
-        super.onResume();
-    }
-    @Override
-    public void onPause(){
-        Log.d(MoviesActivity.TAG, "onPause: searchActivity");
-        super.onPause();
-    }
-    @Override
-    public  void onStop(){
-        Log.d(MoviesActivity.TAG, "onStop: searchActivity");
-        super.onStop();
-    }
-    @Override
-    public void onRestart(){
-        Log.d(MoviesActivity.TAG, "onRestart: searchActivity");
-        super.onRestart();
-    }
-    @Override
-    public void onDestroy(){
-        Log.d(MoviesActivity.TAG, "onDestroy: searchActivity");
-        super.onDestroy();
     }
 }

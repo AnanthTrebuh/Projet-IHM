@@ -73,11 +73,11 @@ public class ItemActivity  extends AppCompatActivity {
         addToWatch = findViewById(R.id.buttonAddListMovie);
         addDVD = findViewById(R.id.addDvdbutton);
         switch(list){
-            case "seen" :
-            case "get" : addToWatch.setText(this.getString(R.string.remove_list));addDVD.setVisibility(View.INVISIBLE); break;
-            case "toSeen" : addDVD.setVisibility(View.INVISIBLE); addToWatch.setText(this.getString(R.string.add_to_seen));break;
-            case "toGet" : addDVD.setVisibility(View.INVISIBLE);addToWatch.setText(this.getString(R.string.add_to_getlist));break;
-            case "search" : addToWatch.setText(this.getString(R.string.ajouter_la_liste_voir));break;
+            case Utils.MOVIE_SEEN:
+            case Utils.DVD_BUY: addToWatch.setText(this.getString(R.string.remove_list));addDVD.setVisibility(View.INVISIBLE); break;
+            case Utils.MOVIE : addDVD.setVisibility(View.INVISIBLE); addToWatch.setText(this.getString(R.string.add_to_seen));break;
+            case Utils.DVD: addDVD.setVisibility(View.INVISIBLE);addToWatch.setText(this.getString(R.string.add_to_getlist));break;
+            case Utils.ACT_SEARCH : addToWatch.setText(this.getString(R.string.ajouter_la_liste_voir));break;
             default: break;
         }
 
@@ -88,29 +88,33 @@ public class ItemActivity  extends AppCompatActivity {
                     public void onClick(View view) {
 
                         switch(list){
-                            case  "seen": action_remove_movie();
+                            case  Utils.MOVIE_SEEN: action_remove_movie();
                                 Toast.makeText(ItemActivity.this, getApplicationContext().getString(R.string.movie_remove), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "get" : action_remove_dvd();
+                            case Utils.DVD_BUY : action_remove_dvd();
                                 Toast.makeText(ItemActivity.this, getApplicationContext().getString(R.string.movie_remove), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "toSeen" : action_add_movie();
+                            case Utils.MOVIE: action_add_movie();
                                 Toast.makeText(ItemActivity.this, getApplicationContext().getString(R.string.movie_add), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "toGet" : action_add_dvd();
+                            case Utils.DVD : action_add_dvd();
                                 Toast.makeText(ItemActivity.this, getApplicationContext().getString(R.string.movie_add), Toast.LENGTH_SHORT).show();
                                 break;
-                            case "search" : action_add_movie_to_seen();
+                            case Utils.ACT_SEARCH: action_add_movie_to_seen();
                                             Toast.makeText(ItemActivity.this, getApplicationContext().getString(R.string.movie_add), Toast.LENGTH_SHORT).show();
                                             break;
                             default: break;
                         }
                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                         switch(prec){
-                            case "movie": intent = new Intent(getApplicationContext(), MoviesActivity.class);
+                            case Utils.MOVIE:
+                            case Utils.MOVIE_SEEN:
+                                intent = new Intent(getApplicationContext(), MoviesActivity.class);
                                 startActivity(intent);
                                 break;
-                            case "dvd" :  intent = new Intent(getApplicationContext(), DVDActivity.class);
+                            case Utils.DVD :
+                            case Utils.DVD_BUY:
+                                intent = new Intent(getApplicationContext(), DVDActivity.class);
                                             startActivity(intent);
                                             break;
                             default: break;
@@ -239,60 +243,60 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+Utils.MOVIE, new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.MOVIE_SEEN, new HashSet<String>()));
         movieList.add(this.id);
         movieListInit.remove(this.id);
         int timeToAdd = sharedPreferences.getInt(name+"_time", 0);
         timeToAdd += Integer.parseInt(time.getText().toString().replace("min",""));
         e.putInt(name+"_time", timeToAdd);
-        e.putStringSet(name+"_movie", movieListInit);
-        e.putStringSet(name+"_movie_seen", movieList);
+        e.putStringSet(name+Utils.MOVIE, movieListInit);
+        e.putStringSet(name+Utils.MOVIE_SEEN, movieList);
         e.apply();
     }
     public void action_add_movie_to_seen(){
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.MOVIE, new HashSet<String>()));
         movieList.add(this.id);
-        e.putStringSet(name+"_movie", movieList);
+        e.putStringSet(name+Utils.MOVIE, movieList);
         e.apply();
     }
     public void action_add_dvd_to_buy(){
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.DVD, new HashSet<String>()));
         movieList.add(this.id);
-        e.putStringSet(name+"_dvd", movieList);
+        e.putStringSet(name+Utils.DVD, movieList);
         e.apply();
     }
     public void action_add_dvd(){
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>()));
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>()));
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+Utils.DVD, new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.DVD_BUY, new HashSet<String>()));
         movieList.add(this.id);
         movieListInit.remove(this.id);
-        e.putStringSet(name+"_dvd", movieListInit);
-        e.putStringSet(name+"_dvd_buy", movieList);
+        e.putStringSet(name+Utils.DVD, movieListInit);
+        e.putStringSet(name+Utils.DVD_BUY, movieList);
         e.apply();
     }
     private void action_remove_movie() {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_movie", new HashSet<String>()));
-        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_movie_seen", new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.MOVIE, new HashSet<String>()));
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+Utils.MOVIE_SEEN, new HashSet<String>()));
         movieList.add(this.id);
         movieListInit.remove(this.id);
         int timeToAdd = sharedPreferences.getInt(name+"_time", 0);
         timeToAdd -= Integer.parseInt(time.getText().toString().replace("min",""));
         e.putInt(name+"_time", timeToAdd);
-        e.putStringSet(name+"_movie", movieList);
-        e.putStringSet(name+"_movie_seen", movieListInit);
+        e.putStringSet(name+Utils.MOVIE, movieList);
+        e.putStringSet(name+Utils.MOVIE_SEEN, movieListInit);
         e.apply();
     }
 
@@ -300,12 +304,12 @@ public class ItemActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         SharedPreferences.Editor e = sharedPreferences.edit();
         String name = sharedPreferences.getString("Active_Profile","default");
-        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd", new HashSet<String>()));
-        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+"_dvd_buy", new HashSet<String>()));
+        Set<String> movieList = new HashSet<>(sharedPreferences.getStringSet(name+Utils.DVD, new HashSet<String>()));
+        Set<String> movieListInit = new HashSet<>(sharedPreferences.getStringSet(name+Utils.DVD_BUY, new HashSet<String>()));
         movieList.add(this.id);
         movieListInit.remove(this.id);
-        e.putStringSet(name+"_dvd", movieList);
-        e.putStringSet(name+"_dvd_buy", movieListInit);
+        e.putStringSet(name+Utils.DVD, movieList);
+        e.putStringSet(name+Utils.DVD_BUY, movieListInit);
         e.apply();
     }
 

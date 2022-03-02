@@ -19,11 +19,12 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MoviesActivity extends AppCompatActivity {
+public class MoviesActivity extends AppCompatActivity{
     /*Variables for json*/
     public static final String KEY = "?api_key=38cf06282c993b63af90dd9de695152f";
     public static final String URL_ID_MOVIE = "https://api.themoviedb.org/3/movie/";
     public static final String URL_TITLE_MOVIE =  "https://api.themoviedb.org/3/search/movie";
+
     RequestQueue queue;
 
     public static String TAG = "CineTech";
@@ -83,9 +84,9 @@ public class MoviesActivity extends AppCompatActivity {
     public void onBackPressed(){
         if(precActivity != null){
             switch (precActivity){
-                case "dvd" :  back_dvd();break;
-                case "account" :back_account();break;
-                case "search" : back_search();break;
+                case Utils.ACT_DVD:  back_dvd();break;
+                case Utils.ACT_ACCOUNT: back_account();break;
+                case Utils.ACT_SEARCH: back_search();break;
                 default: finish();break;
             }
         }else{
@@ -110,7 +111,7 @@ public class MoviesActivity extends AppCompatActivity {
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
-        intent.putExtra("precActivity", "movie");
+        intent.putExtra("precActivity", Utils.ACT_MOVIE);
         startActivity(intent);
         finish();
 
@@ -119,7 +120,7 @@ public class MoviesActivity extends AppCompatActivity {
     private  void action_account_button(){
         Log.d(TAG, "action_account_button: ");
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("precActivity", "movie");
+        intent.putExtra("precActivity", Utils.ACT_MOVIE);
         startActivity(intent);
         finish();
     }
@@ -128,7 +129,7 @@ public class MoviesActivity extends AppCompatActivity {
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
-        intent.putExtra("precActivity", "movies");
+        intent.putExtra("precActivity", Utils.ACT_MOVIE);
         startActivity(intent);
         finish();
     }

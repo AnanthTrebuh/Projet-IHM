@@ -29,7 +29,7 @@ public class FragmentMovie extends Fragment {
         CustomListAdapter Adapter = new CustomListAdapter(listview.getContext(), new ArrayList<>());
         listview.setAdapter(Adapter);
 
-        fillListView = new FillListView(queue,listview, this.getContext(), "_movie_seen");
+        fillListView = new FillListView(queue,listview, this.getContext(), Utils.MOVIE_SEEN);
         fillListView.fillList();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -37,11 +37,12 @@ public class FragmentMovie extends Fragment {
                 Movies current = (Movies) listview.getItemAtPosition(position);
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
-                intent.putExtra("list", "seen");
-                intent.putExtra("precActivity", "movie_seen");
+                intent.putExtra("list", Utils.MOVIE_SEEN);
+                intent.putExtra("precActivity", Utils.MOVIE_SEEN);
                 startActivity(intent);
             }
         });
+
         return view;
     }
 
