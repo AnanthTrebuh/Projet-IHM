@@ -61,13 +61,6 @@ public class FillListView {
         }
     }
 
-    public void fillImageView(){
-        for(int i= 0; i < movies.size(); i++){
-            String id = movies.get(i).getId();
-
-        }
-    }
-
     public void getTitle(String id, RequestQueue queue){
         String url = MoviesActivity.URL_ID_MOVIE + id + MoviesActivity.KEY;
         StringRequest request = new StringRequest(Request.Method.GET, url, string->{
