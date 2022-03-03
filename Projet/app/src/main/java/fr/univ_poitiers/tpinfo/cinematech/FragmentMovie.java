@@ -3,6 +3,8 @@ package fr.univ_poitiers.tpinfo.cinematech;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class FragmentMovie extends Fragment {
 
         fillListView = new FillListView(queue,listview, this.getContext(), Utils.MOVIE_SEEN);
         fillListView.fillList();
+
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -38,7 +41,7 @@ public class FragmentMovie extends Fragment {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
                 intent.putExtra("list", Utils.MOVIE_SEEN);
-                intent.putExtra("precActivity", Utils.MOVIE_SEEN);
+                intent.putExtra("precActivity", Utils.ACT_MOVIE);
                 startActivity(intent);
             }
         });
@@ -49,4 +52,6 @@ public class FragmentMovie extends Fragment {
     public void initList() {
         fillListView.fillList();
     }
+
+
 }

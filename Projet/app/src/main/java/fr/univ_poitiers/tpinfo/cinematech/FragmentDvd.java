@@ -41,7 +41,7 @@ public class FragmentDvd extends Fragment {
                 Intent intent = new Intent(getContext(), ItemActivity.class);
                 intent.putExtra("movie", current.getId());
                 intent.putExtra("list", Utils.DVD_BUY);
-                intent.putExtra("precActivity", Utils.DVD_BUY);
+                intent.putExtra("precActivity", Utils.ACT_DVD);
                 startActivity(intent);
             }
         });

@@ -88,9 +88,9 @@ public class ResearchActivity extends AppCompatActivity {
     public void onBackPressed(){
         if(precActivity != null){
             switch (precActivity){
-                case "movie" :  back_movie();break;
-                case "account" : back_account();break;
-                case "dvd" : back_dvd(); break;
+                case Utils.ACT_MOVIE :  back_movie();break;
+                case Utils.ACT_ACCOUNT: back_account();break;
+                case Utils.ACT_DVD: back_dvd(); break;
                 default: finish();break;
             }
         }else{

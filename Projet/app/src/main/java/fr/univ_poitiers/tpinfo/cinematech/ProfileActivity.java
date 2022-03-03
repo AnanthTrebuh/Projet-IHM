@@ -152,7 +152,7 @@ public class ProfileActivity  extends AppCompatActivity {
     private void action_search_button() {
         Log.d(TAG, "action_search_button: ");
         Intent intent = new Intent(this, ResearchActivity.class);
-        intent.putExtra("precActivity", "account");
+        intent.putExtra("precActivity", Utils.ACT_ACCOUNT);
         startActivity(intent);
         finish();
     }
@@ -160,14 +160,14 @@ public class ProfileActivity  extends AppCompatActivity {
     private void action_movies_button(){
         Log.d(TAG, "action_movie_button: ");
         Intent intent = new Intent(this, MoviesActivity.class);
-        intent.putExtra("precActivity", "account");
+        intent.putExtra("precActivity", Utils.ACT_ACCOUNT);
         startActivity(intent);
         finish();
     }
     private void action_dvd_button(){
         Log.d(TAG, "action_dvd_button: ");
         Intent intent = new Intent(this, DVDActivity.class);
-        intent.putExtra("precActivity", "account");
+        intent.putExtra("precActivity", Utils.ACT_ACCOUNT);
         startActivity(intent);
         finish();
     }
@@ -182,10 +182,10 @@ public class ProfileActivity  extends AppCompatActivity {
                 set.add(fullName);
                 e.putStringSet("List_Profils", set);
                 e.putString("Active_Profile", fullName);
-                e.putStringSet(fullName+"_movie",new HashSet<>());
-                e.putStringSet(fullName+"_movie_seen",  new HashSet<String>());
-                e.putStringSet(fullName+"_dvd",  new HashSet<String>());
-                e.putStringSet(fullName+"_dvd_buy",  new HashSet<String>());
+                e.putStringSet(fullName+Utils.MOVIE,new HashSet<>());
+                e.putStringSet(fullName+Utils.MOVIE_SEEN,  new HashSet<String>());
+                e.putStringSet(fullName+Utils.DVD,  new HashSet<String>());
+                e.putStringSet(fullName+Utils.DVD_BUY,  new HashSet<String>());
                 e.putInt(fullName+"_time", 0);
                 e.apply();
                 actualise_profile();
@@ -231,10 +231,10 @@ public class ProfileActivity  extends AppCompatActivity {
                     SharedPreferences.Editor e = sharedPreferences.edit();
                     Set<String> profils = new HashSet<>(sharedPreferences.getStringSet("List_Profils", new HashSet<String>()));
                     profils.remove(fullName);
-                    e.remove(fullName + "_movie");
-                    e.remove(fullName + "_movie_seen");
-                    e.remove(fullName + "_dvd");
-                    e.remove(fullName + "_dvd_buy");
+                    e.remove(fullName + Utils.MOVIE);
+                    e.remove(fullName + Utils.MOVIE_SEEN);
+                    e.remove(fullName + Utils.DVD);
+                    e.remove(fullName + Utils.DVD_BUY);
                     e.putStringSet("List_Profils", profils);
 
                     if (fullName.equals(sharedPreferences.getString("Active_Profile", ""))) {
@@ -259,10 +259,10 @@ public class ProfileActivity  extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("CinemaTech", Context.MODE_PRIVATE );
         String pName = sharedPreferences.getString("Active_Profile","error");
         profileName.setText(pName);
-        int movie = sharedPreferences.getStringSet(pName+"_movie", new HashSet<String>()).size();
-        int movie_seen = sharedPreferences.getStringSet(pName+"_movie_seen", new HashSet<String>()).size();
-        int nbDVD =sharedPreferences.getStringSet(pName+"_dvd",new HashSet<String>()).size();
-        int nbDVDAquired = sharedPreferences.getStringSet(pName+"_dvd_buy",new HashSet<String>()).size();
+        int movie = sharedPreferences.getStringSet(pName+Utils.MOVIE, new HashSet<String>()).size();
+        int movie_seen = sharedPreferences.getStringSet(pName+Utils.MOVIE_SEEN, new HashSet<String>()).size();
+        int nbDVD =sharedPreferences.getStringSet(pName+Utils.DVD,new HashSet<String>()).size();
+        int nbDVDAquired = sharedPreferences.getStringSet(pName+Utils.DVD_BUY,new HashSet<String>()).size();
         int time = sharedPreferences.getInt(pName+"_time", 0);
 
         nbMovie.setText( Integer.toString(movie + movie_seen));

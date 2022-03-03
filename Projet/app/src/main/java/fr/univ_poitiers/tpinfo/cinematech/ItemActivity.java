@@ -107,13 +107,11 @@ public class ItemActivity  extends AppCompatActivity {
                         }
                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                         switch(prec){
-                            case Utils.MOVIE:
-                            case Utils.MOVIE_SEEN:
+                            case Utils.ACT_MOVIE:
                                 intent = new Intent(getApplicationContext(), MoviesActivity.class);
                                 startActivity(intent);
                                 break;
-                            case Utils.DVD :
-                            case Utils.DVD_BUY:
+                            case Utils.ACT_DVD:
                                 intent = new Intent(getApplicationContext(), DVDActivity.class);
                                             startActivity(intent);
                                             break;
@@ -319,8 +317,10 @@ public class ItemActivity  extends AppCompatActivity {
     public void onBackPressed(){
         if(prec != null){
             switch (prec){
-                case "dvd" :  back_dvd();break;
-                case "movie" :back_movie();break;
+                case Utils.DVD_BUY:
+                case Utils.DVD:   back_dvd();break;
+                case Utils.MOVIE_SEEN:
+                case Utils.MOVIE: back_movie();break;
                 default: finish();break;
             }
         }else{
